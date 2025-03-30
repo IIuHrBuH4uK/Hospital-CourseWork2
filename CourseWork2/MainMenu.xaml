@@ -36,7 +36,7 @@
                         <RowDefinition Height="10*"></RowDefinition>
                         <RowDefinition Height="20*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Image Source="/MainMenuBackground.jpg" Stretch="Fill" Grid.ColumnSpan="2"/>
+                    <Image Source="/Assets/MainMenuBackground.jpg" Stretch="Fill" Grid.ColumnSpan="2"/>
                     
                     <!-- Кнопка "Записаться на приём к врачу" -->
                     <Button Grid.Row="2" x:Name="SignUpDoctorButton" Click="SignUpDoctorButton_Click" Background="{x:Null}" BorderBrush="{x:Null}">
@@ -88,7 +88,7 @@
                 </Grid>
 
                 <!-- Панель главного экрана -->
-                <StackPanel Grid.Column="1" x:Name="MainMenuPanel">
+                <StackPanel Grid.Column="1" x:Name="MainMenuPanel" Margin="10">
                     <TextBlock Text="Регистратура онлайн" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
                     <TextBlock Text="   Регистратура онлайн — это удобное место, где собрана вся информация о ваших медицинских записях. Здесь вы можете легко записаться на прием к врачу, выбрать удобное время визита, а при необходимости — оформить вызов врача на дом. Кроме того, у вас всегда под рукой история всех записей и обращений, чтобы вы могли следить за своим здоровьем. Мы стремимся сделать процесс медицинского обслуживания удобным и доступным. Используйте все возможности сервиса и будьте здоровы!" TextWrapping="Wrap" FontSize="20" Padding="20" Margin="10" HorizontalAlignment="Center" TextAlignment="Center"/>
                 </StackPanel>
@@ -127,10 +127,65 @@
                 </StackPanel>
 
                 <!-- Панель записи на приём -->
-                <StackPanel Grid.Column="1" x:Name="SignUpDoctorPanel" Background="White" Margin="10">
+                <StackPanel Grid.Column="1" x:Name="SignUpDoctorPanel" Background="White" Margin="10" Visibility="Visible">
                     <TextBlock Text="Запись на приём к врачу" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"></TextBlock>
+                    <Grid x:Name="Steps" Margin="0 20 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40*"></RowDefinition>
+                            <RowDefinition Height="20*"></RowDefinition>
+                            <RowDefinition Height="30*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button x:Name="Step1Button" Content="Шаг 1" materialDesign:ButtonAssist.CornerRadius="3" Height="30" Width="80" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="Step1Button_Click" Grid.Column="0" Grid.Row="0"></Button>
+                        <Button x:Name="Step2Button" Content="Шаг 2" materialDesign:ButtonAssist.CornerRadius="3" Height="30" Width="80" Background="Transparent" BorderBrush="SkyBlue" Foreground="SkyBlue" Click="Step2Button_Click" Grid.Column="1" Grid.Row="0"/>
+                        <Button x:Name="Step3Button" Content="Шаг 3" materialDesign:ButtonAssist.CornerRadius="3" Height="30" Width="80" Background="Transparent" BorderBrush="SkyBlue" Foreground="SkyBlue" Click="Step3Button_Click" Grid.Column="2" Grid.Row="0"></Button>
+                        <Button x:Name="Step4Button" Content="Шаг 4" materialDesign:ButtonAssist.CornerRadius="3" Height="30" Width="80" Background="Transparent" BorderBrush="SkyBlue" Foreground="SkyBlue" Click="Step4Button_Click" Grid.Column="3" Grid.Row="0"></Button>
+                        <Button x:Name="Step5Button" Content="Шаг 5" materialDesign:ButtonAssist.CornerRadius="3" Height="30" Width="80" Background="Transparent" BorderBrush="SkyBlue" Foreground="SkyBlue" Click="Step5Button_Click" Grid.Column="4 " Grid.Row="0"></Button>
+                        <TextBlock Text="Выбор населенного пункта" Grid.Column="0" Grid.Row="1" FontSize="10" Foreground="Gray" Padding="59 0 0 0"></TextBlock>
+                        <TextBlock Text="11" Grid.Column="0" Grid.Row="2" FontSize="12" Foreground="Gray" Padding="59 0 0 0" x:Name="CityTextBlock" TextWrapping="Wrap"></TextBlock>
+                        <TextBlock Text="Выбор учреждения" Grid.Column="1" Grid.Row="1" FontSize="10" Foreground="Gray" Padding="59 0 0 0"></TextBlock>
+                        <TextBlock Text="11" Grid.Column="1" Grid.Row="2" FontSize="12" Foreground="Gray" Padding="59 0 0 0" x:Name="HospitalTextBlock"></TextBlock>
+                        <TextBlock Text="Выбор специализации" Grid.Column="2" Grid.Row="1" FontSize="10" Foreground="Gray" Padding="59 0 0 0"></TextBlock>
+                        <TextBlock Text="11" Grid.Column="2" Grid.Row="2" FontSize="12" Foreground="Gray" Padding="59 0 0 0" x:Name="SpecTextBlock"></TextBlock>
+                        <TextBlock Text="Выбор врача" Grid.Column="3" Grid.Row="1" FontSize="10" Foreground="Gray" Padding="59 0 0 0"></TextBlock>
+                        <TextBlock Text="11" Grid.Column="3" Grid.Row="2" FontSize="12" Foreground="Gray" Padding="59 0 0 0" x:Name="DoctorTextBlock"></TextBlock>
+                        <TextBlock Text="Выбор времени" Grid.Column="4" Grid.Row="1" FontSize="10" Foreground="Gray" Padding="59 0 0 0"></TextBlock>
+                        <TextBlock Text="11" Grid.Column="4" Grid.Row="2" FontSize="12" Foreground="Gray" Padding="59 0 0 0" x:Name="TimeTextBlock"></TextBlock>
+                    </Grid>
+                    <!-- Шаг 1 -->
                     <Grid>
-                        
+                    <StackPanel x:Name="OblPanel" Visibility="Hidden" Panel.ZIndex="1">
+                    <TextBox materialDesign:HintAssist.Hint="Поиск по названию" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="Search_TextBox" TextChanged="SearchObl"></TextBox>
+                    <ListView x:Name="Hospital_ListView" SelectionChanged="Hospital_ListView_SelectionChanged" Margin="0 10 0 0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Label Content="{Binding Obl}"></Label>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    </StackPanel>
+                    
+                    <!-- Шаг 2 -->
+                    <StackPanel x:Name="HospPanel" Visibility="Visible">
+                        <TextBox materialDesign:HintAssist.Hint="Поиск по названию или адресу" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="SearchHosp_TextBox" TextChanged="SearchHosp"></TextBox>
+                        <ListView x:Name="Hosp_ListView" SelectionChanged="Hosp_ListView_SelectionChanged" Margin="0 10 0 0">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Label Content="{Binding Hosp}"></Label>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
                     </Grid>
                 </StackPanel>
             </Grid>

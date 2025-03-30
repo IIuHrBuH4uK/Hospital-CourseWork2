@@ -10,6 +10,8 @@ namespace CourseWork2
     internal class AppContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Hospital> Hospital { get; set; }
+
         public AppContext() : base("DefaultConnection") { }
     }
 }

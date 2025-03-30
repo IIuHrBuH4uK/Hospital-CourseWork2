@@ -15,15 +15,16 @@
     using System.Windows.Shapes;    
     using System.Data.Entity.Migrations;
     using MaterialDesignThemes.Wpf;
+using System.Collections.ObjectModel;
 
 
 namespace CourseWork2
     {
-    /// <summary>
-    /// Логика взаимодействия для MainMenu.xaml
-    /// </summary>
     public partial class MainMenu : Window
     {
+        private ObservableCollection<Hospital> _allHospitals; // Все данные
+        private ObservableCollection<Hospital> _filteredHospitals; // Фильтрованный список
+
         private readonly int _userId;
         AppContext db;
         public MainMenu(int userId)
@@ -31,10 +32,23 @@ namespace CourseWork2
             InitializeComponent();
             _userId = userId;
             PersonAccountPanel.Visibility = Visibility.Hidden;
+            SignUpDoctorPanel.Visibility = Visibility.Hidden;
+            HospPanel.Visibility = Visibility.Hidden;
             db = new AppContext();
             LoadUserData();
-
+            LoadData();
         }
+
+        private void LoadData()
+        {
+            var hospitals = db.Hospital.ToList(); // Загружаем все данные из БД
+
+            _allHospitals = new ObservableCollection<Hospital>(hospitals);
+            _filteredHospitals = new ObservableCollection<Hospital>(hospitals);
+
+            Hospital_ListView.ItemsSource = _filteredHospitals;
+        }
+
 
         private void LoadUserData()
         {
@@ -56,8 +70,10 @@ namespace CourseWork2
 
         private void Person_Account_Button_Click(object sender, RoutedEventArgs e)
         {
+
             MainMenuPanel.Visibility = Visibility.Hidden;
             PersonAccountPanel.Visibility = Visibility.Visible;
+            SignUpDoctorPanel.Visibility= Visibility.Hidden;
         }
 
         private void SafePersonButton_Click(object sender, RoutedEventArgs e)
@@ -83,6 +99,82 @@ namespace CourseWork2
         }
 
         private void SignUpDoctorButton_Click(object sender, RoutedEventArgs e)
+        {
+            SignUpDoctorPanel.Visibility = Visibility.Visible;
+            PersonAccountPanel.Visibility = Visibility.Hidden;
+            MainMenuPanel.Visibility = Visibility.Hidden;
+            OblPanel.Visibility = Visibility.Visible;
+            Hospital_ListView.ItemsSource = db.Hospital.ToList();
+        }
+
+        private void Step1Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Step2Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Step3Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Step4Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Step5Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+            private void SearchObl(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                string searchText = Search_TextBox.Text.Trim().ToLower();
+
+                _filteredHospitals.Clear();
+                foreach (var hospital in _allHospitals)
+                {
+                    if (hospital.Obl.ToLower().Contains(searchText))
+                    {
+                        _filteredHospitals.Add(hospital);
+                    }
+                }
+
+                Hospital_ListView.ItemsSource = null;  // Принудительное обновление ListView
+                Hospital_ListView.ItemsSource = _filteredHospitals;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+        }
+
+        private void Hospital_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Hospital_ListView.SelectedItem is Hospital selectedHospital)
+            {
+                CityTextBlock.Text = selectedHospital.Obl;
+                Step1Button.Background = Brushes.Transparent;
+                Step1Button.Foreground = Brushes.SkyBlue;
+                Step2Button.Background = Brushes.SkyBlue;
+                Step2Button.Foreground = Brushes.White;
+                OblPanel.Visibility = Visibility.Hidden;
+                HospPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void SearchHosp(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void Hosp_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
