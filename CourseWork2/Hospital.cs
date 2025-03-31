@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.ObjectModel;
 
 namespace CourseWork2
 {
@@ -15,32 +14,22 @@ namespace CourseWork2
         [Column("id")]
         public int Id { get; set; }
 
-        [Column("obl")]
-        public string Obl { get; set; }
+        [Column("region_id")]
+        public int RegionId { get; set; }
 
-        [Column("hosp")]
+        [Column("hospital")]
         public string Hosp { get; set; }
 
-        [Column("doctor")]
-        public string Doctor { get; set; }
-
-        [Column("time")]
-        public string Time { get; set; }
-
-        //public string FirstName { get; set; }
-        //public string LastName { get; set; }
-        //public string MiddleName { get; set; }
-        //public string SNILS { get; set; }
-        //public string Address { get; set; }
+        [Column("address")]
+        public string Address {  get; set; }
 
         public Hospital() { }
 
-        public Hospital(string obl, string hosp, string doctor, string time)
+        public Hospital(int regionid, string hospital, string address)
         {
-            this.Obl = obl;
-            this.Hosp = hosp;
-            this.Doctor = doctor;
-            this.Time = time;
+            this.RegionId = regionid;
+            this.Hosp = hospital;
+            this.Address = address;
         }
     }
 }

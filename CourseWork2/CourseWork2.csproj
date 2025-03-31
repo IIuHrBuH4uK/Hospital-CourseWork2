@@ -88,6 +88,7 @@
       <DependentUpon>Auth.xaml</DependentUpon>
     </Compile>
     <Compile Include="Hospital.cs" />
+    <Compile Include="Region.cs" />
     <Compile Include="MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>

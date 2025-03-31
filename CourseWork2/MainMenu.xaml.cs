@@ -15,18 +15,21 @@
     using System.Windows.Shapes;    
     using System.Data.Entity.Migrations;
     using MaterialDesignThemes.Wpf;
-using System.Collections.ObjectModel;
+    using System.Collections.ObjectModel;
 
 
 namespace CourseWork2
     {
     public partial class MainMenu : Window
     {
-        private ObservableCollection<Hospital> _allHospitals; // Все данные
-        private ObservableCollection<Hospital> _filteredHospitals; // Фильтрованный список
+        private ObservableCollection<Region> _allRegions; // Все данные
+        private ObservableCollection<Region> _filteredRegions; // Фильтрованный список
+        private ObservableCollection<Hospital> _allHospitals;
+        private ObservableCollection<Hospital> _filtredHospitals;
 
         private readonly int _userId;
         AppContext db;
+
         public MainMenu(int userId)
         {
             InitializeComponent();
@@ -41,12 +44,16 @@ namespace CourseWork2
 
         private void LoadData()
         {
-            var hospitals = db.Hospital.ToList(); // Загружаем все данные из БД
+            var regions = db.Regions.ToList(); // Загружаем все данные из БД
+            var hospitals = db.Hospitals.ToList();
 
+            _allRegions = new ObservableCollection<Region>(regions);
+            _filteredRegions = new ObservableCollection<Region>(regions);
             _allHospitals = new ObservableCollection<Hospital>(hospitals);
-            _filteredHospitals = new ObservableCollection<Hospital>(hospitals);
+            _filtredHospitals = new ObservableCollection<Hospital>(hospitals);
 
-            Hospital_ListView.ItemsSource = _filteredHospitals;
+            Region_ListView.ItemsSource = _filteredRegions;
+            Hosp_ListView.ItemsSource = _filtredHospitals ;
         }
 
 
@@ -55,9 +62,9 @@ namespace CourseWork2
             var user = db.Users.FirstOrDefault(a => a.Id == _userId);
             if (user != null)
             {
-                textBoxSurname.Text = user.LastName;
+                textBoxSurname.Text = user.MiddleName;
                 textBoxName.Text = user.FirstName;
-                textBoxPatronymic.Text = user.MiddleName;
+                textBoxPatronymic.Text = user.LastName;
                 textBoxSnils.Text = user.SNILS;
                 textBoxLocation.Text = user.Address;
             }
@@ -87,9 +94,9 @@ namespace CourseWork2
             var user = db.Users.FirstOrDefault(u => u.Id == _userId);
             if (user != null)
             {
-                user.LastName = patronymic;
-                user.FirstName = name;
                 user.MiddleName = surname;
+                user.FirstName = name;
+                user.LastName = patronymic;
                 user.SNILS = snils;
                 user.Address = location;
 
@@ -103,18 +110,32 @@ namespace CourseWork2
             SignUpDoctorPanel.Visibility = Visibility.Visible;
             PersonAccountPanel.Visibility = Visibility.Hidden;
             MainMenuPanel.Visibility = Visibility.Hidden;
-            OblPanel.Visibility = Visibility.Visible;
-            Hospital_ListView.ItemsSource = db.Hospital.ToList();
+            RegionPanel.Visibility = Visibility.Visible;
+            Region_ListView.ItemsSource = db.Regions.ToList();
         }
 
         private void Step1Button_Click(object sender, RoutedEventArgs e)
         {
-
+            HospPanel.Visibility = Visibility.Hidden;
+            RegionPanel.Visibility= Visibility.Visible;
+            CityTextBlock.Text = "";
+            Step1Button.Background = Brushes.SkyBlue;
+            Step1Button.Foreground = Brushes.White;
+            Step2Button.Background = Brushes.Transparent;
+            Step2Button.Foreground = Brushes.SkyBlue;
         }
 
         private void Step2Button_Click(object sender, RoutedEventArgs e)
         {
-
+            HospPanel.Visibility = Visibility.Visible;
+            RegionPanel.Visibility = Visibility.Hidden;
+            HospitalTextBlock.Text = "";
+            Step1Button.Background = Brushes.Transparent;
+            Step1Button.Foreground = Brushes.SkyBlue;
+            Step2Button.Background = Brushes.SkyBlue;
+            Step2Button.Foreground = Brushes.White;
+            Step3Button.Background = Brushes.Transparent;
+            Step3Button.Foreground = Brushes.SkyBlue;
         }
 
         private void Step3Button_Click(object sender, RoutedEventArgs e)
@@ -131,23 +152,23 @@ namespace CourseWork2
         {
 
         }
-            private void SearchObl(object sender, TextChangedEventArgs e)
+            private void SearchRegion(object sender, TextChangedEventArgs e)
         {
             try
             {
                 string searchText = Search_TextBox.Text.Trim().ToLower();
 
-                _filteredHospitals.Clear();
-                foreach (var hospital in _allHospitals)
+                _filteredRegions.Clear();
+                foreach (var region in _allRegions)
                 {
-                    if (hospital.Obl.ToLower().Contains(searchText))
+                    if (region.Reg.ToLower().Contains(searchText))
                     {
-                        _filteredHospitals.Add(hospital);
+                        _filteredRegions.Add(region);
                     }
                 }
 
-                Hospital_ListView.ItemsSource = null;  // Принудительное обновление ListView
-                Hospital_ListView.ItemsSource = _filteredHospitals;
+                Region_ListView.ItemsSource = null;  // Принудительное обновление ListView
+                Region_ListView.ItemsSource = _filteredRegions;
             }
             catch (Exception ex)
             {
@@ -155,28 +176,81 @@ namespace CourseWork2
             }
         }
 
-        private void Hospital_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Region_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Hospital_ListView.SelectedItem is Hospital selectedHospital)
+            if (Region_ListView.SelectedItem is Region selectedRegion)
             {
-                CityTextBlock.Text = selectedHospital.Obl;
+                CityTextBlock.Text = selectedRegion.Reg;
                 Step1Button.Background = Brushes.Transparent;
                 Step1Button.Foreground = Brushes.SkyBlue;
                 Step2Button.Background = Brushes.SkyBlue;
                 Step2Button.Foreground = Brushes.White;
-                OblPanel.Visibility = Visibility.Hidden;
+                RegionPanel.Visibility = Visibility.Hidden;
                 HospPanel.Visibility = Visibility.Visible;
+
+                // Фильтруем больницы по выбранному региону
+                _filtredHospitals.Clear();
+                foreach (var hospital in _allHospitals)
+                {
+                    if (hospital.RegionId == selectedRegion.Id)
+                    {
+                        _filtredHospitals.Add(hospital);
+                    }
+                }
+
+                Hosp_ListView.ItemsSource = null; // Принудительное обновление ListView
+                Hosp_ListView.ItemsSource = _filtredHospitals;
             }
         }
 
         private void SearchHosp(object sender, TextChangedEventArgs e)
         {
+            try
+            {
+                string searchText = SearchHosp_TextBox.Text.Trim().ToLower();
+                _filtredHospitals.Clear();
+                foreach (var hospital in _allHospitals)
+                {
+                    if (hospital.Hosp.ToLower().Contains(searchText))
+                    {
+                        _filtredHospitals.Add(hospital);
+                    }
+                }
+                Hosp_ListView.ItemsSource = null;
+                Hosp_ListView.ItemsSource = _filtredHospitals;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
 
         }
 
         private void Hosp_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (Hosp_ListView.SelectedItem is Hospital selectedHospital)
+            {
+                HospitalTextBlock.Text = selectedHospital.Hosp;
+                Step2Button.Background = Brushes.Transparent;
+                Step2Button.Foreground = Brushes.SkyBlue;
+                Step3Button.Background = Brushes.SkyBlue;
+                Step3Button.Foreground = Brushes.White;
+                //HospPanel.Visibility = Visibility.Hidden;
+                //SpecPanel.Visibility = Visibility.Visible;
 
+                // Фильтруем больницы по выбранному региону
+                //_filtredHospitals.Clear();
+                //foreach (var hospital in _allHospitals)
+                //{
+                //    if (hospital.RegionId == selectedRegion.Id)
+                //    {
+                //        _filtredHospitals.Add(hospital);
+                //    }
+                //}
+
+                //Hosp_ListView.ItemsSource = null; // Принудительное обновление ListView
+                //Hosp_ListView.ItemsSource = _filtredHospitals;
+            }
         }
     }
 }
