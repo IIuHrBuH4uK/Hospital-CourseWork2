@@ -16,6 +16,7 @@
     using System.Data.Entity.Migrations;
     using MaterialDesignThemes.Wpf;
     using System.Collections.ObjectModel;
+using System.Data.Entity.Infrastructure;
 
 
 namespace CourseWork2
@@ -26,6 +27,10 @@ namespace CourseWork2
         private ObservableCollection<Region> _filteredRegions; // Фильтрованный список
         private ObservableCollection<Hospital> _allHospitals;
         private ObservableCollection<Hospital> _filtredHospitals;
+        private ObservableCollection<Specialization> _allSpecialization;
+        private ObservableCollection<Specialization> _filtredSpecialization;
+        private ObservableCollection<Doctor> _allDoctor;
+        private ObservableCollection<Doctor> _filteredDoctor;
 
         private readonly int _userId;
         AppContext db;
@@ -37,6 +42,8 @@ namespace CourseWork2
             PersonAccountPanel.Visibility = Visibility.Hidden;
             SignUpDoctorPanel.Visibility = Visibility.Hidden;
             HospPanel.Visibility = Visibility.Hidden;
+            SpecPanel.Visibility = Visibility.Hidden;
+            DoctorPanel.Visibility = Visibility.Hidden;
             db = new AppContext();
             LoadUserData();
             LoadData();
@@ -46,14 +53,22 @@ namespace CourseWork2
         {
             var regions = db.Regions.ToList(); // Загружаем все данные из БД
             var hospitals = db.Hospitals.ToList();
+            var specialization = db.Specializations.ToList();
+            var doctor = db.Doctors.ToList();
 
             _allRegions = new ObservableCollection<Region>(regions);
             _filteredRegions = new ObservableCollection<Region>(regions);
             _allHospitals = new ObservableCollection<Hospital>(hospitals);
             _filtredHospitals = new ObservableCollection<Hospital>(hospitals);
+            _allSpecialization = new ObservableCollection<Specialization>(specialization);
+            _filtredSpecialization = new ObservableCollection<Specialization>(specialization);
+            _allDoctor = new ObservableCollection<Doctor>(doctor);
+            _filteredDoctor = new ObservableCollection<Doctor>(doctor);
 
             Region_ListView.ItemsSource = _filteredRegions;
-            Hosp_ListView.ItemsSource = _filtredHospitals ;
+            Hosp_ListView.ItemsSource = _filtredHospitals;
+            Spec_ListView.ItemsSource = _filtredSpecialization;
+            Doctor_ListView.ItemsSource = _filteredDoctor;
         }
 
 
@@ -116,36 +131,106 @@ namespace CourseWork2
 
         private void Step1Button_Click(object sender, RoutedEventArgs e)
         {
-            HospPanel.Visibility = Visibility.Hidden;
             RegionPanel.Visibility= Visibility.Visible;
+            HospPanel.Visibility = Visibility.Hidden;
+            SpecPanel.Visibility = Visibility.Hidden;
+            DoctorPanel.Visibility = Visibility.Hidden;
+
             CityTextBlock.Text = "";
+            HospitalTextBlock.Text = "";
+            SpecTextBlock.Text = "";
+            DoctorTextBlock.Text = "";
+
             Step1Button.Background = Brushes.SkyBlue;
             Step1Button.Foreground = Brushes.White;
             Step2Button.Background = Brushes.Transparent;
             Step2Button.Foreground = Brushes.SkyBlue;
+            Step3Button.Background = Brushes.Transparent;
+            Step3Button.Foreground = Brushes.SkyBlue;
+            Step4Button.Background = Brushes.Transparent;
+            Step4Button.Foreground = Brushes.SkyBlue;
+            Step5Button.Background = Brushes.Transparent;
+            Step5Button.Foreground = Brushes.SkyBlue;
+
+            Step1Button.IsEnabled = true;
+            Step2Button.IsEnabled = false;
+            Step3Button.IsEnabled = false;
+            Step4Button.IsEnabled = false;
+            Step5Button.IsEnabled = false;
         }
 
         private void Step2Button_Click(object sender, RoutedEventArgs e)
         {
-            HospPanel.Visibility = Visibility.Visible;
             RegionPanel.Visibility = Visibility.Hidden;
+            HospPanel.Visibility = Visibility.Visible;
+            SpecPanel.Visibility = Visibility.Hidden;
+            DoctorPanel.Visibility = Visibility.Hidden;
+
             HospitalTextBlock.Text = "";
+            SpecTextBlock.Text = "";
+            DoctorTextBlock.Text = "";
+
             Step1Button.Background = Brushes.Transparent;
             Step1Button.Foreground = Brushes.SkyBlue;
             Step2Button.Background = Brushes.SkyBlue;
             Step2Button.Foreground = Brushes.White;
             Step3Button.Background = Brushes.Transparent;
             Step3Button.Foreground = Brushes.SkyBlue;
+            Step4Button.Background = Brushes.Transparent;
+            Step4Button.Foreground = Brushes.SkyBlue;
+            Step5Button.Background = Brushes.Transparent;
+            Step5Button.Foreground = Brushes.SkyBlue;
+
+            Step1Button.IsEnabled = true;
+            Step2Button.IsEnabled = true;
+            Step3Button.IsEnabled = false;
+            Step4Button.IsEnabled = false;
+            Step5Button.IsEnabled = false;
+
+            
         }
 
         private void Step3Button_Click(object sender, RoutedEventArgs e)
         {
-
+            RegionPanel.Visibility = Visibility.Hidden;
+            HospPanel.Visibility = Visibility.Hidden;
+            SpecPanel.Visibility = Visibility.Visible;
+            DoctorPanel.Visibility = Visibility.Hidden;
+            
+            SpecTextBlock.Text = "";
+            DoctorTextBlock.Text = "";
+            
+            Step1Button.Background = Brushes.Transparent;
+            Step1Button.Foreground = Brushes.SkyBlue;
+            Step2Button.Background = Brushes.Transparent;
+            Step2Button.Foreground = Brushes.SkyBlue;
+            Step3Button.Background = Brushes.SkyBlue;
+            Step3Button.Foreground = Brushes.White;
+            Step4Button.Background = Brushes.Transparent;
+            Step4Button.Foreground = Brushes.SkyBlue;
+            Step5Button.Background = Brushes.Transparent;
+            Step5Button.Foreground = Brushes.SkyBlue;
         }
 
         private void Step4Button_Click(object sender, RoutedEventArgs e)
         {
-
+            RegionPanel.Visibility = Visibility.Hidden;
+            HospPanel.Visibility = Visibility.Hidden;
+            SpecPanel.Visibility = Visibility.Hidden;
+            DoctorPanel.Visibility = Visibility.Visible;
+            
+            DoctorTextBlock.Text = "";
+            
+            Step1Button.Background = Brushes.Transparent;
+            Step1Button.Foreground = Brushes.SkyBlue;
+            Step2Button.Background = Brushes.Transparent;
+            Step2Button.Foreground = Brushes.SkyBlue;
+            Step3Button.Background = Brushes.Transparent;
+            Step3Button.Foreground = Brushes.SkyBlue;
+            Step4Button.Background = Brushes.SkyBlue;
+            Step4Button.Foreground = Brushes.White;
+            Step5Button.Background = Brushes.Transparent;
+            Step5Button.Foreground = Brushes.SkyBlue;
         }
 
         private void Step5Button_Click(object sender, RoutedEventArgs e)
@@ -185,6 +270,7 @@ namespace CourseWork2
                 Step1Button.Foreground = Brushes.SkyBlue;
                 Step2Button.Background = Brushes.SkyBlue;
                 Step2Button.Foreground = Brushes.White;
+                Step2Button.IsEnabled = true;
                 RegionPanel.Visibility = Visibility.Hidden;
                 HospPanel.Visibility = Visibility.Visible;
 
@@ -235,21 +321,147 @@ namespace CourseWork2
                 Step2Button.Foreground = Brushes.SkyBlue;
                 Step3Button.Background = Brushes.SkyBlue;
                 Step3Button.Foreground = Brushes.White;
-                //HospPanel.Visibility = Visibility.Hidden;
-                //SpecPanel.Visibility = Visibility.Visible;
+                HospPanel.Visibility = Visibility.Hidden;
+                SpecPanel.Visibility = Visibility.Visible;
 
-                // Фильтруем больницы по выбранному региону
-                //_filtredHospitals.Clear();
-                //foreach (var hospital in _allHospitals)
-                //{
-                //    if (hospital.RegionId == selectedRegion.Id)
-                //    {
-                //        _filtredHospitals.Add(hospital);
-                //    }
-                //}
+                // Фильтруем специальности по выбранной больнице
+                _filtredSpecialization.Clear();
+                foreach (var spec in _allSpecialization)
+                {
+                    if (spec.HospitalId == selectedHospital.Id)
+                    {
+                        _filtredSpecialization.Add(spec);
+                    }
+                }
 
-                //Hosp_ListView.ItemsSource = null; // Принудительное обновление ListView
-                //Hosp_ListView.ItemsSource = _filtredHospitals;
+                Spec_ListView.ItemsSource = null; // Принудительное обновление ListView
+                Spec_ListView.ItemsSource = _filtredSpecialization;
+            }
+        }
+
+        private void SearchSpec(object sender, TextChangedEventArgs e)
+        {
+            {
+                try
+                {
+                    string searchText = SearchSpec_TextBox.Text.Trim().ToLower();
+                    _filtredSpecialization.Clear();
+                    foreach (var spec in _allSpecialization)
+                    {
+                        if (spec.Spec.ToLower().Contains(searchText))
+                        {
+                            _filtredSpecialization.Add(spec);
+                        }
+                    }
+                    Spec_ListView.ItemsSource = null;
+                    Spec_ListView.ItemsSource = _filtredSpecialization;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка: {ex.Message}");
+                }
+
+            }
+        }
+
+        private void Spec_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Spec_ListView.SelectedItem is Specialization selectedSpec)
+            {
+                SpecTextBlock.Text = selectedSpec.Spec;
+                Step2Button.Background = Brushes.Transparent;
+                Step2Button.Foreground = Brushes.SkyBlue;
+                Step3Button.Background = Brushes.Transparent;
+                Step3Button.Foreground = Brushes.SkyBlue;
+                Step4Button.Background = Brushes.SkyBlue;
+                Step4Button.Foreground = Brushes.White;
+
+                Step1Button.IsEnabled = true;
+                Step2Button.IsEnabled = true;
+                Step3Button.IsEnabled = true;
+
+                RegionPanel.Visibility = Visibility.Hidden;
+                HospPanel.Visibility = Visibility.Hidden;
+                SpecPanel.Visibility = Visibility.Hidden;
+                DoctorPanel.Visibility = Visibility.Visible;
+
+                // фильтруем доктора по выбранной специальности
+                _filteredDoctor.Clear();
+                foreach (var doctor in _allDoctor)
+                {
+                    if (doctor.SpecId == selectedSpec.Id)
+                    {
+                        _filteredDoctor.Add(doctor);
+                    }
+                }
+
+                Doctor_ListView.ItemsSource = null; // Принудительное обновление ListView
+                Doctor_ListView.ItemsSource = _filteredDoctor;
+            }
+        }
+
+        private void SearchDoctor(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                string searchText = SearchDoctor_TextBox.Text.Trim().ToLower();
+                _filteredDoctor.Clear();
+                foreach (var doc in _allDoctor)
+                {
+                    if (doc.Name.ToLower().Contains(searchText))
+                    {
+                        _filteredDoctor.Add(doc);
+                    }
+                }
+                Doctor_ListView.ItemsSource = null;
+                Doctor_ListView.ItemsSource = _filteredDoctor;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+        }
+
+        private void Doctor_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            {
+                if (Doctor_ListView.SelectedItem is Doctor selectedDoctor)
+                {
+                    DoctorTextBlock.Text = selectedDoctor.Name;
+                    Step2Button.Background = Brushes.Transparent;
+                    Step2Button.Foreground = Brushes.SkyBlue;
+                    Step3Button.Background = Brushes.Transparent;
+                    Step3Button.Foreground = Brushes.SkyBlue;
+                    Step4Button.Background = Brushes.Transparent;
+                    Step4Button.Foreground = Brushes.SkyBlue;
+                    Step5Button.Background = Brushes.SkyBlue;
+                    Step5Button.Foreground = Brushes.White;
+
+                    Step1Button.IsEnabled = true;
+                    Step2Button.IsEnabled = true;
+                    Step3Button.IsEnabled = true;
+                    Step4Button.IsEnabled = true;
+                    Step5Button.IsEnabled = true;
+
+                    RegionPanel.Visibility = Visibility.Hidden;
+                    HospPanel.Visibility = Visibility.Hidden;
+                    SpecPanel.Visibility = Visibility.Hidden;
+                    DoctorPanel.Visibility = Visibility.Hidden;
+                    TimePanel.Visibility = Visibility.Visible;
+
+                    //// фильтруем специальности по выбранной больнице
+                    //_filteredDoctor.Clear();
+                    //foreach (var doctor in _allDoctor)
+                    //{
+                    //    if (doctor.SpecId == selectedSpec.Id)
+                    //    {
+                    //        _filteredDoctor.Add(doctor);
+                    //    }
+                    //}
+
+                    //Doctor_ListView.ItemsSource = null; // Принудительное обновление ListView
+                    //Doctor_ListView.ItemsSource = _filteredDoctor;
+                }
             }
         }
     }

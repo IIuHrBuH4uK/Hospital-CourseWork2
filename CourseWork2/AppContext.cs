@@ -13,6 +13,8 @@ namespace CourseWork2
         public DbSet<User> Users { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<Hospital> Hospitals { get; set; }
+        public DbSet<Specialization> Specializations { get; set; }
+        public DbSet<Doctor> Doctors { get; set; }
 
         public AppContext() : base("DefaultConnection") { }
     }
