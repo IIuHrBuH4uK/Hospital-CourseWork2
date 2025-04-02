@@ -17,6 +17,7 @@
     using MaterialDesignThemes.Wpf;
     using System.Collections.ObjectModel;
 using System.Data.Entity.Infrastructure;
+using System.Globalization;
 
 
 namespace CourseWork2
@@ -46,31 +47,48 @@ namespace CourseWork2
             DoctorPanel.Visibility = Visibility.Hidden;
             db = new AppContext();
             LoadUserData();
-            LoadData();
+            
         }
 
-        private void LoadData()
+        private void LoadRegionData()
         {
-            var regions = db.Regions.ToList(); // Загружаем все данные из БД
-            var hospitals = db.Hospitals.ToList();
-            var specialization = db.Specializations.ToList();
-            var doctor = db.Doctors.ToList();
-
-            _allRegions = new ObservableCollection<Region>(regions);
-            _filteredRegions = new ObservableCollection<Region>(regions);
-            _allHospitals = new ObservableCollection<Hospital>(hospitals);
-            _filtredHospitals = new ObservableCollection<Hospital>(hospitals);
-            _allSpecialization = new ObservableCollection<Specialization>(specialization);
-            _filtredSpecialization = new ObservableCollection<Specialization>(specialization);
-            _allDoctor = new ObservableCollection<Doctor>(doctor);
-            _filteredDoctor = new ObservableCollection<Doctor>(doctor);
-
-            Region_ListView.ItemsSource = _filteredRegions;
-            Hosp_ListView.ItemsSource = _filtredHospitals;
-            Spec_ListView.ItemsSource = _filtredSpecialization;
-            Doctor_ListView.ItemsSource = _filteredDoctor;
+            if (_allRegions == null)
+            {
+                _allRegions = new ObservableCollection<Region>(db.Regions.ToList());
+                _filteredRegions = new ObservableCollection<Region>(_allRegions);
+                Region_ListView.ItemsSource = _filteredRegions;
+            }
         }
 
+        private void LoadHospitalData()
+        {
+            if (_allHospitals == null)
+            {
+                _allHospitals = new ObservableCollection<Hospital>(db.Hospitals.ToList());
+                _filtredHospitals = new ObservableCollection<Hospital>(_allHospitals);
+                Hosp_ListView.ItemsSource = _filtredHospitals;
+            }
+        }
+
+        private void LoadSpecializationData()
+        {
+            if (_allSpecialization == null)
+            {
+                _allSpecialization = new ObservableCollection<Specialization>(db.Specializations.ToList());
+                _filtredSpecialization = new ObservableCollection<Specialization>(_allSpecialization);
+                Spec_ListView.ItemsSource = _filtredSpecialization;
+            }
+        }
+
+        private void LoadDoctorData()
+        {
+            if (_allDoctor == null)
+            {
+                _allDoctor = new ObservableCollection<Doctor>(db.Doctors.ToList());
+                _filteredDoctor = new ObservableCollection<Doctor>(_allDoctor);
+                Doctor_ListView.ItemsSource = _filteredDoctor;
+            }
+        }
 
         private void LoadUserData()
         {
@@ -122,11 +140,13 @@ namespace CourseWork2
 
         private void SignUpDoctorButton_Click(object sender, RoutedEventArgs e)
         {
+            LoadRegionData();
             SignUpDoctorPanel.Visibility = Visibility.Visible;
             PersonAccountPanel.Visibility = Visibility.Hidden;
             MainMenuPanel.Visibility = Visibility.Hidden;
             RegionPanel.Visibility = Visibility.Visible;
             Region_ListView.ItemsSource = db.Regions.ToList();
+
         }
 
         private void Step1Button_Click(object sender, RoutedEventArgs e)
@@ -140,6 +160,7 @@ namespace CourseWork2
             HospitalTextBlock.Text = "";
             SpecTextBlock.Text = "";
             DoctorTextBlock.Text = "";
+            TimeTextBlock.Text = "";
 
             Step1Button.Background = Brushes.SkyBlue;
             Step1Button.Foreground = Brushes.White;
@@ -169,6 +190,7 @@ namespace CourseWork2
             HospitalTextBlock.Text = "";
             SpecTextBlock.Text = "";
             DoctorTextBlock.Text = "";
+            TimeTextBlock.Text = "";
 
             Step1Button.Background = Brushes.Transparent;
             Step1Button.Foreground = Brushes.SkyBlue;
@@ -186,8 +208,6 @@ namespace CourseWork2
             Step3Button.IsEnabled = false;
             Step4Button.IsEnabled = false;
             Step5Button.IsEnabled = false;
-
-            
         }
 
         private void Step3Button_Click(object sender, RoutedEventArgs e)
@@ -199,7 +219,8 @@ namespace CourseWork2
             
             SpecTextBlock.Text = "";
             DoctorTextBlock.Text = "";
-            
+            TimeTextBlock.Text = "";
+
             Step1Button.Background = Brushes.Transparent;
             Step1Button.Foreground = Brushes.SkyBlue;
             Step2Button.Background = Brushes.Transparent;
@@ -210,6 +231,12 @@ namespace CourseWork2
             Step4Button.Foreground = Brushes.SkyBlue;
             Step5Button.Background = Brushes.Transparent;
             Step5Button.Foreground = Brushes.SkyBlue;
+
+            Step1Button.IsEnabled = true;
+            Step2Button.IsEnabled = true;
+            Step3Button.IsEnabled = true;
+            Step4Button.IsEnabled = false;
+            Step5Button.IsEnabled = false;
         }
 
         private void Step4Button_Click(object sender, RoutedEventArgs e)
@@ -220,7 +247,8 @@ namespace CourseWork2
             DoctorPanel.Visibility = Visibility.Visible;
             
             DoctorTextBlock.Text = "";
-            
+            TimeTextBlock.Text = "";
+
             Step1Button.Background = Brushes.Transparent;
             Step1Button.Foreground = Brushes.SkyBlue;
             Step2Button.Background = Brushes.Transparent;
@@ -230,7 +258,13 @@ namespace CourseWork2
             Step4Button.Background = Brushes.SkyBlue;
             Step4Button.Foreground = Brushes.White;
             Step5Button.Background = Brushes.Transparent;
-            Step5Button.Foreground = Brushes.SkyBlue;
+            Step5Button.Foreground = Brushes.SkyBlue; 
+            
+            Step1Button.IsEnabled = true;
+            Step2Button.IsEnabled = true;
+            Step3Button.IsEnabled = true;
+            Step4Button.IsEnabled = true;
+            Step5Button.IsEnabled = false;
         }
 
         private void Step5Button_Click(object sender, RoutedEventArgs e)
@@ -252,6 +286,7 @@ namespace CourseWork2
                     }
                 }
 
+
                 Region_ListView.ItemsSource = null;  // Принудительное обновление ListView
                 Region_ListView.ItemsSource = _filteredRegions;
             }
@@ -265,6 +300,7 @@ namespace CourseWork2
         {
             if (Region_ListView.SelectedItem is Region selectedRegion)
             {
+                LoadHospitalData();
                 CityTextBlock.Text = selectedRegion.Reg;
                 Step1Button.Background = Brushes.Transparent;
                 Step1Button.Foreground = Brushes.SkyBlue;
@@ -283,7 +319,6 @@ namespace CourseWork2
                         _filtredHospitals.Add(hospital);
                     }
                 }
-
                 Hosp_ListView.ItemsSource = null; // Принудительное обновление ListView
                 Hosp_ListView.ItemsSource = _filtredHospitals;
             }
@@ -294,28 +329,36 @@ namespace CourseWork2
             try
             {
                 string searchText = SearchHosp_TextBox.Text.Trim().ToLower();
-                _filtredHospitals.Clear();
-                foreach (var hospital in _allHospitals)
+
+                // Получаем выбранный регион
+                if (Region_ListView.SelectedItem is Region selectedRegion)
                 {
-                    if (hospital.Hosp.ToLower().Contains(searchText))
+                    _filtredHospitals.Clear();
+
+                    foreach (var hospital in _allHospitals)
                     {
-                        _filtredHospitals.Add(hospital);
+                        // Проверяем соответствие региону и совпадение с текстом поиска
+                        if (hospital.RegionId == selectedRegion.Id && hospital.Hosp.ToLower().Contains(searchText))
+                        {
+                            _filtredHospitals.Add(hospital);
+                        }
                     }
+
+                    Hosp_ListView.ItemsSource = null;
+                    Hosp_ListView.ItemsSource = _filtredHospitals;
                 }
-                Hosp_ListView.ItemsSource = null;
-                Hosp_ListView.ItemsSource = _filtredHospitals;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка: {ex.Message}");
             }
-
         }
 
         private void Hosp_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Hosp_ListView.SelectedItem is Hospital selectedHospital)
             {
+                LoadSpecializationData();
                 HospitalTextBlock.Text = selectedHospital.Hosp;
                 Step2Button.Background = Brushes.Transparent;
                 Step2Button.Foreground = Brushes.SkyBlue;
@@ -345,16 +388,19 @@ namespace CourseWork2
                 try
                 {
                     string searchText = SearchSpec_TextBox.Text.Trim().ToLower();
-                    _filtredSpecialization.Clear();
-                    foreach (var spec in _allSpecialization)
+                    if(Hosp_ListView.SelectedItem is Hospital selectedHosp)
                     {
-                        if (spec.Spec.ToLower().Contains(searchText))
+                        _filtredSpecialization.Clear();
+                        foreach (var spec in _allSpecialization)
                         {
-                            _filtredSpecialization.Add(spec);
+                            if (spec.HospitalId == selectedHosp.Id && spec.Spec.ToLower().Contains(searchText))
+                            {
+                                _filtredSpecialization.Add(spec);
+                            }
                         }
+                        Spec_ListView.ItemsSource = null;
+                        Spec_ListView.ItemsSource = _filtredSpecialization;
                     }
-                    Spec_ListView.ItemsSource = null;
-                    Spec_ListView.ItemsSource = _filtredSpecialization;
                 }
                 catch (Exception ex)
                 {
@@ -368,6 +414,7 @@ namespace CourseWork2
         {
             if (Spec_ListView.SelectedItem is Specialization selectedSpec)
             {
+                LoadDoctorData();
                 SpecTextBlock.Text = selectedSpec.Spec;
                 Step2Button.Background = Brushes.Transparent;
                 Step2Button.Foreground = Brushes.SkyBlue;
@@ -405,16 +452,19 @@ namespace CourseWork2
             try
             {
                 string searchText = SearchDoctor_TextBox.Text.Trim().ToLower();
-                _filteredDoctor.Clear();
-                foreach (var doc in _allDoctor)
+                if(Spec_ListView.SelectedItem is Specialization selectedSpec)
                 {
-                    if (doc.Name.ToLower().Contains(searchText))
+                    _filteredDoctor.Clear();
+                    foreach (var doc in _allDoctor)
                     {
-                        _filteredDoctor.Add(doc);
+                        if (doc.SpecId == selectedSpec.Id && doc.Name.ToLower().Contains(searchText))
+                        {
+                            _filteredDoctor.Add(doc);
+                        }
                     }
+                    Doctor_ListView.ItemsSource = null;
+                    Doctor_ListView.ItemsSource = _filteredDoctor;
                 }
-                Doctor_ListView.ItemsSource = null;
-                Doctor_ListView.ItemsSource = _filteredDoctor;
             }
             catch (Exception ex)
             {
@@ -448,19 +498,6 @@ namespace CourseWork2
                     SpecPanel.Visibility = Visibility.Hidden;
                     DoctorPanel.Visibility = Visibility.Hidden;
                     TimePanel.Visibility = Visibility.Visible;
-
-                    //// фильтруем специальности по выбранной больнице
-                    //_filteredDoctor.Clear();
-                    //foreach (var doctor in _allDoctor)
-                    //{
-                    //    if (doctor.SpecId == selectedSpec.Id)
-                    //    {
-                    //        _filteredDoctor.Add(doctor);
-                    //    }
-                    //}
-
-                    //Doctor_ListView.ItemsSource = null; // Принудительное обновление ListView
-                    //Doctor_ListView.ItemsSource = _filteredDoctor;
                 }
             }
         }
