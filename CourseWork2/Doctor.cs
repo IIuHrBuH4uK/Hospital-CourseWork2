@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace CourseWork2
 {
@@ -26,16 +27,19 @@ namespace CourseWork2
         [Column("exp")]
         public string Exp { get; set; }
 
+        [Column("time")]
+        public string Time { get; set; }
+
 
         public Doctor() { }
 
-        public Doctor(int spec_id, string name, string age, string exp)
+        public Doctor(int spec_id, string name, string age, string exp, string time)
         {
             Id = spec_id;
             Name = name;
             Age = age;
             Exp = exp;
-
+            Time = time;
         }
     }
 }

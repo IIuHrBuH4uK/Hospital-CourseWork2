@@ -88,12 +88,15 @@
       <DependentUpon>Auth.xaml</DependentUpon>
     </Compile>
     <Compile Include="Doctor.cs" />
+    <Compile Include="DoctorSchedule.cs" />
     <Compile Include="Hospital.cs" />
     <Compile Include="Region.cs" />
     <Compile Include="MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Specialization.cs" />
+    <Compile Include="Ticket.cs" />
+    <Compile Include="TimeSlot.cs" />
     <Compile Include="User.cs" />
     <Page Include="Auth.xaml">
       <SubType>Designer</SubType>

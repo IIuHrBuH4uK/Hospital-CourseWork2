@@ -12,7 +12,7 @@
             <Border.Effect>
                 <DropShadowEffect BlurRadius="30" Color="LightGray" ShadowDepth="0"></DropShadowEffect>
             </Border.Effect>
-            <StackPanel>
+            <StackPanel FocusManager.FocusedElement="{Binding ElementName=authButton2}">
                 <TextBlock Text="Вас приветствует регистратура онлайн" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"></TextBlock>
                 <Grid Margin="15 15 15 10">
                     <Button x:Name="regButton1" HorizontalAlignment ="Left" Content="Регистрация" Background="Transparent" Foreground="SkyBlue" Padding="7" BorderBrush="Transparent" Click="Button_Reg_Click"></Button>

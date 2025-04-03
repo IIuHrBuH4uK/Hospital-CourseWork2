@@ -18,20 +18,25 @@
     using System.Collections.ObjectModel;
 using System.Data.Entity.Infrastructure;
 using System.Globalization;
+using System.Diagnostics.Eventing.Reader;
 
 
 namespace CourseWork2
-    {
+{
     public partial class MainMenu : Window
     {
         private ObservableCollection<Region> _allRegions; // Все данные
         private ObservableCollection<Region> _filteredRegions; // Фильтрованный список
         private ObservableCollection<Hospital> _allHospitals;
-        private ObservableCollection<Hospital> _filtredHospitals;
+        private ObservableCollection<Hospital> _filteredHospitals;
         private ObservableCollection<Specialization> _allSpecialization;
-        private ObservableCollection<Specialization> _filtredSpecialization;
+        private ObservableCollection<Specialization> _filteredSpecialization;
         private ObservableCollection<Doctor> _allDoctor;
         private ObservableCollection<Doctor> _filteredDoctor;
+
+        private DateTime _currentWeekStart = DateTime.Today;
+
+
 
         private readonly int _userId;
         AppContext db;
@@ -47,7 +52,8 @@ namespace CourseWork2
             DoctorPanel.Visibility = Visibility.Hidden;
             db = new AppContext();
             LoadUserData();
-            
+            UpdateDatesDisplay();
+
         }
 
         private void LoadRegionData()
@@ -65,8 +71,8 @@ namespace CourseWork2
             if (_allHospitals == null)
             {
                 _allHospitals = new ObservableCollection<Hospital>(db.Hospitals.ToList());
-                _filtredHospitals = new ObservableCollection<Hospital>(_allHospitals);
-                Hosp_ListView.ItemsSource = _filtredHospitals;
+                _filteredHospitals = new ObservableCollection<Hospital>(_allHospitals);
+                Hosp_ListView.ItemsSource = _filteredHospitals;
             }
         }
 
@@ -75,8 +81,8 @@ namespace CourseWork2
             if (_allSpecialization == null)
             {
                 _allSpecialization = new ObservableCollection<Specialization>(db.Specializations.ToList());
-                _filtredSpecialization = new ObservableCollection<Specialization>(_allSpecialization);
-                Spec_ListView.ItemsSource = _filtredSpecialization;
+                _filteredSpecialization = new ObservableCollection<Specialization>(_allSpecialization);
+                Spec_ListView.ItemsSource = _filteredSpecialization;
             }
         }
 
@@ -87,8 +93,10 @@ namespace CourseWork2
                 _allDoctor = new ObservableCollection<Doctor>(db.Doctors.ToList());
                 _filteredDoctor = new ObservableCollection<Doctor>(_allDoctor);
                 Doctor_ListView.ItemsSource = _filteredDoctor;
+                DoctorTime_ListView.ItemsSource = _filteredDoctor;
             }
         }
+   
 
         private void LoadUserData()
         {
@@ -113,7 +121,7 @@ namespace CourseWork2
 
             MainMenuPanel.Visibility = Visibility.Hidden;
             PersonAccountPanel.Visibility = Visibility.Visible;
-            SignUpDoctorPanel.Visibility= Visibility.Hidden;
+            SignUpDoctorPanel.Visibility = Visibility.Hidden;
         }
 
         private void SafePersonButton_Click(object sender, RoutedEventArgs e)
@@ -151,7 +159,7 @@ namespace CourseWork2
 
         private void Step1Button_Click(object sender, RoutedEventArgs e)
         {
-            RegionPanel.Visibility= Visibility.Visible;
+            RegionPanel.Visibility = Visibility.Visible;
             HospPanel.Visibility = Visibility.Hidden;
             SpecPanel.Visibility = Visibility.Hidden;
             DoctorPanel.Visibility = Visibility.Hidden;
@@ -216,7 +224,7 @@ namespace CourseWork2
             HospPanel.Visibility = Visibility.Hidden;
             SpecPanel.Visibility = Visibility.Visible;
             DoctorPanel.Visibility = Visibility.Hidden;
-            
+
             SpecTextBlock.Text = "";
             DoctorTextBlock.Text = "";
             TimeTextBlock.Text = "";
@@ -245,7 +253,7 @@ namespace CourseWork2
             HospPanel.Visibility = Visibility.Hidden;
             SpecPanel.Visibility = Visibility.Hidden;
             DoctorPanel.Visibility = Visibility.Visible;
-            
+
             DoctorTextBlock.Text = "";
             TimeTextBlock.Text = "";
 
@@ -258,8 +266,8 @@ namespace CourseWork2
             Step4Button.Background = Brushes.SkyBlue;
             Step4Button.Foreground = Brushes.White;
             Step5Button.Background = Brushes.Transparent;
-            Step5Button.Foreground = Brushes.SkyBlue; 
-            
+            Step5Button.Foreground = Brushes.SkyBlue;
+
             Step1Button.IsEnabled = true;
             Step2Button.IsEnabled = true;
             Step3Button.IsEnabled = true;
@@ -271,7 +279,7 @@ namespace CourseWork2
         {
 
         }
-            private void SearchRegion(object sender, TextChangedEventArgs e)
+        private void SearchRegion(object sender, TextChangedEventArgs e)
         {
             try
             {
@@ -311,16 +319,19 @@ namespace CourseWork2
                 HospPanel.Visibility = Visibility.Visible;
 
                 // Фильтруем больницы по выбранному региону
-                _filtredHospitals.Clear();
+                _filteredHospitals.Clear();
                 foreach (var hospital in _allHospitals)
                 {
                     if (hospital.RegionId == selectedRegion.Id)
                     {
-                        _filtredHospitals.Add(hospital);
+                        _filteredHospitals.Add(hospital);
                     }
                 }
+                Step1Button.IsEnabled = true;
+                Step2Button.IsEnabled = true;
+
                 Hosp_ListView.ItemsSource = null; // Принудительное обновление ListView
-                Hosp_ListView.ItemsSource = _filtredHospitals;
+                Hosp_ListView.ItemsSource = _filteredHospitals;
             }
         }
 
@@ -333,19 +344,19 @@ namespace CourseWork2
                 // Получаем выбранный регион
                 if (Region_ListView.SelectedItem is Region selectedRegion)
                 {
-                    _filtredHospitals.Clear();
+                    _filteredHospitals.Clear();
 
                     foreach (var hospital in _allHospitals)
                     {
                         // Проверяем соответствие региону и совпадение с текстом поиска
                         if (hospital.RegionId == selectedRegion.Id && hospital.Hosp.ToLower().Contains(searchText))
                         {
-                            _filtredHospitals.Add(hospital);
+                            _filteredHospitals.Add(hospital);
                         }
                     }
 
                     Hosp_ListView.ItemsSource = null;
-                    Hosp_ListView.ItemsSource = _filtredHospitals;
+                    Hosp_ListView.ItemsSource = _filteredHospitals;
                 }
             }
             catch (Exception ex)
@@ -368,17 +379,20 @@ namespace CourseWork2
                 SpecPanel.Visibility = Visibility.Visible;
 
                 // Фильтруем специальности по выбранной больнице
-                _filtredSpecialization.Clear();
+                _filteredSpecialization.Clear();
                 foreach (var spec in _allSpecialization)
                 {
                     if (spec.HospitalId == selectedHospital.Id)
                     {
-                        _filtredSpecialization.Add(spec);
+                        _filteredSpecialization.Add(spec);
                     }
                 }
+                Step1Button.IsEnabled = true;
+                Step2Button.IsEnabled = true;
+                Step3Button.IsEnabled = true;
 
                 Spec_ListView.ItemsSource = null; // Принудительное обновление ListView
-                Spec_ListView.ItemsSource = _filtredSpecialization;
+                Spec_ListView.ItemsSource = _filteredSpecialization;
             }
         }
 
@@ -388,18 +402,18 @@ namespace CourseWork2
                 try
                 {
                     string searchText = SearchSpec_TextBox.Text.Trim().ToLower();
-                    if(Hosp_ListView.SelectedItem is Hospital selectedHosp)
+                    if (Hosp_ListView.SelectedItem is Hospital selectedHosp)
                     {
-                        _filtredSpecialization.Clear();
+                        _filteredSpecialization.Clear();
                         foreach (var spec in _allSpecialization)
                         {
                             if (spec.HospitalId == selectedHosp.Id && spec.Spec.ToLower().Contains(searchText))
                             {
-                                _filtredSpecialization.Add(spec);
+                                _filteredSpecialization.Add(spec);
                             }
                         }
                         Spec_ListView.ItemsSource = null;
-                        Spec_ListView.ItemsSource = _filtredSpecialization;
+                        Spec_ListView.ItemsSource = _filteredSpecialization;
                     }
                 }
                 catch (Exception ex)
@@ -426,6 +440,7 @@ namespace CourseWork2
                 Step1Button.IsEnabled = true;
                 Step2Button.IsEnabled = true;
                 Step3Button.IsEnabled = true;
+                Step4Button.IsEnabled = true;
 
                 RegionPanel.Visibility = Visibility.Hidden;
                 HospPanel.Visibility = Visibility.Hidden;
@@ -452,7 +467,7 @@ namespace CourseWork2
             try
             {
                 string searchText = SearchDoctor_TextBox.Text.Trim().ToLower();
-                if(Spec_ListView.SelectedItem is Specialization selectedSpec)
+                if (Spec_ListView.SelectedItem is Specialization selectedSpec)
                 {
                     _filteredDoctor.Clear();
                     foreach (var doc in _allDoctor)
@@ -500,6 +515,67 @@ namespace CourseWork2
                     TimePanel.Visibility = Visibility.Visible;
                 }
             }
+        }
+        private void UpdateDatesDisplay()
+        {
+            var culture = new CultureInfo("ru-RU");
+
+            // Используем _currentWeekStart вместо DateTime.Today
+            var startDate = _currentWeekStart;
+
+            // Обновляем 7 дней (начиная с _currentWeekStart)
+            for (int i = 0; i < 7; i++)
+            {
+                var date = startDate.AddDays(i);
+                var dayTextBlock = FindName($"Day{i}") as TextBlock;
+                var dateTextBlock = FindName($"Date{i}") as TextBlock;
+
+                if (dayTextBlock != null)
+                {
+                    dayTextBlock.Text = date.Date == DateTime.Today ? "Сегодня" :
+                                      date.ToString("ddd", culture);
+                }
+
+                if (dateTextBlock != null)
+                {
+                    dateTextBlock.Text = date.ToString("d MMMM", culture);
+                }
+            }
+
+            // Обновляем интервал недели
+            var endDate = startDate.AddDays(6);
+            interval_time.Text = $"С {startDate.ToString("d MMMM", culture)} по {endDate.ToString("d MMMM", culture)}";
+
+            if (DateTime.Today != startDate)
+            {
+                PrevWeek_Button.IsEnabled = true;
+                PrevWeek_Button.Background = Brushes.SkyBlue;
+                PrevWeek_Button.Foreground =Brushes.White;
+            }
+            else
+            {
+                PrevWeek_Button.IsEnabled = false;
+                PrevWeek_Button.Background = Brushes.Transparent;
+                PrevWeek_Button.Foreground = Brushes.SkyBlue;
+                NextWeek_Button.Background = Brushes.SkyBlue;
+                NextWeek_Button.Foreground = Brushes.White;
+            }
+        }
+
+
+        // Обработчик для кнопки "Следующая неделя"
+
+        private void PrevWeek_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _currentWeekStart = _currentWeekStart.AddDays(-7);
+            UpdateDatesDisplay();
+
+        }
+
+        private void NextWeek_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _currentWeekStart = _currentWeekStart.AddDays(7);
+            UpdateDatesDisplay();
         }
     }
 }
