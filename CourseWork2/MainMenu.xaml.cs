@@ -50,6 +50,7 @@ namespace CourseWork2
             HospPanel.Visibility = Visibility.Hidden;
             SpecPanel.Visibility = Visibility.Hidden;
             DoctorPanel.Visibility = Visibility.Hidden;
+            CheckPanel.Visibility = Visibility.Hidden;
             db = new AppContext();
             LoadUserData();
             UpdateDatesDisplay();
@@ -253,9 +254,11 @@ namespace CourseWork2
             HospPanel.Visibility = Visibility.Hidden;
             SpecPanel.Visibility = Visibility.Hidden;
             DoctorPanel.Visibility = Visibility.Visible;
+            CheckPanel.Visibility = Visibility.Hidden;
 
             DoctorTextBlock.Text = "";
             TimeTextBlock.Text = "";
+
 
             Step1Button.Background = Brushes.Transparent;
             Step1Button.Foreground = Brushes.SkyBlue;
@@ -487,11 +490,23 @@ namespace CourseWork2
             }
         }
 
-        private void Doctor_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void TimeButton_Click(object sender, RoutedEventArgs e)
         {
+            if (sender is Button button && button.Tag is Doctor selectedDoctor)
             {
-                if (Doctor_ListView.SelectedItem is Doctor selectedDoctor)
+                int dayIndex = Grid.GetColumn(button);
+                var dateTextBlock = FindName($"Date{dayIndex}") as TextBlock;
+                if (dateTextBlock != null)
                 {
+                    string selectedRegion = CityTextBlock.Text;
+                    string selectedHospital = HospitalTextBlock.Text;
+                    string selectedSpecialization = SpecTextBlock.Text;
+                    string selectedDate = dateTextBlock.Text;
+                    string selectedTime = button.Content.ToString();
+
+                    // Обновляем интерфейс
+                    TimeTextBlock.Text = $"{selectedDate} {selectedTime}ч.";
+
                     DoctorTextBlock.Text = selectedDoctor.Name;
                     Step2Button.Background = Brushes.Transparent;
                     Step2Button.Foreground = Brushes.SkyBlue;
@@ -512,10 +527,17 @@ namespace CourseWork2
                     HospPanel.Visibility = Visibility.Hidden;
                     SpecPanel.Visibility = Visibility.Hidden;
                     DoctorPanel.Visibility = Visibility.Hidden;
-                    TimePanel.Visibility = Visibility.Visible;
+                    CheckPanel.Visibility = Visibility.Visible;
+
+                    SelectedRegion.Text = selectedRegion;
+                    SelectedHospital.Text = selectedHospital;
+                    SelectedSpecialization.Text = selectedSpecialization;
+                    SelectedDoctor.Text = selectedDoctor.Name;
+                    SelectedDate.Text = selectedDate + " " + selectedTime + " ч.";
                 }
             }
         }
+
         private void UpdateDatesDisplay()
         {
             var culture = new CultureInfo("ru-RU");
@@ -577,5 +599,7 @@ namespace CourseWork2
             _currentWeekStart = _currentWeekStart.AddDays(7);
             UpdateDatesDisplay();
         }
+
+        
     }
 }
