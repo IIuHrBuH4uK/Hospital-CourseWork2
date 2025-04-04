@@ -32,9 +32,12 @@ namespace CourseWork2
         [Column("date")]
         public string Date { get; set; }
 
+        [Column("numbertalon")]
+        public string Numbertalon { get; set; }
+
         public Ticket() { }
 
-        public Ticket(int userid, string region, string hospital, string specialization, string doctor, string date)
+        public Ticket(int userid, string region, string hospital, string specialization, string doctor, string date, string numbertalon)
         {
             UserId = userid;
             Region = region;
@@ -42,6 +45,7 @@ namespace CourseWork2
             Specialization = specialization;
             Doctor = doctor;
             Date = date;
+            Numbertalon = numbertalon;
         }
     }
 }

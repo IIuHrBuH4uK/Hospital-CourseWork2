@@ -23,6 +23,7 @@
     using System.Windows.Markup;
 using Microsoft.Win32;
 using static System.Net.Mime.MediaTypeNames;
+using System.Xml.Linq;
 
 namespace CourseWork2
 {
@@ -48,12 +49,11 @@ namespace CourseWork2
         {
             InitializeComponent();
             _userId = userId;
+
             PersonAccountPanel.Visibility = Visibility.Hidden;
             SignUpDoctorPanel.Visibility = Visibility.Hidden;
-            HospPanel.Visibility = Visibility.Hidden;
-            SpecPanel.Visibility = Visibility.Hidden;
-            DoctorPanel.Visibility = Visibility.Hidden;
-            CheckPanel.Visibility = Visibility.Hidden;
+            CallDoctorPanel.Visibility = Visibility.Hidden;
+
             db = new AppContext();
             LoadUserData();
             UpdateDatesDisplay();
@@ -100,7 +100,7 @@ namespace CourseWork2
                 DoctorTime_ListView.ItemsSource = _filteredDoctor;
             }
         }
-   
+
 
         private void LoadUserData()
         {
@@ -112,6 +112,8 @@ namespace CourseWork2
                 textBoxPatronymic.Text = user.LastName;
                 textBoxSnils.Text = user.SNILS;
                 textBoxLocation.Text = user.Address;
+                FullName_TextBox.Text = (user.MiddleName + " " + user.FirstName + " " + user.LastName);
+
             }
         }
 
@@ -167,6 +169,7 @@ namespace CourseWork2
             HospPanel.Visibility = Visibility.Hidden;
             SpecPanel.Visibility = Visibility.Hidden;
             DoctorPanel.Visibility = Visibility.Hidden;
+            CheckPanel.Visibility = Visibility.Hidden;
 
             CityTextBlock.Text = "";
             HospitalTextBlock.Text = "";
@@ -190,6 +193,8 @@ namespace CourseWork2
             Step3Button.IsEnabled = false;
             Step4Button.IsEnabled = false;
             Step5Button.IsEnabled = false;
+
+            DeletTicket();
         }
 
         private void Step2Button_Click(object sender, RoutedEventArgs e)
@@ -198,6 +203,7 @@ namespace CourseWork2
             HospPanel.Visibility = Visibility.Visible;
             SpecPanel.Visibility = Visibility.Hidden;
             DoctorPanel.Visibility = Visibility.Hidden;
+            CheckPanel.Visibility = Visibility.Hidden;
 
             HospitalTextBlock.Text = "";
             SpecTextBlock.Text = "";
@@ -220,6 +226,8 @@ namespace CourseWork2
             Step3Button.IsEnabled = false;
             Step4Button.IsEnabled = false;
             Step5Button.IsEnabled = false;
+
+            DeletTicket();
         }
 
         private void Step3Button_Click(object sender, RoutedEventArgs e)
@@ -228,6 +236,7 @@ namespace CourseWork2
             HospPanel.Visibility = Visibility.Hidden;
             SpecPanel.Visibility = Visibility.Visible;
             DoctorPanel.Visibility = Visibility.Hidden;
+            CheckPanel.Visibility = Visibility.Hidden;
 
             SpecTextBlock.Text = "";
             DoctorTextBlock.Text = "";
@@ -249,6 +258,8 @@ namespace CourseWork2
             Step3Button.IsEnabled = true;
             Step4Button.IsEnabled = false;
             Step5Button.IsEnabled = false;
+
+            DeletTicket();
         }
 
         private void Step4Button_Click(object sender, RoutedEventArgs e)
@@ -279,6 +290,8 @@ namespace CourseWork2
             Step3Button.IsEnabled = true;
             Step4Button.IsEnabled = true;
             Step5Button.IsEnabled = false;
+
+            DeletTicket();
         }
 
         private void Step5Button_Click(object sender, RoutedEventArgs e)
@@ -577,7 +590,7 @@ namespace CourseWork2
             {
                 PrevWeek_Button.IsEnabled = true;
                 PrevWeek_Button.Background = Brushes.SkyBlue;
-                PrevWeek_Button.Foreground =Brushes.White;
+                PrevWeek_Button.Foreground = Brushes.White;
             }
             else
             {
@@ -605,26 +618,6 @@ namespace CourseWork2
             UpdateDatesDisplay();
         }
 
-        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
-        {
-            //string region = SelectedRegion.Text.Trim();
-            //string hospital = SelectedHospital.Text.Trim();
-            //string specialization = SelectedSpecialization.Text.Trim();
-            //string doctor = SelectedDoctor.Text.Trim();
-            //string date = SelectedDate.Text.Trim();
-
-            //Ticket ticket = new Ticket(_userId,region,hospital,specialization,doctor,date);
-            //_currentTicket = ticket;
-
-            //db.Tickets.Add(ticket);
-            //db.SaveChanges();
-
-            SafeInfo();
-
-            MessageBox.Show("Запись успешно сохранена!", "Успех",
-                          MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
         private void SafeInfo()
         {
             string region = SelectedRegion.Text.Trim();
@@ -632,8 +625,9 @@ namespace CourseWork2
             string specialization = SelectedSpecialization.Text.Trim();
             string doctor = SelectedDoctor.Text.Trim();
             string date = SelectedDate.Text.Trim();
+            string numbertalon = GenerateNextTicketNumber();
 
-            Ticket ticket = new Ticket(_userId, region, hospital, specialization, doctor, date);
+            Ticket ticket = new Ticket(_userId, region, hospital, specialization, doctor, date, numbertalon);
             _currentTicket = ticket;
 
             db.Tickets.Add(ticket);
@@ -642,13 +636,13 @@ namespace CourseWork2
         }
 
         private void GenerateAndPrintTicket(string region, string hospital, string specialization,
-                                  string doctor, string date)
+                                  string doctor, string date, string numbertalon)
         {
             try
             {
                 // Создаем FlowDocument
                 FlowDocument doc = new FlowDocument();
-                doc.PagePadding = new Thickness(50);
+                doc.PagePadding = new Thickness(100);
                 doc.Blocks.Add(new Paragraph(new Run("Талон на прием к врачу\n\n"))
                 {
                     FontSize = 20,
@@ -662,7 +656,7 @@ namespace CourseWork2
                 doc.Blocks.Add(new Paragraph(new Run($"Врач: {doctor}")));
                 doc.Blocks.Add(new Paragraph(new Run($"Дата: {date}")));
                 doc.Blocks.Add(new Paragraph(new Run($"\n ID пользователя: {_userId}")));
-                doc.Blocks.Add(new Paragraph(new Run($"Номер талона: {Guid.NewGuid().ToString().Substring(0, 8)}")));
+                doc.Blocks.Add(new Paragraph(new Run($"Номер талона: {numbertalon}")));
                 doc.Blocks.Add(new Paragraph(new Run("\n\nСпасибо за использование нашей системы!")));
 
 
@@ -691,7 +685,7 @@ namespace CourseWork2
                               MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            GenerateAndPrintTicket(_currentTicket.Region, _currentTicket.Hospital, _currentTicket.Specialization, _currentTicket.Doctor, _currentTicket.Date);
+            GenerateAndPrintTicket(_currentTicket.Region, _currentTicket.Hospital, _currentTicket.Specialization, _currentTicket.Doctor, _currentTicket.Date, _currentTicket.Numbertalon);
         }
 
         private void SafeButton_Click(object sender, RoutedEventArgs e)
@@ -721,7 +715,7 @@ namespace CourseWork2
                                        $"Врач: {_currentTicket.Doctor}\n" +
                                        $"Дата: {_currentTicket.Date}\n" +
                                        $"\nID пользователя: {_currentTicket.UserId}\n" +
-                                       $"Номер талона: {Guid.NewGuid().ToString().Substring(0, 8)}" +
+                                       $"Номер талона: {_currentTicket.Numbertalon}" +
                                        $"\n\nСпасибо за использование нашей системы!";
 
                     // Записываем в файл
@@ -738,5 +732,98 @@ namespace CourseWork2
             }
         }
 
+        // Генерация номеров талончика
+        private string GenerateNextTicketNumber()
+        {
+
+            // Проверяем, что все необходимые данные выбраны
+            if (string.IsNullOrEmpty(SelectedRegion.Text) ||
+                string.IsNullOrEmpty(SelectedHospital.Text) ||
+                string.IsNullOrEmpty(SelectedDoctor.Text) ||
+                string.IsNullOrEmpty(SelectedDate.Text))
+            {
+                return "1"; // Если не все данные выбраны, начинаем с 1
+            }
+
+            string region = SelectedRegion.Text.Trim();
+            string hospital = SelectedHospital.Text.Trim();
+            string doctor = SelectedDoctor.Text.Trim();
+            string date = SelectedDate.Text.Split(' ')[0]; // Берем только дату без времени
+
+            // Ищем записи на эту дату к этому врачу в этой больнице и регионе
+            var existingTickets = db.Tickets
+                .Where(t => t.Region == region &&
+                           t.Hospital == hospital &&
+                           t.Doctor == doctor &&
+                           t.Date.StartsWith(date)) // Проверяем только начало строки с датой
+                .OrderByDescending(t => t.Id)
+                .ToList();
+
+            if (existingTickets.Any())
+            {
+                // Если есть записи, берем последний номер и увеличиваем на 1
+                var lastTicket = existingTickets.First();
+                if (int.TryParse(lastTicket.Numbertalon, out int lastNumber))
+                {
+                    return (lastNumber + 1).ToString();
+                }
+            }
+
+            // Если записей нет или не удалось распарсить номер, начинаем с 1
+            return "1";
         }
+
+        //Удаление записи в базе данных текущего талона
+        private void DeletTicket()
+        {
+            if (_currentTicket == null) return;
+
+            try
+            {
+                // Находим запись в базе данных по ID
+                var ticketToDelete = db.Tickets.FirstOrDefault(t => t.Id == _currentTicket.Id);
+                if (ticketToDelete != null)
+                {
+                    db.Tickets.Remove(ticketToDelete);
+                    db.SaveChanges();
+                    _currentTicket = null; // Сбрасываем текущий талон
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении записи: {ex.Message}",
+                              "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void CallDoctor_Button_Click(object sender, RoutedEventArgs e)
+        {
+            PersonAccountPanel.Visibility = Visibility.Hidden;
+            SignUpDoctorPanel.Visibility = Visibility.Hidden;
+            CallDoctorPanel.Visibility = Visibility.Visible;
+            PatientChoicePanel.Visibility = Visibility.Hidden;
+        }
+
+        private void MeCall_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var user = db.Users.FirstOrDefault(a => a.Id == _userId);
+            if (user != null)
+            {
+
+            }
+
+            PatientChoicePanel.Visibility = Visibility.Hidden;
+            MeCallPanel.Visibility = Visibility.Visible;
+        }
+
+        private void OtherCall_Button_Click(object sender, RoutedEventArgs e)
+        {
+            PatientChoicePanel.Visibility = Visibility.Hidden;
+        }
+
+        private void EditInfo_Button_Click(object sender, RoutedEventArgs e)
+        {
+            CallDoctorPanel.Visibility = Visibility.Hidden;
+            PersonAccountPanel.Visibility= Visibility.Visible;
+        }
+    }
 }
