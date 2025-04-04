@@ -340,6 +340,16 @@
                                 <TextBox x:Name="SelectedDoctor" Text="" Grid.Column="1" Grid.Row="3" FontSize="20" Focusable="False"></TextBox>
                                 <TextBox x:Name="SelectedDate" Text="" Grid.Column="1" Grid.Row="4" FontSize="20" Focusable="False"></TextBox>
                             </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="ConfirmButton" Grid.Column="1" HorizontalAlignment="Center" Margin="0 10 0 0" MinWidth="200" MinHeight="50" Content="Подтвердить" Click="ConfirmButton_Click" Cursor="Hand"></Button>
+                                <Button x:Name="PrintButton" Grid.Column="0" HorizontalAlignment="Center" Margin="0 10 0 0" MinWidth="200" MinHeight="50" Content="Распечатать талон" Click="PrintButton_Click"></Button>
+                                <Button x:Name="SafeButton" Grid.Column="2" HorizontalAlignment="Center" Margin="0 10 0 0" MinWidth="200" MinHeight="50" Content="Сохранить талон" Click="SafeButton_Click"></Button>
+                            </Grid>
                         </StackPanel>
                         
                         

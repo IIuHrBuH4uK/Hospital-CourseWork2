@@ -16,10 +16,13 @@
     using System.Data.Entity.Migrations;
     using MaterialDesignThemes.Wpf;
     using System.Collections.ObjectModel;
-using System.Data.Entity.Infrastructure;
-using System.Globalization;
-using System.Diagnostics.Eventing.Reader;
-
+    using System.Data.Entity.Infrastructure;
+    using System.Globalization;
+    using System.Diagnostics.Eventing.Reader;
+    using System.IO;
+    using System.Windows.Markup;
+using Microsoft.Win32;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CourseWork2
 {
@@ -37,7 +40,7 @@ namespace CourseWork2
         private DateTime _currentWeekStart = DateTime.Today;
 
 
-
+        private Ticket _currentTicket;
         private readonly int _userId;
         AppContext db;
 
@@ -534,6 +537,8 @@ namespace CourseWork2
                     SelectedSpecialization.Text = selectedSpecialization;
                     SelectedDoctor.Text = selectedDoctor.Name;
                     SelectedDate.Text = selectedDate + " " + selectedTime + " ч.";
+
+                    SafeInfo();
                 }
             }
         }
@@ -600,6 +605,138 @@ namespace CourseWork2
             UpdateDatesDisplay();
         }
 
-        
-    }
+        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+        {
+            //string region = SelectedRegion.Text.Trim();
+            //string hospital = SelectedHospital.Text.Trim();
+            //string specialization = SelectedSpecialization.Text.Trim();
+            //string doctor = SelectedDoctor.Text.Trim();
+            //string date = SelectedDate.Text.Trim();
+
+            //Ticket ticket = new Ticket(_userId,region,hospital,specialization,doctor,date);
+            //_currentTicket = ticket;
+
+            //db.Tickets.Add(ticket);
+            //db.SaveChanges();
+
+            SafeInfo();
+
+            MessageBox.Show("Запись успешно сохранена!", "Успех",
+                          MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void SafeInfo()
+        {
+            string region = SelectedRegion.Text.Trim();
+            string hospital = SelectedHospital.Text.Trim();
+            string specialization = SelectedSpecialization.Text.Trim();
+            string doctor = SelectedDoctor.Text.Trim();
+            string date = SelectedDate.Text.Trim();
+
+            Ticket ticket = new Ticket(_userId, region, hospital, specialization, doctor, date);
+            _currentTicket = ticket;
+
+            db.Tickets.Add(ticket);
+            db.SaveChanges();
+
+        }
+
+        private void GenerateAndPrintTicket(string region, string hospital, string specialization,
+                                  string doctor, string date)
+        {
+            try
+            {
+                // Создаем FlowDocument
+                FlowDocument doc = new FlowDocument();
+                doc.PagePadding = new Thickness(50);
+                doc.Blocks.Add(new Paragraph(new Run("Талон на прием к врачу\n\n"))
+                {
+                    FontSize = 20,
+                    TextAlignment = TextAlignment.Center
+                });
+
+                // Добавляем информацию
+                doc.Blocks.Add(new Paragraph(new Run($"Регион: {region}")));
+                doc.Blocks.Add(new Paragraph(new Run($"Больница: {hospital}")));
+                doc.Blocks.Add(new Paragraph(new Run($"Специализация: {specialization}")));
+                doc.Blocks.Add(new Paragraph(new Run($"Врач: {doctor}")));
+                doc.Blocks.Add(new Paragraph(new Run($"Дата: {date}")));
+                doc.Blocks.Add(new Paragraph(new Run($"\n ID пользователя: {_userId}")));
+                doc.Blocks.Add(new Paragraph(new Run($"Номер талона: {Guid.NewGuid().ToString().Substring(0, 8)}")));
+                doc.Blocks.Add(new Paragraph(new Run("\n\nСпасибо за использование нашей системы!")));
+
+
+                // Создаем диалог печати
+                PrintDialog printDialog = new PrintDialog();
+                if (printDialog.ShowDialog() == true)
+                {
+                    // Настраиваем документ для печати
+                    IDocumentPaginatorSource paginatorSource = doc;
+                    printDialog.PrintDocument(paginatorSource.DocumentPaginator, "Талон на прием");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при печати: {ex.Message}", "Ошибка",
+                              MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void PrintButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Проверяем, есть ли данные для сохранения
+            if (_currentTicket == null)
+            {
+                MessageBox.Show("Нет данных для сохранения", "Ошибка",
+                              MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            GenerateAndPrintTicket(_currentTicket.Region, _currentTicket.Hospital, _currentTicket.Specialization, _currentTicket.Doctor, _currentTicket.Date);
+        }
+
+        private void SafeButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Проверяем, есть ли данные для сохранения
+            if (_currentTicket == null)
+            {
+                MessageBox.Show("Нет данных для сохранения", "Ошибка",
+                              MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Настраиваем диалог сохранения файла
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "Текстовый файл (*.txt)|*.txt|Все файлы (*.*)|*.*";
+            saveDialog.FileName = $"Талон_{DateTime.Now:yyyyMMddHHmmss}.txt";
+
+            if (saveDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    // Формируем содержимое файла
+                    string fileContent = $"Талон на прием к врачу\n\n" +
+                                       $"Регион: {_currentTicket.Region}\n" +
+                                       $"Больница: {_currentTicket.Hospital}\n" +
+                                       $"Специализация: {_currentTicket.Specialization}\n" +
+                                       $"Врач: {_currentTicket.Doctor}\n" +
+                                       $"Дата: {_currentTicket.Date}\n" +
+                                       $"\nID пользователя: {_currentTicket.UserId}\n" +
+                                       $"Номер талона: {Guid.NewGuid().ToString().Substring(0, 8)}" +
+                                       $"\n\nСпасибо за использование нашей системы!";
+
+                    // Записываем в файл
+                    File.WriteAllText(saveDialog.FileName, fileContent, Encoding.UTF8);
+
+                    MessageBox.Show($"Данные успешно сохранены в файл:\n{saveDialog.FileName}",
+                                  "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при сохранении файла: {ex.Message}",
+                                  "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        }
 }

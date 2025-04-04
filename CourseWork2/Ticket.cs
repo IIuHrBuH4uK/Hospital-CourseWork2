@@ -17,31 +17,31 @@ namespace CourseWork2
         [Column("user_id")]
         public int UserId { get; set; }
 
-        [Column("region_id")]
-        public int RegionId { get; set; }
+        [Column("region")]
+        public string Region { get; set; }
 
-        [Column("hospital_id")]
-        public int HospitalId { get; set; }
+        [Column("hospital")]
+        public string Hospital { get; set; }
 
-        [Column("specialization_id")]
-        public int SpecializationId { get; set; }
+        [Column("specialization")]
+        public string Specialization { get; set; }
 
-        [Column("schedule_id")]
-        public int SheduleId { get; set; }
+        [Column("doctor")]
+        public string Doctor { get; set; }
 
-        [Column("created_at")]
-        public string CreatedAT { get; set; }
+        [Column("date")]
+        public string Date { get; set; }
 
         public Ticket() { }
 
-        public Ticket(int id, int userid, int regionid, int hospitalid, int specializationid, int sheduleid, string createdat)
+        public Ticket(int userid, string region, string hospital, string specialization, string doctor, string date)
         {
-            Id = id;
             UserId = userid;
-            RegionId = regionid;
-            HospitalId = hospitalid;
-            SpecializationId = specializationid;
-            SheduleId = sheduleid;
+            Region = region;
+            Hospital = hospital;
+            Specialization = specialization;
+            Doctor = doctor;
+            Date = date;
         }
     }
 }
