@@ -21,9 +21,10 @@
     using System.Diagnostics.Eventing.Reader;
     using System.IO;
     using System.Windows.Markup;
-using Microsoft.Win32;
-using static System.Net.Mime.MediaTypeNames;
-using System.Xml.Linq;
+    using Microsoft.Win32;
+    using static System.Net.Mime.MediaTypeNames;
+    using System.Xml.Linq;
+using System.Diagnostics;
 
 namespace CourseWork2
 {
@@ -53,6 +54,9 @@ namespace CourseWork2
             PersonAccountPanel.Visibility = Visibility.Collapsed;
             SignUpDoctorPanel.Visibility = Visibility.Collapsed;
             CallDoctorPanel.Visibility = Visibility.Collapsed;
+
+
+
 
             db = new AppContext();
             LoadUserData();
@@ -113,19 +117,9 @@ namespace CourseWork2
                 textBoxSnils.Text = user.SNILS;
                 textBoxLocation.Text = user.Address;
                 PersonBirthDay_DatePicker.Text = user.Birthday;
-                FullName_TextBox.Text = (user.MiddleName + " " + user.FirstName + " " + user.LastName);
-
-                if (!string.IsNullOrEmpty(user.Gender))
-                {
-                    GenderComboBox.SelectedItem = user.Gender;
-                }
-                else
-                {
-                    GenderComboBox.SelectedIndex = -1; // Сброс выбора, если пол не указан
-                }
+                GenderCombobox.SelectedItem = GenderCombobox.Items.Cast<ComboBoxItem>().FirstOrDefault(item => item.Content.ToString() == user.Gender);
             }
         }
-
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -146,8 +140,8 @@ namespace CourseWork2
             string patronymic = textBoxPatronymic.Text.Trim();
             string snils = textBoxSnils.Text.Trim();
             string location = textBoxLocation.Text.Trim();
-            string gender = GenderComboBox.SelectedIndex.ToString();
             string birthday = PersonBirthDay_DatePicker.Text.Trim();
+            string gender = (GenderCombobox.SelectedItem as ComboBoxItem)?.Content?.ToString();
 
             var user = db.Users.FirstOrDefault(u => u.Id == _userId);
             if (user != null)
@@ -163,7 +157,10 @@ namespace CourseWork2
                 db.SaveChanges();
                 MessageBox.Show("Данные успешно сохранены!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+
         }
+
+
 
         private void SignUpDoctorButton_Click(object sender, RoutedEventArgs e)
         {
@@ -808,35 +805,196 @@ namespace CourseWork2
                               "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        // Кнопка нажатия в левом меню на вызов врача
         private void CallDoctor_Button_Click(object sender, RoutedEventArgs e)
         {
             PersonAccountPanel.Visibility = Visibility.Collapsed;
             SignUpDoctorPanel.Visibility = Visibility.Collapsed;
             CallDoctorPanel.Visibility = Visibility.Visible;
-            PatientChoicePanel.Visibility = Visibility.Collapsed;
+            PatientChoicePanel.Visibility = Visibility.Visible;
+            MeCallPanel.Visibility = Visibility.Collapsed;
+            MePolisPanel.Visibility = Visibility.Collapsed;
+            OtherCallPanel.Visibility = Visibility.Collapsed;
+            MeSymptomsPanel.Visibility = Visibility.Collapsed;
         }
 
+        // Кнопка нажатия "Мне" на панели выбора кому вызывать врача
         private void MeCall_Button_Click(object sender, RoutedEventArgs e)
         {
+            PatientChoicePanel.Visibility = Visibility.Collapsed;
+            MeCallPanel.Visibility = Visibility.Visible;
             var user = db.Users.FirstOrDefault(a => a.Id == _userId);
             if (user != null)
             {
-
+                FullName_TextBox.Text = (user.MiddleName + " " + user.FirstName + " " + user.LastName);
+                BirthDate_TextBox.Text = (user.Birthday);
+                MeGenderComboBox.SelectedItem = MeGenderComboBox.Items.Cast<ComboBoxItem>().FirstOrDefault(item => item.Content.ToString() == user.Gender);
             }
-
             PatientChoicePanel.Visibility = Visibility.Collapsed;
             MeCallPanel.Visibility = Visibility.Visible;
+            MeCallBack_Button.Visibility = Visibility.Visible;
         }
 
+        // Кнопка нажатия "Другому человеку" на панели выбора кому вызывать врача
         private void OtherCall_Button_Click(object sender, RoutedEventArgs e)
         {
             PatientChoicePanel.Visibility = Visibility.Collapsed;
         }
 
+        // Кнопка редактирования личной информации на панели MeCall
         private void EditInfo_Button_Click(object sender, RoutedEventArgs e)
         {
+
+            MeCallPanel.Visibility = Visibility.Collapsed;
             CallDoctorPanel.Visibility = Visibility.Collapsed;
-            PersonAccountPanel.Visibility= Visibility.Visible;
+            PersonAccountPanel.Visibility = Visibility.Visible;
         }
+
+        // Кнопка подтверждения личной информации и переход на следующую панель с полисом
+        private void ConfirmMeButton_Click(object sender, RoutedEventArgs e)
+        {
+            MeCallBack_Button.Visibility = Visibility.Collapsed;
+            MeCallPanel.Visibility = Visibility.Collapsed;
+            MePolisPanel.Visibility = Visibility.Visible;
+            MePolisBack_Button.Visibility = Visibility.Visible;
+            NumberPolis_TextBox.Text = db.Users.FirstOrDefault(u => u.Id == _userId).Polis;
+            NumberPhone_TextBox.Text = db.Users.FirstOrDefault(_ => _.Id == _userId).Phone;
+            Address_TextBox.Text = db.Users.FirstOrDefault(u => u.Id == _userId).Address;
+
+        }
+
+        private void PolisWebButton_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://www.gosuslugi.ru/help/faq/oms/4863");
+        }
+
+        // Кнопка возвращения к меню выбора кому вызвать врача
+        private void MeCallBack_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MeCallPanel.Visibility = Visibility.Collapsed;
+            MeCallBack_Button.Visibility = Visibility.Collapsed;
+            PatientChoicePanel.Visibility = Visibility.Visible;
+        }
+
+        // Кнопка возвращения к проверке информации
+        private void MePolisBack_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MePolisBack_Button.Visibility = Visibility.Collapsed;
+            MePolisPanel.Visibility = Visibility.Collapsed;
+            MeCallPanel.Visibility = Visibility.Visible;
+            MeCallBack_Button.Visibility = Visibility.Visible;
+        }
+
+        // Кнопка возвращения к проверке полиса, телефона и адреса
+        private void MeSymptomsBack_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MeSymptomsBack_Button.Visibility= Visibility.Collapsed;
+            MeSymptomsPanel.Visibility = Visibility.Collapsed;
+            MePolisPanel.Visibility = Visibility.Visible;
+            MePolisBack_Button.Visibility = Visibility.Visible;
+
+        }
+
+        // Кнопка проверки полиса ОМС
+        private void NumberPolisPhone_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            string phone = NumberPhone_TextBox.Text.Trim();
+            string polis = NumberPolis_TextBox.Text.Trim();
+
+            var user = db.Users.FirstOrDefault(u => u.Id == _userId);
+
+            if (NumberPolis_TextBox.Text.Length < 16)
+            {
+                NumberPolis_TextBox.Background = Brushes.LightSkyBlue;
+                NumberPolis_TextBox.ToolTip = "Введите номер из 16 символов";
+
+            }
+            else
+            {
+                NumberPolis_TextBox.Background = Brushes.Transparent;
+                NumberPolis_TextBox.ToolTip = null;
+
+
+                if (user != null)
+                {
+                    user.Polis = polis;
+                    user.Phone = phone;
+
+
+                    db.SaveChanges();
+                }
+            }
+
+            MePolisBack_Button.Visibility = Visibility.Collapsed;
+            MePolisPanel.Visibility = Visibility.Collapsed;
+            MeSymptomsPanel.Visibility = Visibility.Visible;
+            MeSymptomsBack_Button.Visibility = Visibility.Visible;
+        }
+
+
+        private void NumberPolis_TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, 0))
+            {
+                e.Handled = true; 
+            }
+        }
+
+        private void NumberPolis_TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Блокируем пробел (Key.Space)
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
+        }
+
+        // Разрешаем только цифры, '+', '-', '(', ')', пробел
+        private void PhoneNumberTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            var allowedChars = new[] { '+', '-', '(', ')', ' ' };
+            if (!char.IsDigit(e.Text, 0) && !allowedChars.Contains(e.Text[0])) e.Handled = true;
+        }
+
+        private void NumberPhone_TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void SafeSymptoms_Button_Click(object sender, RoutedEventArgs e)
+        {
+            string symptoms = MeSymtopms_TextBox.Text.Trim();
+            var user = db.Users.FirstOrDefault(u => u.Id == _userId);
+
+            if (user != null)
+            {
+                // Создаём новую запись в таблице Calls
+                var newCall = new Call
+                {
+                    UserId = _userId,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    MiddleName = user.MiddleName,
+                    Address = user.Address,
+                    Phone = user.Phone,
+                    Symptoms = symptoms,
+                };
+
+                // Добавляем запись в таблицу Calls
+                db.Calls.Add(newCall);
+                db.SaveChanges();
+
+                MessageBox.Show("Данные о вызове врача успешно сохранены!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+            MeSymptomsBack_Button.Visibility = Visibility.Collapsed;
+        }
+
+
     }
 }

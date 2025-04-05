@@ -87,6 +87,7 @@
     <Compile Include="Auth.xaml.cs">
       <DependentUpon>Auth.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Call.cs" />
     <Compile Include="Doctor.cs" />
     <Compile Include="Hospital.cs" />
     <Compile Include="Region.cs" />
@@ -95,7 +96,6 @@
     </Compile>
     <Compile Include="Specialization.cs" />
     <Compile Include="Ticket.cs" />
-    <Compile Include="TimeSlot.cs" />
     <Compile Include="User.cs" />
     <Page Include="Auth.xaml">
       <SubType>Designer</SubType>
