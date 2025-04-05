@@ -94,7 +94,7 @@
                 </StackPanel>
 
                 <!-- Панель личного кабинета -->
-                <StackPanel Grid.Column="1" x:Name="PersonAccountPanel" Background="White" Margin="10" Visibility="Hidden">
+                <StackPanel Grid.Column="1" x:Name="PersonAccountPanel" Background="White" Margin="10" Visibility="Visible">
                     <TextBlock Text="Личный кабинет" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
                     <Grid VerticalAlignment="Stretch" Margin="0 10 0 0">
                         <Grid.RowDefinitions>
@@ -115,19 +115,27 @@
                         <TextBlock Text="Фамилия" Grid.Row="0" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
                         <TextBlock Text="Имя" Grid.Row="1" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
                         <TextBlock Text="Отчество" Grid.Row="2" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
-                        <TextBlock Text="СНИЛС" Grid.Row="3" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
-                        <TextBlock Text="Адрес прописки" Grid.Row="4" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
+                        <TextBlock Text="Пол" Grid.Row="3" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
+                        <TextBlock Text="Дата рождения" Grid.Row="4" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
+                        <TextBlock Text="СНИЛС" Grid.Row="5" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
+                        <TextBlock Text="Адрес прописки" Grid.Row="6" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
                         <TextBox Grid.Row="0" Grid.Column="1" x:Name="textBoxSurname" materialDesign:HintAssist.Hint="Фамилия" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
                         <TextBox Grid.Row="1" Grid.Column="1" x:Name="textBoxName" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
                         <TextBox Grid.Row="2" Grid.Column="1" x:Name="textBoxPatronymic" materialDesign:HintAssist.Hint="Отчество" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
-                        <TextBox Grid.Row="3" Grid.Column="1" x:Name="textBoxSnils" materialDesign:HintAssist.Hint="СНИЛС" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
-                        <TextBox Grid.Row="4" Grid.Column="1" x:Name="textBoxLocation" materialDesign:HintAssist.Hint="Адрес прописки" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
+                        <ComboBox Grid.Row="3" Grid.Column="1" x:Name="GenderCombobox" VerticalAlignment="Stretch" materialDesign:HintAssist.Hint="Пол" Style="{StaticResource MaterialDesignFilledComboBox}" FontSize="16">
+                            <ComboBoxItem>Мужской</ComboBoxItem>
+                            <ComboBoxItem>Женский</ComboBoxItem>
+                            <ComboBoxItem>Другое</ComboBoxItem>
+                        </ComboBox>
+                        <DatePicker Grid.Row="4" Grid.Column="1" x:Name="PersonBirthDay_DatePicker" materialDesign:HintAssist.Hint="Дата рождения" Style="{StaticResource MaterialDesignFilledDatePicker}" FontSize="16" Cursor=""></DatePicker>
+                        <TextBox Grid.Row="5" Grid.Column="1" x:Name="textBoxSnils" materialDesign:HintAssist.Hint="СНИЛС" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
+                        <TextBox Grid.Row="6" Grid.Column="1" x:Name="textBoxLocation" materialDesign:HintAssist.Hint="Адрес прописки" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
                     </Grid>
                     <Button Content="Сохранить" Margin="0 30 0 0" HorizontalAlignment="Center" Background="SkyBlue" x:Name="SafePersonButton" Click="SafePersonButton_Click"></Button>
                 </StackPanel>
 
                 <!-- Панель записи на приём -->
-                <StackPanel Grid.Column="1" x:Name="SignUpDoctorPanel" Background="White" Margin="10" Visibility="Hidden">
+                <StackPanel Grid.Column="1" x:Name="SignUpDoctorPanel" Background="White" Margin="10" Visibility="Collapsed">
                     <TextBlock Text="Запись на приём к врачу" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"></TextBlock>
                     <Grid x:Name="Steps" Margin="0 20 0 0">
                         <Grid.ColumnDefinitions>
@@ -160,7 +168,7 @@
                     </Grid>
                     <!-- Шаг 1 -->
                     <Grid>
-                    <StackPanel x:Name="RegionPanel" Visibility="Hidden" Panel.ZIndex="1">
+                    <StackPanel x:Name="RegionPanel" Visibility="Collapsed" Panel.ZIndex="1">
                     <TextBox materialDesign:HintAssist.Hint="Поиск по названию" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="Search_TextBox" TextChanged="SearchRegion"></TextBox>
                             <ListView x:Name="Region_ListView" SelectionChanged="Region_ListView_SelectionChanged" Margin="0 10 0 0" Height="720" >
                         <ListView.ItemTemplate>
@@ -174,7 +182,7 @@
                     </StackPanel>
 
                         <!-- Шаг 2 -->
-                    <StackPanel x:Name="HospPanel" Visibility="Hidden">
+                    <StackPanel x:Name="HospPanel" Visibility="Collapsed">
                         <TextBox materialDesign:HintAssist.Hint="Поиск по названию или адресу" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="SearchHosp_TextBox" TextChanged="SearchHosp"></TextBox>
                             <ListView x:Name="Hosp_ListView" SelectionChanged="Hosp_ListView_SelectionChanged" Margin="0 10 0 0">
                             <ListView.ItemTemplate>
@@ -189,7 +197,7 @@
                     </StackPanel>
 
                         <!-- Шаг 3 -->
-                        <StackPanel x:Name="SpecPanel" Visibility="Hidden" Grid.Column="1">
+                        <StackPanel x:Name="SpecPanel" Visibility="Collapsed" Grid.Column="1">
                             <TextBox materialDesign:HintAssist.Hint="Поиск по специальности" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="SearchSpec_TextBox" TextChanged="SearchSpec"></TextBox>
                             <ListView x:Name="Spec_ListView" SelectionChanged="Spec_ListView_SelectionChanged" Margin="0 10 0 0">
                                 <ListView.ItemTemplate>
@@ -203,7 +211,7 @@
                         </StackPanel>
 
                         <!-- Шаг 4 -->
-                        <StackPanel x:Name="DoctorPanel" Visibility="Hidden" Grid.Column="1">
+                        <StackPanel x:Name="DoctorPanel" Visibility="Collapsed" Grid.Column="1">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40*"></ColumnDefinition>
@@ -316,7 +324,7 @@
                         </StackPanel>
 
                         <!-- Шаг 5 -->
-                        <StackPanel x:Name="CheckPanel" Visibility="Hidden" Grid.Column="1" Margin="0 10 0 0" Cursor="">
+                        <StackPanel x:Name="CheckPanel" Visibility="Collapsed" Grid.Column="1" Margin="0 10 0 0" Cursor="">
                             <Grid VerticalAlignment="Center">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="30*"></ColumnDefinition>
@@ -354,11 +362,11 @@
                 </StackPanel>
                 
                 <!-- Панель вызова врача на дом -->
-                <StackPanel Grid.Column="1" x:Name="CallDoctorPanel" Background="White" Margin="10" Visibility="Visible">
+                <StackPanel Grid.Column="1" x:Name="CallDoctorPanel" Background="White" Margin="10" Visibility="Collapsed">
                     <TextBlock Text="Вызов врача на дом" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"></TextBlock>
                     
                     <Grid Cursor="">
-                    <StackPanel x:Name="PatientChoicePanel" Visibility="Hidden" Margin="30 160 0 0">
+                    <StackPanel x:Name="PatientChoicePanel" Visibility="Collapsed" Margin="30 160 0 0">
                     <Grid x:Name="Patient">
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>

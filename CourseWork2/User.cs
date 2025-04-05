@@ -31,6 +31,9 @@ namespace CourseWork2
         public string SNILS { get; set; }
         public string Address { get; set; }
 
+        public string Gender   { get; set; }
+        public string Birthday { get; set; }
+
         public User() { }
 
         public User(string login, string email, string password)

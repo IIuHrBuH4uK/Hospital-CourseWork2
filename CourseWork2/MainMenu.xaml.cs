@@ -50,9 +50,9 @@ namespace CourseWork2
             InitializeComponent();
             _userId = userId;
 
-            PersonAccountPanel.Visibility = Visibility.Hidden;
-            SignUpDoctorPanel.Visibility = Visibility.Hidden;
-            CallDoctorPanel.Visibility = Visibility.Hidden;
+            PersonAccountPanel.Visibility = Visibility.Collapsed;
+            SignUpDoctorPanel.Visibility = Visibility.Collapsed;
+            CallDoctorPanel.Visibility = Visibility.Collapsed;
 
             db = new AppContext();
             LoadUserData();
@@ -112,8 +112,17 @@ namespace CourseWork2
                 textBoxPatronymic.Text = user.LastName;
                 textBoxSnils.Text = user.SNILS;
                 textBoxLocation.Text = user.Address;
+                PersonBirthDay_DatePicker.Text = user.Birthday;
                 FullName_TextBox.Text = (user.MiddleName + " " + user.FirstName + " " + user.LastName);
 
+                if (!string.IsNullOrEmpty(user.Gender))
+                {
+                    GenderComboBox.SelectedItem = user.Gender;
+                }
+                else
+                {
+                    GenderComboBox.SelectedIndex = -1; // Сброс выбора, если пол не указан
+                }
             }
         }
 
@@ -125,9 +134,9 @@ namespace CourseWork2
         private void Person_Account_Button_Click(object sender, RoutedEventArgs e)
         {
 
-            MainMenuPanel.Visibility = Visibility.Hidden;
+            MainMenuPanel.Visibility = Visibility.Collapsed;
             PersonAccountPanel.Visibility = Visibility.Visible;
-            SignUpDoctorPanel.Visibility = Visibility.Hidden;
+            SignUpDoctorPanel.Visibility = Visibility.Collapsed;
         }
 
         private void SafePersonButton_Click(object sender, RoutedEventArgs e)
@@ -137,6 +146,8 @@ namespace CourseWork2
             string patronymic = textBoxPatronymic.Text.Trim();
             string snils = textBoxSnils.Text.Trim();
             string location = textBoxLocation.Text.Trim();
+            string gender = GenderComboBox.SelectedIndex.ToString();
+            string birthday = PersonBirthDay_DatePicker.Text.Trim();
 
             var user = db.Users.FirstOrDefault(u => u.Id == _userId);
             if (user != null)
@@ -146,6 +157,8 @@ namespace CourseWork2
                 user.LastName = patronymic;
                 user.SNILS = snils;
                 user.Address = location;
+                user.Gender = gender;
+                user.Birthday = birthday;
 
                 db.SaveChanges();
                 MessageBox.Show("Данные успешно сохранены!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -156,8 +169,8 @@ namespace CourseWork2
         {
             LoadRegionData();
             SignUpDoctorPanel.Visibility = Visibility.Visible;
-            PersonAccountPanel.Visibility = Visibility.Hidden;
-            MainMenuPanel.Visibility = Visibility.Hidden;
+            PersonAccountPanel.Visibility = Visibility.Collapsed;
+            MainMenuPanel.Visibility = Visibility.Collapsed;
             RegionPanel.Visibility = Visibility.Visible;
             Region_ListView.ItemsSource = db.Regions.ToList();
 
@@ -166,10 +179,10 @@ namespace CourseWork2
         private void Step1Button_Click(object sender, RoutedEventArgs e)
         {
             RegionPanel.Visibility = Visibility.Visible;
-            HospPanel.Visibility = Visibility.Hidden;
-            SpecPanel.Visibility = Visibility.Hidden;
-            DoctorPanel.Visibility = Visibility.Hidden;
-            CheckPanel.Visibility = Visibility.Hidden;
+            HospPanel.Visibility = Visibility.Collapsed;
+            SpecPanel.Visibility = Visibility.Collapsed;
+            DoctorPanel.Visibility = Visibility.Collapsed;
+            CheckPanel.Visibility = Visibility.Collapsed;
 
             CityTextBlock.Text = "";
             HospitalTextBlock.Text = "";
@@ -199,11 +212,11 @@ namespace CourseWork2
 
         private void Step2Button_Click(object sender, RoutedEventArgs e)
         {
-            RegionPanel.Visibility = Visibility.Hidden;
+            RegionPanel.Visibility = Visibility.Collapsed;
             HospPanel.Visibility = Visibility.Visible;
-            SpecPanel.Visibility = Visibility.Hidden;
-            DoctorPanel.Visibility = Visibility.Hidden;
-            CheckPanel.Visibility = Visibility.Hidden;
+            SpecPanel.Visibility = Visibility.Collapsed;
+            DoctorPanel.Visibility = Visibility.Collapsed;
+            CheckPanel.Visibility = Visibility.Collapsed;
 
             HospitalTextBlock.Text = "";
             SpecTextBlock.Text = "";
@@ -232,11 +245,11 @@ namespace CourseWork2
 
         private void Step3Button_Click(object sender, RoutedEventArgs e)
         {
-            RegionPanel.Visibility = Visibility.Hidden;
-            HospPanel.Visibility = Visibility.Hidden;
+            RegionPanel.Visibility = Visibility.Collapsed;
+            HospPanel.Visibility = Visibility.Collapsed;
             SpecPanel.Visibility = Visibility.Visible;
-            DoctorPanel.Visibility = Visibility.Hidden;
-            CheckPanel.Visibility = Visibility.Hidden;
+            DoctorPanel.Visibility = Visibility.Collapsed;
+            CheckPanel.Visibility = Visibility.Collapsed;
 
             SpecTextBlock.Text = "";
             DoctorTextBlock.Text = "";
@@ -264,11 +277,11 @@ namespace CourseWork2
 
         private void Step4Button_Click(object sender, RoutedEventArgs e)
         {
-            RegionPanel.Visibility = Visibility.Hidden;
-            HospPanel.Visibility = Visibility.Hidden;
-            SpecPanel.Visibility = Visibility.Hidden;
+            RegionPanel.Visibility = Visibility.Collapsed;
+            HospPanel.Visibility = Visibility.Collapsed;
+            SpecPanel.Visibility = Visibility.Collapsed;
             DoctorPanel.Visibility = Visibility.Visible;
-            CheckPanel.Visibility = Visibility.Hidden;
+            CheckPanel.Visibility = Visibility.Collapsed;
 
             DoctorTextBlock.Text = "";
             TimeTextBlock.Text = "";
@@ -334,7 +347,7 @@ namespace CourseWork2
                 Step2Button.Background = Brushes.SkyBlue;
                 Step2Button.Foreground = Brushes.White;
                 Step2Button.IsEnabled = true;
-                RegionPanel.Visibility = Visibility.Hidden;
+                RegionPanel.Visibility = Visibility.Collapsed;
                 HospPanel.Visibility = Visibility.Visible;
 
                 // Фильтруем больницы по выбранному региону
@@ -394,7 +407,7 @@ namespace CourseWork2
                 Step2Button.Foreground = Brushes.SkyBlue;
                 Step3Button.Background = Brushes.SkyBlue;
                 Step3Button.Foreground = Brushes.White;
-                HospPanel.Visibility = Visibility.Hidden;
+                HospPanel.Visibility = Visibility.Collapsed;
                 SpecPanel.Visibility = Visibility.Visible;
 
                 // Фильтруем специальности по выбранной больнице
@@ -461,9 +474,9 @@ namespace CourseWork2
                 Step3Button.IsEnabled = true;
                 Step4Button.IsEnabled = true;
 
-                RegionPanel.Visibility = Visibility.Hidden;
-                HospPanel.Visibility = Visibility.Hidden;
-                SpecPanel.Visibility = Visibility.Hidden;
+                RegionPanel.Visibility = Visibility.Collapsed;
+                HospPanel.Visibility = Visibility.Collapsed;
+                SpecPanel.Visibility = Visibility.Collapsed;
                 DoctorPanel.Visibility = Visibility.Visible;
 
                 // фильтруем доктора по выбранной специальности
@@ -539,10 +552,10 @@ namespace CourseWork2
                     Step4Button.IsEnabled = true;
                     Step5Button.IsEnabled = true;
 
-                    RegionPanel.Visibility = Visibility.Hidden;
-                    HospPanel.Visibility = Visibility.Hidden;
-                    SpecPanel.Visibility = Visibility.Hidden;
-                    DoctorPanel.Visibility = Visibility.Hidden;
+                    RegionPanel.Visibility = Visibility.Collapsed;
+                    HospPanel.Visibility = Visibility.Collapsed;
+                    SpecPanel.Visibility = Visibility.Collapsed;
+                    DoctorPanel.Visibility = Visibility.Collapsed;
                     CheckPanel.Visibility = Visibility.Visible;
 
                     SelectedRegion.Text = selectedRegion;
@@ -797,10 +810,10 @@ namespace CourseWork2
         }
         private void CallDoctor_Button_Click(object sender, RoutedEventArgs e)
         {
-            PersonAccountPanel.Visibility = Visibility.Hidden;
-            SignUpDoctorPanel.Visibility = Visibility.Hidden;
+            PersonAccountPanel.Visibility = Visibility.Collapsed;
+            SignUpDoctorPanel.Visibility = Visibility.Collapsed;
             CallDoctorPanel.Visibility = Visibility.Visible;
-            PatientChoicePanel.Visibility = Visibility.Hidden;
+            PatientChoicePanel.Visibility = Visibility.Collapsed;
         }
 
         private void MeCall_Button_Click(object sender, RoutedEventArgs e)
@@ -811,18 +824,18 @@ namespace CourseWork2
 
             }
 
-            PatientChoicePanel.Visibility = Visibility.Hidden;
+            PatientChoicePanel.Visibility = Visibility.Collapsed;
             MeCallPanel.Visibility = Visibility.Visible;
         }
 
         private void OtherCall_Button_Click(object sender, RoutedEventArgs e)
         {
-            PatientChoicePanel.Visibility = Visibility.Hidden;
+            PatientChoicePanel.Visibility = Visibility.Collapsed;
         }
 
         private void EditInfo_Button_Click(object sender, RoutedEventArgs e)
         {
-            CallDoctorPanel.Visibility = Visibility.Hidden;
+            CallDoctorPanel.Visibility = Visibility.Collapsed;
             PersonAccountPanel.Visibility= Visibility.Visible;
         }
     }
