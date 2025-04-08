@@ -53,7 +53,7 @@ namespace CourseWork2
             InitializeComponent();
             _userId = userId;
 
-       
+
             HidePersonAccountPanel();
             HideSignUpDoctorPanel();
             HideCallDoctorPanel();
@@ -364,7 +364,7 @@ namespace CourseWork2
             Step3Button.IsEnabled = true;
             Step4Button.IsEnabled = true;
             Step5Button.IsEnabled = false;
-;
+            ;
             SearchDoctor_TextBox.Text = null;
             Doctor_ListView.SelectedItem = null;
             DoctorTime_ListView.SelectedItem = null;
@@ -653,7 +653,7 @@ namespace CourseWork2
             }
         }
 
-       // Метод обновления текущей даты у врачей.
+        // Метод обновления текущей даты у врачей.
         private void UpdateDatesDisplay()
         {
             var culture = new CultureInfo("ru-RU");
@@ -929,7 +929,7 @@ namespace CourseWork2
             HideMainMenuPanel();
             HidePersonAccountPanel();
             HideSignUpDoctorPanel();
-            
+
 
         }
 
@@ -953,6 +953,7 @@ namespace CourseWork2
         private void OtherCall_Button_Click(object sender, RoutedEventArgs e)
         {
             PatientChoicePanel.Visibility = Visibility.Collapsed;
+            OtherCallPanel.Visibility = Visibility.Visible;
         }
 
         // Кнопка редактирования личной информации на панели MeCall
@@ -1008,7 +1009,7 @@ namespace CourseWork2
         // Кнопка возвращения к проверке полиса, телефона и адреса
         private void MeSymptomsBack_Button_Click(object sender, RoutedEventArgs e)
         {
-            MeSymptomsBack_Button.Visibility= Visibility.Collapsed;
+            MeSymptomsBack_Button.Visibility = Visibility.Collapsed;
             MeSymptomsPanel.Visibility = Visibility.Collapsed;
             MePolisPanel.Visibility = Visibility.Visible;
             MePolisBack_Button.Visibility = Visibility.Visible;
@@ -1058,7 +1059,7 @@ namespace CourseWork2
         {
             if (!char.IsDigit(e.Text, 0))
             {
-                e.Handled = true; 
+                e.Handled = true;
             }
         }
 
@@ -1138,7 +1139,7 @@ namespace CourseWork2
             TitlePersonAccount_TextBlock.Visibility = Visibility.Collapsed;
             PersonAccount_Grid.Visibility = Visibility.Collapsed;
             SafePersonButton.Visibility = Visibility.Collapsed;
-            
+
         }
 
         // Скрываем панель записи к врачу
@@ -1168,7 +1169,7 @@ namespace CourseWork2
             CallDoctorPanel.Visibility = Visibility.Collapsed;
 
             //Сбрасываем все вложенные панели и текста
-            TitleCallDoctor_TextBlock.Visibility= Visibility.Collapsed;
+            TitleCallDoctor_TextBlock.Visibility = Visibility.Collapsed;
             CallDoctor_Grid.Visibility = Visibility.Collapsed;
             PatientChoicePanel.Visibility = Visibility.Collapsed;
             MeCallPanel.Visibility = Visibility.Collapsed;
@@ -1181,6 +1182,46 @@ namespace CourseWork2
             MePolisBack_Button.Visibility = Visibility.Collapsed;
             MeSymptomsPanel.Visibility = Visibility.Collapsed;
             MeSymptomsBack_Button.Visibility = Visibility.Collapsed;
+        }
+
+        private void ConfirmOtcherButton_Click(object sender, RoutedEventArgs e)
+        {
+            string birthdate = OtherBirthDate_TextBox.Text.Trim();
+            string gender = OtherGenderComboBox.Text.Trim();
+            string number = OtherNumberPolis_TextBox.Text.Trim();
+            string phone = OtherNumberPhone_TextBox.Text.Trim();
+            string address = OtherAddress_TextBox.Text.Trim();
+
+            string name = OtherFullName_TextBox.Text.Trim();
+            string[] nameparts = name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            string middlename = nameparts.Length > 0 ? nameparts[0] : string.Empty;
+            string firstname = nameparts.Length > 1 ? nameparts[1] : string.Empty;
+            string lastname = nameparts.Length > 2 ? nameparts[2] : string.Empty;
+
+
+            var user = db.Users.FirstOrDefault(u => u.Id == _userId);
+
+            if (user != null)
+            {
+                // Создаём новую запись в таблице Calls
+                var newCall = new Call
+                {
+                    UserId = _userId,
+                    FirstName = firstname,
+                    LastName = lastname,
+                    MiddleName = middlename,
+                    Address = address,
+                    Phone = phone,
+                    //Symptoms = symptoms,
+                }
+            ;
+
+                // Добавляем запись в таблицу Calls
+                db.Calls.Add(newCall);
+                db.SaveChanges();
+
+                System.Windows.MessageBox.Show("Данные о вызове врача успешно сохранены!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

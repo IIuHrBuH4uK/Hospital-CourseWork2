@@ -427,7 +427,50 @@
                             </Grid>
                         </StackPanel>
 
-                        <StackPanel x:Name="OtherCallPanel" d:IsHidden="True"/>
+                        <StackPanel x:Name="OtherCallPanel" Margin="30 30 0 0" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Заполните данные пациента" Grid.Row="0" FontSize="30"></TextBlock>
+                                <TextBlock Text="Укажите фамилию, имя, отчество" Grid.Row="1" FontSize="20" Margin="0 30 0 0"></TextBlock>
+                                <TextBox x:Name="OtherFullName_TextBox" Text="" Grid.Row="3" FontSize="20" Margin="0 0 0 0" FontWeight="Bold" materialDesign:HintAssist.Hint="ФИО"></TextBox>
+                                <TextBlock Text="Укажите дату рождения" Grid.Row="4" FontSize="20" Margin="0 30 0 0"></TextBlock>
+                                <DatePicker x:Name="OtherBirthDate_TextBox" Grid.Row="5" FontSize="20" Margin="0 0 0 0" materialDesign:HintAssist.Hint="Дата рождения"/>
+                                <TextBlock Text="Выберите пол" Grid.Row="6" FontSize="20" Margin="0 30 0 0"></TextBlock>
+                                <StackPanel Grid.Row="7" Margin="0 0 0 0">
+                                    <ComboBox x:Name="OtherGenderComboBox" SelectedIndex="-1" FontSize="20" materialDesign:HintAssist.Hint="Пол">
+                                        <ComboBoxItem>Мужской</ComboBoxItem>
+                                        <ComboBoxItem>Женский</ComboBoxItem>
+                                        <ComboBoxItem>Другое</ComboBoxItem>
+                                    </ComboBox>
+                                </StackPanel>
+                                <TextBlock Text="Укажите полис ОМС" Grid.Row="8" FontSize="20" HorizontalAlignment="Left" Margin="0 30 0 0"></TextBlock>
+                                <Button x:Name="OtherPolisWebButton" Grid.Row="9" Content="Как получить полис?" Background="Transparent" BorderBrush="Transparent" Foreground="SkyBlue" FontSize="12" Click="PolisWebButton_Click" HorizontalAlignment="Left" Cursor="Hand"></Button>
+                                <TextBox x:Name="OtherNumberPolis_TextBox" Grid.Row="10" materialDesign:HintAssist.Hint="Единый номер полиса ОМС" Margin="0 0 0 0" Width="400" FontSize="20" MaxLength="16" PreviewTextInput="NumberPolis_TextBox_PreviewTextInput" PreviewKeyDown="NumberPolis_TextBox_PreviewKeyDown" HorizontalAlignment="Left"></TextBox>
+                                <TextBlock Text="Укажите ваш контактный номер телефона" Grid.Row="11" FontSize="20" Margin="0 30 0 0"></TextBlock>
+                                <TextBox x:Name="OtherNumberPhone_TextBox" Grid.Row="12" FontSize="20" Margin="0 0 0 0" materialDesign:HintAssist.Hint="Номер телефона"   PreviewTextInput="PhoneNumberTextBox_PreviewTextInput" PreviewKeyDown="NumberPhone_TextBox_PreviewKeyDown"></TextBox>
+                                <TextBlock Text="Укажите адрес проживание" Grid.Row="13" FontSize="20" Margin="0 30 0 0" ></TextBlock>
+                                <TextBox x:Name="OtherAddress_TextBox" Grid.Row="14" FontSize="20" Margin="0 0 0 0" materialDesign:HintAssist.Hint="Адрес"></TextBox>
+                                <Button Grid.Row="15" Content="Продолжить" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center" Margin="0 20 0 0" Click="ConfirmOtcherButton_Click"></Button>
+                            </Grid>
+                        </StackPanel>
 
                         <Button x:Name="MeCallBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="MeCallBack_Button_Click" Visibility="Collapsed" d:IsHidden="True">
                             <StackPanel Orientation="Horizontal">
@@ -443,7 +486,7 @@
                             </StackPanel>
                         </Button>
 
-                        <Button x:Name="MeSymptomsBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="MeSymptomsBack_Button_Click" Visibility="Collapsed">
+                        <Button x:Name="MeSymptomsBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="MeSymptomsBack_Button_Click" Visibility="Collapsed" d:IsHidden="True">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"></TextBlock>
                                 <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
@@ -476,7 +519,7 @@
                                 <Button x:Name="NumberPolisPhone_Button" Grid.Row="8" HorizontalAlignment="Center" Content="Продолжить" Margin="0 20 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="NumberPolisPhone_Button_Click"></Button>
                             </Grid>
                         </StackPanel>
-                        <StackPanel x:Name="MeSymptomsPanel"  Visibility="Visible" HorizontalAlignment="Center">
+                        <StackPanel x:Name="MeSymptomsPanel"  Visibility="Visible" HorizontalAlignment="Center" d:IsHidden="True">
                             <Grid Margin="140 100 0 0" Width="500">
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>
