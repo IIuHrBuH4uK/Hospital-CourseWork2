@@ -16,6 +16,7 @@ namespace CourseWork2
         public DbSet<Specialization> Specializations { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Call> Calls { get; set; }
 
         public AppContext() : base("DefaultConnection") { }
     }

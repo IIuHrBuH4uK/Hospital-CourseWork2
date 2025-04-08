@@ -21,9 +21,11 @@
     using System.Diagnostics.Eventing.Reader;
     using System.IO;
     using System.Windows.Markup;
-using Microsoft.Win32;
-using static System.Net.Mime.MediaTypeNames;
-using System.Xml.Linq;
+    using Microsoft.Win32;
+    using static System.Net.Mime.MediaTypeNames;
+    using System.Xml.Linq;
+    using System.Diagnostics;
+
 
 namespace CourseWork2
 {
@@ -42,6 +44,7 @@ namespace CourseWork2
 
 
         private Ticket _currentTicket;
+        private bool _safeTicket;
         private readonly int _userId;
         AppContext db;
 
@@ -50,9 +53,13 @@ namespace CourseWork2
             InitializeComponent();
             _userId = userId;
 
-            PersonAccountPanel.Visibility = Visibility.Collapsed;
-            SignUpDoctorPanel.Visibility = Visibility.Collapsed;
-            CallDoctorPanel.Visibility = Visibility.Collapsed;
+       
+            HidePersonAccountPanel();
+            HideSignUpDoctorPanel();
+            HideCallDoctorPanel();
+
+
+
 
             db = new AppContext();
             LoadUserData();
@@ -60,6 +67,7 @@ namespace CourseWork2
 
         }
 
+        // Метод загрузки областей
         private void LoadRegionData()
         {
             if (_allRegions == null)
@@ -70,6 +78,7 @@ namespace CourseWork2
             }
         }
 
+        // Метод загрузки больниц
         private void LoadHospitalData()
         {
             if (_allHospitals == null)
@@ -80,6 +89,7 @@ namespace CourseWork2
             }
         }
 
+        // Мето загрузки специальностей
         private void LoadSpecializationData()
         {
             if (_allSpecialization == null)
@@ -90,6 +100,7 @@ namespace CourseWork2
             }
         }
 
+        // Метод загрузки врачей
         private void LoadDoctorData()
         {
             if (_allDoctor == null)
@@ -101,7 +112,7 @@ namespace CourseWork2
             }
         }
 
-
+        //Метод загрузки данных из базы данных для конкретного пользователя
         private void LoadUserData()
         {
             var user = db.Users.FirstOrDefault(a => a.Id == _userId);
@@ -113,32 +124,32 @@ namespace CourseWork2
                 textBoxSnils.Text = user.SNILS;
                 textBoxLocation.Text = user.Address;
                 PersonBirthDay_DatePicker.Text = user.Birthday;
-                FullName_TextBox.Text = (user.MiddleName + " " + user.FirstName + " " + user.LastName);
-
-                if (!string.IsNullOrEmpty(user.Gender))
-                {
-                    GenderComboBox.SelectedItem = user.Gender;
-                }
-                else
-                {
-                    GenderComboBox.SelectedIndex = -1; // Сброс выбора, если пол не указан
-                }
+                GenderCombobox.SelectedItem = GenderCombobox.Items.Cast<ComboBoxItem>().FirstOrDefault(item => item.Content.ToString() == user.Gender);
             }
         }
 
+        // Кнопка выхода
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
+            DeletTicket();
             Close();
         }
 
+        // Кнопка "Личный кабинет"
         private void Person_Account_Button_Click(object sender, RoutedEventArgs e)
         {
-
-            MainMenuPanel.Visibility = Visibility.Collapsed;
             PersonAccountPanel.Visibility = Visibility.Visible;
-            SignUpDoctorPanel.Visibility = Visibility.Collapsed;
+            TitlePersonAccount_TextBlock.Visibility = Visibility.Visible;
+            PersonAccount_Grid.Visibility = Visibility.Visible;
+            SafePersonButton.Visibility = Visibility.Visible;
+            HideMainMenuPanel();
+            HideSignUpDoctorPanel();
+            HideCallDoctorPanel();
+            DeletTicket();
+
         }
 
+        // Кнопка "Сохранить" в личном кабинете
         private void SafePersonButton_Click(object sender, RoutedEventArgs e)
         {
             string surname = textBoxSurname.Text.Trim();
@@ -146,9 +157,10 @@ namespace CourseWork2
             string patronymic = textBoxPatronymic.Text.Trim();
             string snils = textBoxSnils.Text.Trim();
             string location = textBoxLocation.Text.Trim();
-            string gender = GenderComboBox.SelectedIndex.ToString();
             string birthday = PersonBirthDay_DatePicker.Text.Trim();
+            string gender = (GenderCombobox.SelectedItem as ComboBoxItem)?.Content?.ToString();
 
+            // Запись данных, введеных пользователем в базу данных
             var user = db.Users.FirstOrDefault(u => u.Id == _userId);
             if (user != null)
             {
@@ -161,22 +173,41 @@ namespace CourseWork2
                 user.Birthday = birthday;
 
                 db.SaveChanges();
-                MessageBox.Show("Данные успешно сохранены!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                System.Windows.MessageBox.Show("Данные успешно сохранены!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+
         }
 
+
+        // Кнопка "Записаться на приём к врачу"
         private void SignUpDoctorButton_Click(object sender, RoutedEventArgs e)
         {
+
             LoadRegionData();
-            SignUpDoctorPanel.Visibility = Visibility.Visible;
-            PersonAccountPanel.Visibility = Visibility.Collapsed;
-            MainMenuPanel.Visibility = Visibility.Collapsed;
-            RegionPanel.Visibility = Visibility.Visible;
             Region_ListView.ItemsSource = db.Regions.ToList();
+
+            HideMainMenuPanel();
+            HidePersonAccountPanel();
+            HideCallDoctorPanel();
+
+            ResetSignUpDoctor();
+
+            SignUpDoctorPanel.Visibility = Visibility.Visible;
+
+            TitleSignUpDoctor_TextBlock.Visibility = Visibility.Visible;
+            Steps.Visibility = Visibility.Visible;
+            Steps_Grid.Visibility = Visibility.Visible;
 
         }
 
+        // Кнопка "Шаг 1" в записи к врачу
         private void Step1Button_Click(object sender, RoutedEventArgs e)
+        {
+            ResetSignUpDoctor();
+        }
+
+        // Метод сброса всего выбранного пользователем, возвращение к 1 шагу и удаление талона, если он записался в панели записи приёма к врачу
+        private void ResetSignUpDoctor()
         {
             RegionPanel.Visibility = Visibility.Visible;
             HospPanel.Visibility = Visibility.Collapsed;
@@ -207,9 +238,21 @@ namespace CourseWork2
             Step4Button.IsEnabled = false;
             Step5Button.IsEnabled = false;
 
+            Search_TextBox.Text = null;
+            SearchHosp_TextBox.Text = null;
+            SearchSpec_TextBox.Text = null;
+            SearchDoctor_TextBox.Text = null;
+
+            Region_ListView.SelectedItem = null;
+            Hosp_ListView.SelectedItem = null;
+            Spec_ListView.SelectedItem = null;
+            Doctor_ListView.SelectedItem = null;
+            DoctorTime_ListView.SelectedItem = null;
+
             DeletTicket();
         }
 
+        // Кнопка "Шаг 2" в записи к врачу
         private void Step2Button_Click(object sender, RoutedEventArgs e)
         {
             RegionPanel.Visibility = Visibility.Collapsed;
@@ -240,9 +283,19 @@ namespace CourseWork2
             Step4Button.IsEnabled = false;
             Step5Button.IsEnabled = false;
 
+            SearchHosp_TextBox.Text = null;
+            SearchSpec_TextBox.Text = null;
+            SearchDoctor_TextBox.Text = null;
+
+            Hosp_ListView.SelectedItem = null;
+            Spec_ListView.SelectedItem = null;
+            Doctor_ListView.SelectedItem = null;
+            DoctorTime_ListView.SelectedItem = null;
+
             DeletTicket();
         }
 
+        // Кнопка "Шаг 3" в записи к врачу
         private void Step3Button_Click(object sender, RoutedEventArgs e)
         {
             RegionPanel.Visibility = Visibility.Collapsed;
@@ -272,9 +325,17 @@ namespace CourseWork2
             Step4Button.IsEnabled = false;
             Step5Button.IsEnabled = false;
 
+            SearchSpec_TextBox.Text = null;
+            SearchDoctor_TextBox.Text = null;
+
+            Spec_ListView.SelectedItem = null;
+            Doctor_ListView.SelectedItem = null;
+            DoctorTime_ListView.SelectedItem = null;
+
             DeletTicket();
         }
 
+        // Кнопка "Шаг 4" в записи к врачу
         private void Step4Button_Click(object sender, RoutedEventArgs e)
         {
             RegionPanel.Visibility = Visibility.Collapsed;
@@ -303,14 +364,21 @@ namespace CourseWork2
             Step3Button.IsEnabled = true;
             Step4Button.IsEnabled = true;
             Step5Button.IsEnabled = false;
+;
+            SearchDoctor_TextBox.Text = null;
+            Doctor_ListView.SelectedItem = null;
+            DoctorTime_ListView.SelectedItem = null;
 
             DeletTicket();
         }
 
+        // Кнопка "Шаг 5" в записи к врачу. Проверка информации, пока бничего не реализовал
         private void Step5Button_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
+        // Метод поиска области в строке поиска
         private void SearchRegion(object sender, TextChangedEventArgs e)
         {
             try
@@ -332,10 +400,11 @@ namespace CourseWork2
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}");
+                System.Windows.MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
 
+        // Метод выбора пользователем области
         private void Region_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Region_ListView.SelectedItem is Region selectedRegion)
@@ -347,8 +416,13 @@ namespace CourseWork2
                 Step2Button.Background = Brushes.SkyBlue;
                 Step2Button.Foreground = Brushes.White;
                 Step2Button.IsEnabled = true;
+
                 RegionPanel.Visibility = Visibility.Collapsed;
                 HospPanel.Visibility = Visibility.Visible;
+                SpecPanel.Visibility = Visibility.Collapsed;
+                DoctorPanel.Visibility = Visibility.Collapsed;
+                CheckPanel.Visibility = Visibility.Collapsed;
+
 
                 // Фильтруем больницы по выбранному региону
                 _filteredHospitals.Clear();
@@ -367,6 +441,7 @@ namespace CourseWork2
             }
         }
 
+        // Метод поиска больниц в строке поиска
         private void SearchHosp(object sender, TextChangedEventArgs e)
         {
             try
@@ -393,10 +468,11 @@ namespace CourseWork2
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}");
+                System.Windows.MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
 
+        // Метод выбора пользователем больницы
         private void Hosp_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Hosp_ListView.SelectedItem is Hospital selectedHospital)
@@ -407,8 +483,11 @@ namespace CourseWork2
                 Step2Button.Foreground = Brushes.SkyBlue;
                 Step3Button.Background = Brushes.SkyBlue;
                 Step3Button.Foreground = Brushes.White;
+                RegionPanel.Visibility = Visibility.Collapsed;
                 HospPanel.Visibility = Visibility.Collapsed;
                 SpecPanel.Visibility = Visibility.Visible;
+                DoctorPanel.Visibility = Visibility.Collapsed;
+                CheckPanel.Visibility = Visibility.Collapsed;
 
                 // Фильтруем специальности по выбранной больнице
                 _filteredSpecialization.Clear();
@@ -428,6 +507,7 @@ namespace CourseWork2
             }
         }
 
+        // метод поиска специальности в строке поиска
         private void SearchSpec(object sender, TextChangedEventArgs e)
         {
             {
@@ -450,12 +530,13 @@ namespace CourseWork2
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Ошибка: {ex.Message}");
+                    System.Windows.MessageBox.Show($"Ошибка: {ex.Message}");
                 }
 
             }
         }
 
+        // Метод выбора пользователем специальности врача 
         private void Spec_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Spec_ListView.SelectedItem is Specialization selectedSpec)
@@ -478,6 +559,7 @@ namespace CourseWork2
                 HospPanel.Visibility = Visibility.Collapsed;
                 SpecPanel.Visibility = Visibility.Collapsed;
                 DoctorPanel.Visibility = Visibility.Visible;
+                CheckPanel.Visibility = Visibility.Collapsed;
 
                 // фильтруем доктора по выбранной специальности
                 _filteredDoctor.Clear();
@@ -494,6 +576,7 @@ namespace CourseWork2
             }
         }
 
+        // Поиск врача в строке поиска
         private void SearchDoctor(object sender, TextChangedEventArgs e)
         {
             try
@@ -515,10 +598,11 @@ namespace CourseWork2
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}");
+                System.Windows.MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
 
+        // Выбор времени пользователем у врача
         private void TimeButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.Tag is Doctor selectedDoctor)
@@ -569,11 +653,11 @@ namespace CourseWork2
             }
         }
 
+       // Метод обновления текущей даты у врачей.
         private void UpdateDatesDisplay()
         {
             var culture = new CultureInfo("ru-RU");
 
-            // Используем _currentWeekStart вместо DateTime.Today
             var startDate = _currentWeekStart;
 
             // Обновляем 7 дней (начиная с _currentWeekStart)
@@ -616,8 +700,7 @@ namespace CourseWork2
         }
 
 
-        // Обработчик для кнопки "Следующая неделя"
-
+        // Метод кнопки "Следующая неделя"
         private void PrevWeek_Button_Click(object sender, RoutedEventArgs e)
         {
             _currentWeekStart = _currentWeekStart.AddDays(-7);
@@ -625,14 +708,17 @@ namespace CourseWork2
 
         }
 
+        // Метод кнопки "Предыдущая неделя"
         private void NextWeek_Button_Click(object sender, RoutedEventArgs e)
         {
             _currentWeekStart = _currentWeekStart.AddDays(7);
             UpdateDatesDisplay();
         }
 
+        //Метод сохранения данных для талончика и запись его в базу данных
         private void SafeInfo()
         {
+            _safeTicket = false;
             string region = SelectedRegion.Text.Trim();
             string hospital = SelectedHospital.Text.Trim();
             string specialization = SelectedSpecialization.Text.Trim();
@@ -648,6 +734,7 @@ namespace CourseWork2
 
         }
 
+        //Метод генерации талона из базы данных для печати. Помогла нейросеть.
         private void GenerateAndPrintTicket(string region, string hospital, string specialization,
                                   string doctor, string date, string numbertalon)
         {
@@ -684,29 +771,31 @@ namespace CourseWork2
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при печати: {ex.Message}", "Ошибка",
+                System.Windows.MessageBox.Show($"Ошибка при печати: {ex.Message}", "Ошибка",
                               MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
+        // Кнопка печати талончика
         private void PrintButton_Click(object sender, RoutedEventArgs e)
         {
             // Проверяем, есть ли данные для сохранения
             if (_currentTicket == null)
             {
-                MessageBox.Show("Нет данных для сохранения", "Ошибка",
+                System.Windows.MessageBox.Show("Нет данных для сохранения", "Ошибка",
                               MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             GenerateAndPrintTicket(_currentTicket.Region, _currentTicket.Hospital, _currentTicket.Specialization, _currentTicket.Doctor, _currentTicket.Date, _currentTicket.Numbertalon);
         }
 
+        // Кнопка сохранения талончика на компьютер
         private void SafeButton_Click(object sender, RoutedEventArgs e)
         {
             // Проверяем, есть ли данные для сохранения
             if (_currentTicket == null)
             {
-                MessageBox.Show("Нет данных для сохранения", "Ошибка",
+                System.Windows.MessageBox.Show("Нет данных для сохранения", "Ошибка",
                               MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -720,7 +809,6 @@ namespace CourseWork2
             {
                 try
                 {
-                    // Формируем содержимое файла
                     string fileContent = $"Талон на прием к врачу\n\n" +
                                        $"Регион: {_currentTicket.Region}\n" +
                                        $"Больница: {_currentTicket.Hospital}\n" +
@@ -731,21 +819,20 @@ namespace CourseWork2
                                        $"Номер талона: {_currentTicket.Numbertalon}" +
                                        $"\n\nСпасибо за использование нашей системы!";
 
-                    // Записываем в файл
                     File.WriteAllText(saveDialog.FileName, fileContent, Encoding.UTF8);
 
-                    MessageBox.Show($"Данные успешно сохранены в файл:\n{saveDialog.FileName}",
+                    System.Windows.MessageBox.Show($"Данные успешно сохранены в файл:\n{saveDialog.FileName}",
                                   "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Ошибка при сохранении файла: {ex.Message}",
+                    System.Windows.MessageBox.Show($"Ошибка при сохранении файла: {ex.Message}",
                                   "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
 
-        // Генерация номеров талончика
+        // Генерация номеров талончика. Помогла нейросеть
         private string GenerateNextTicketNumber()
         {
 
@@ -789,7 +876,7 @@ namespace CourseWork2
         //Удаление записи в базе данных текущего талона
         private void DeletTicket()
         {
-            if (_currentTicket == null) return;
+            if (_currentTicket == null || _safeTicket) return;
 
             try
             {
@@ -804,39 +891,296 @@ namespace CourseWork2
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при удалении записи: {ex.Message}",
+                System.Windows.MessageBox.Show($"Ошибка при удалении записи: {ex.Message}",
                               "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private void CallDoctor_Button_Click(object sender, RoutedEventArgs e)
+
+        private void SafeTicketButton_Click(object sender, RoutedEventArgs e)
         {
-            PersonAccountPanel.Visibility = Visibility.Collapsed;
-            SignUpDoctorPanel.Visibility = Visibility.Collapsed;
-            CallDoctorPanel.Visibility = Visibility.Visible;
-            PatientChoicePanel.Visibility = Visibility.Collapsed;
+            PrintButton.IsEnabled = true;
+            SafeButton.IsEnabled = true;
+            _safeTicket = true;
+            System.Windows.MessageBox.Show("Талон будет сохранен в базе данных. Можете его рапечатать или сохранить на компьютер", "Информация",
+                           MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        // Кнопка нажатия в левом меню на вызов врача
+        private void CallDoctor_Button_Click(object sender, RoutedEventArgs e)
+        {
+            CallDoctorPanel.Visibility = Visibility.Visible;
+            TitleCallDoctor_TextBlock.Visibility = Visibility.Visible;
+            CallDoctor_Grid.Visibility = Visibility.Visible;
+            PatientChoicePanel.Visibility = Visibility.Visible;
+            MeCall_Button.Visibility = Visibility.Visible;
+            OtherCall_Button.Visibility = Visibility.Visible;
+
+            MeCallPanel.Visibility = Visibility.Collapsed;
+            MeCallBack_Button.Visibility = Visibility.Collapsed;
+            OtherCallPanel.Visibility = Visibility.Collapsed;
+            // добавить элементы в OtherCallPanel
+
+            MePolisPanel.Visibility = Visibility.Collapsed;
+            MePolisBack_Button.Visibility = Visibility.Collapsed;
+            MeSymptomsPanel.Visibility = Visibility.Collapsed;
+            MeSymptomsBack_Button.Visibility = Visibility.Collapsed;
+
+
+            HideMainMenuPanel();
+            HidePersonAccountPanel();
+            HideSignUpDoctorPanel();
+            
+
+        }
+
+        // Кнопка нажатия "Мне" на панели выбора кому вызывать врача
         private void MeCall_Button_Click(object sender, RoutedEventArgs e)
         {
+            PatientChoicePanel.Visibility = Visibility.Collapsed;
+            MeCallPanel.Visibility = Visibility.Visible;
+            MeCallBack_Button.Visibility = Visibility.Visible;
+
             var user = db.Users.FirstOrDefault(a => a.Id == _userId);
             if (user != null)
             {
-
+                FullName_TextBox.Text = (user.MiddleName + " " + user.FirstName + " " + user.LastName);
+                BirthDate_TextBox.Text = (user.Birthday);
+                MeGenderComboBox.SelectedItem = MeGenderComboBox.Items.Cast<ComboBoxItem>().FirstOrDefault(item => item.Content.ToString() == user.Gender);
             }
-
-            PatientChoicePanel.Visibility = Visibility.Collapsed;
-            MeCallPanel.Visibility = Visibility.Visible;
         }
 
+        // Кнопка нажатия "Другому человеку" на панели выбора кому вызывать врача
         private void OtherCall_Button_Click(object sender, RoutedEventArgs e)
         {
             PatientChoicePanel.Visibility = Visibility.Collapsed;
         }
 
+        // Кнопка редактирования личной информации на панели MeCall
         private void EditInfo_Button_Click(object sender, RoutedEventArgs e)
         {
+            PersonAccountPanel.Visibility = Visibility.Visible;
+            TitlePersonAccount_TextBlock.Visibility = Visibility.Visible;
+            PersonAccount_Grid.Visibility = Visibility.Visible;
+            SafePersonButton.Visibility = Visibility.Visible;
+
+            HideMainMenuPanel();
+            HideSignUpDoctorPanel();
+            HideCallDoctorPanel();
+
+        }
+
+        // Кнопка подтверждения личной информации и переход на следующую панель с полисом
+        private void ConfirmMeButton_Click(object sender, RoutedEventArgs e)
+        {
+            MeCallBack_Button.Visibility = Visibility.Collapsed;
+            MeCallPanel.Visibility = Visibility.Collapsed;
+            MePolisPanel.Visibility = Visibility.Visible;
+            MePolisBack_Button.Visibility = Visibility.Visible;
+            NumberPolis_TextBox.Text = db.Users.FirstOrDefault(u => u.Id == _userId).Polis;
+            NumberPhone_TextBox.Text = db.Users.FirstOrDefault(_ => _.Id == _userId).Phone;
+            Address_TextBox.Text = db.Users.FirstOrDefault(u => u.Id == _userId).Address;
+
+        }
+
+        // Кнопка получения информации о полисе ОМС
+        private void PolisWebButton_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://www.gosuslugi.ru/help/faq/oms/4863");
+        }
+
+        // Кнопка возвращения к меню выбора кому вызвать врача
+        private void MeCallBack_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MeCallPanel.Visibility = Visibility.Collapsed;
+            MeCallBack_Button.Visibility = Visibility.Collapsed;
+            PatientChoicePanel.Visibility = Visibility.Visible;
+        }
+
+        // Кнопка возвращения к проверке информации
+        private void MePolisBack_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MePolisBack_Button.Visibility = Visibility.Collapsed;
+            MePolisPanel.Visibility = Visibility.Collapsed;
+            MeCallPanel.Visibility = Visibility.Visible;
+            MeCallBack_Button.Visibility = Visibility.Visible;
+        }
+
+        // Кнопка возвращения к проверке полиса, телефона и адреса
+        private void MeSymptomsBack_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MeSymptomsBack_Button.Visibility= Visibility.Collapsed;
+            MeSymptomsPanel.Visibility = Visibility.Collapsed;
+            MePolisPanel.Visibility = Visibility.Visible;
+            MePolisBack_Button.Visibility = Visibility.Visible;
+
+        }
+
+        // Кнопка проверки полиса ОМС
+        private void NumberPolisPhone_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            string phone = NumberPhone_TextBox.Text.Trim();
+            string polis = NumberPolis_TextBox.Text.Trim();
+
+            var user = db.Users.FirstOrDefault(u => u.Id == _userId);
+
+            if (NumberPolis_TextBox.Text.Length < 16)
+            {
+                NumberPolis_TextBox.Background = Brushes.LightSkyBlue;
+                NumberPolis_TextBox.ToolTip = "Введите номер из 16 символов";
+
+            }
+            else
+            {
+                NumberPolis_TextBox.Background = Brushes.Transparent;
+                NumberPolis_TextBox.ToolTip = null;
+
+
+                if (user != null)
+                {
+                    user.Polis = polis;
+                    user.Phone = phone;
+
+
+                    db.SaveChanges();
+                }
+            }
+
+            MePolisBack_Button.Visibility = Visibility.Collapsed;
+            MePolisPanel.Visibility = Visibility.Collapsed;
+            MeSymptomsPanel.Visibility = Visibility.Visible;
+            MeSymptomsBack_Button.Visibility = Visibility.Visible;
+        }
+
+
+        // Запрещаем ввод текста в текстбокс с номером полиса
+        private void NumberPolis_TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, 0))
+            {
+                e.Handled = true; 
+            }
+        }
+
+        // Запрещаем ввод пробела в текст бокс с номером полиса
+        private void NumberPolis_TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Блокируем пробел (Key.Space)
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
+        }
+
+        // Разрешаем только цифры, '+', '-', '(', ')', пробел в текст бокс с номером телефона
+        private void PhoneNumberTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            var allowedChars = new[] { '+', '-', '(', ')', ' ' };
+            if (!char.IsDigit(e.Text, 0) && !allowedChars.Contains(e.Text[0])) e.Handled = true;
+        }
+
+        // Запрещаем ввод пробела в текст бокс с номером телефона
+        private void NumberPhone_TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
+        }
+
+        // Кнопка сохранения симптомов и добавления их в базу данных
+        private void SafeSymptoms_Button_Click(object sender, RoutedEventArgs e)
+        {
+            string symptoms = MeSymtopms_TextBox.Text.Trim();
+            var user = db.Users.FirstOrDefault(u => u.Id == _userId);
+
+            if (user != null)
+            {
+                // Создаём новую запись в таблице Calls
+                var newCall = new Call
+                {
+                    UserId = _userId,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    MiddleName = user.MiddleName,
+                    Address = user.Address,
+                    Phone = user.Phone,
+                    Symptoms = symptoms,
+                };
+
+                // Добавляем запись в таблицу Calls
+                db.Calls.Add(newCall);
+                db.SaveChanges();
+
+                System.Windows.MessageBox.Show("Данные о вызове врача успешно сохранены!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+            MeSymptomsBack_Button.Visibility = Visibility.Collapsed;
+        }
+
+        // Оптимизация закрытия панелей
+        // Скрываем панель главного экрана с информацией
+        private void HideMainMenuPanel()
+        {
+            MainMenuPanel.Visibility = Visibility.Collapsed;
+
+            //Сбрасываем все вложенные текстбоксы
+            TitleMainMenu_TextBlock.Visibility = Visibility.Collapsed;
+            DescriptionMainMenu_TextBlock.Visibility = Visibility.Collapsed;
+        }
+
+        // Скрываем панель личного кабинета
+        private void HidePersonAccountPanel()
+        {
+            PersonAccountPanel.Visibility = Visibility.Collapsed;
+
+            // Сбрасываем все вложнные панели и текста
+            TitlePersonAccount_TextBlock.Visibility = Visibility.Collapsed;
+            PersonAccount_Grid.Visibility = Visibility.Collapsed;
+            SafePersonButton.Visibility = Visibility.Collapsed;
+            
+        }
+
+        // Скрываем панель записи к врачу
+        private void HideSignUpDoctorPanel()
+        {
+            SignUpDoctorPanel.Visibility = Visibility.Collapsed;
+
+            // Сбрасываем все вложенные панели
+            TitleSignUpDoctor_TextBlock.Visibility = Visibility.Collapsed;
+            Steps.Visibility = Visibility.Collapsed;
+            Steps_Grid.Visibility = Visibility.Collapsed;
+            RegionPanel.Visibility = Visibility.Collapsed;
+            HospPanel.Visibility = Visibility.Collapsed;
+            SpecPanel.Visibility = Visibility.Collapsed;
+            DoctorPanel.Visibility = Visibility.Collapsed;
+            CheckPanel.Visibility = Visibility.Collapsed;
+            CityTextBlock.Text = "";
+            HospitalTextBlock.Text = "";
+            SpecTextBlock.Text = "";
+            DoctorTextBlock.Text = "";
+            TimeTextBlock.Text = "";
+        }
+
+        //Скрываем панель вызова врача на дом
+        private void HideCallDoctorPanel()
+        {
             CallDoctorPanel.Visibility = Visibility.Collapsed;
-            PersonAccountPanel.Visibility= Visibility.Visible;
+
+            //Сбрасываем все вложенные панели и текста
+            TitleCallDoctor_TextBlock.Visibility= Visibility.Collapsed;
+            CallDoctor_Grid.Visibility = Visibility.Collapsed;
+            PatientChoicePanel.Visibility = Visibility.Collapsed;
+            MeCallPanel.Visibility = Visibility.Collapsed;
+            MeCallBack_Button.Visibility = Visibility.Collapsed;
+            MeCall_Button.Visibility = Visibility.Collapsed;
+            OtherCallPanel.Visibility = Visibility.Collapsed;
+            // добавить элементы в OtherCallPanel
+
+            MePolisPanel.Visibility = Visibility.Collapsed;
+            MePolisBack_Button.Visibility = Visibility.Collapsed;
+            MeSymptomsPanel.Visibility = Visibility.Collapsed;
+            MeSymptomsBack_Button.Visibility = Visibility.Collapsed;
         }
     }
 }

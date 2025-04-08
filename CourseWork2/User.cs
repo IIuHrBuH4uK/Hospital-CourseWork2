@@ -34,6 +34,9 @@ namespace CourseWork2
         public string Gender   { get; set; }
         public string Birthday { get; set; }
 
+        public string Polis { get; set; }
+        public string Phone { get; set; }
+
         public User() { }
 
         public User(string login, string email, string password)

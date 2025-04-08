@@ -15,10 +15,6 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch" Cursor="">
 
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="30" Color="LightGray" ShadowDepth="0" />
-            </Border.Effect>
-
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="25*"/>
@@ -37,7 +33,7 @@
                         <RowDefinition Height="20*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Image Source="/Assets/MainMenuBackground.jpg" Stretch="Fill" Grid.ColumnSpan="2"/>
-                    
+
                     <!-- Кнопка "Записаться на приём к врачу" -->
                     <Button Grid.Row="2" x:Name="SignUpDoctorButton" Click="SignUpDoctorButton_Click" Background="{x:Null}" BorderBrush="{x:Null}">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
@@ -53,6 +49,7 @@
                             <TextBlock Text="Личный кабинет" FontSize="14" Foreground="White" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
+                    <TextBlock Margin="0,0,-75,250" />
 
                     <!-- Кнопка "Вызов врача на дом" -->
                     <Button Grid.Row="3" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,10,0,10" x:Name="CallDoctor_Button" Click="CallDoctor_Button_Click">
@@ -88,15 +85,15 @@
                 </Grid>
 
                 <!-- Панель главного экрана -->
-                <StackPanel Grid.Column="1" x:Name="MainMenuPanel" Margin="10">
-                    <TextBlock Text="Регистратура онлайн" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
-                    <TextBlock Text="   Регистратура онлайн — это удобное место, где собрана вся информация о ваших медицинских записях. Здесь вы можете легко записаться на прием к врачу, выбрать удобное время визита, а при необходимости — оформить вызов врача на дом. Кроме того, у вас всегда под рукой история всех записей и обращений, чтобы вы могли следить за своим здоровьем. Мы стремимся сделать процесс медицинского обслуживания удобным и доступным. Используйте все возможности сервиса и будьте здоровы!" TextWrapping="Wrap" FontSize="20" Padding="20" Margin="10" HorizontalAlignment="Center" TextAlignment="Center"/>
+                <StackPanel Grid.Column="1" x:Name="MainMenuPanel" Margin="10" d:IsHidden="True">
+                    <TextBlock x:Name="TitleMainMenu_TextBlock" Text="Регистратура онлайн" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="DescriptionMainMenu_TextBlock" Text="Регистратура онлайн — это удобное место, где собрана вся информация о ваших медицинских записях. Здесь вы можете легко записаться на прием к врачу, выбрать удобное время визита, а при необходимости — оформить вызов врача на дом. Кроме того, у вас всегда под рукой история всех записей и обращений, чтобы вы могли следить за своим здоровьем. Мы стремимся сделать процесс медицинского обслуживания удобным и доступным. Используйте все возможности сервиса и будьте здоровы!" TextWrapping="Wrap" FontSize="20" Padding="20" Margin="10" HorizontalAlignment="Center" TextAlignment="Center"/>
                 </StackPanel>
 
                 <!-- Панель личного кабинета -->
-                <StackPanel Grid.Column="1" x:Name="PersonAccountPanel" Background="White" Margin="10" Visibility="Visible">
-                    <TextBlock Text="Личный кабинет" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
-                    <Grid VerticalAlignment="Stretch" Margin="0 10 0 0">
+                <StackPanel Grid.Column="1" x:Name="PersonAccountPanel" Background="White" Margin="10" Visibility="Visible" d:IsHidden="True">
+                    <TextBlock x:Name="TitlePersonAccount_TextBlock" Text="Личный кабинет" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <Grid x:Name="PersonAccount_Grid"  VerticalAlignment="Stretch" Margin="0 10 0 0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="10*" />
                             <RowDefinition Height="10*"/>
@@ -122,7 +119,7 @@
                         <TextBox Grid.Row="0" Grid.Column="1" x:Name="textBoxSurname" materialDesign:HintAssist.Hint="Фамилия" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
                         <TextBox Grid.Row="1" Grid.Column="1" x:Name="textBoxName" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
                         <TextBox Grid.Row="2" Grid.Column="1" x:Name="textBoxPatronymic" materialDesign:HintAssist.Hint="Отчество" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
-                        <ComboBox Grid.Row="3" Grid.Column="1" x:Name="GenderCombobox" VerticalAlignment="Stretch" materialDesign:HintAssist.Hint="Пол" Style="{StaticResource MaterialDesignFilledComboBox}" FontSize="16">
+                        <ComboBox Grid.Row="3" Grid.Column="1" x:Name="GenderCombobox" VerticalAlignment="Stretch" materialDesign:HintAssist.Hint="Пол" Style="{StaticResource MaterialDesignFilledComboBox}" FontSize="16" SelectedIndex="-1">
                             <ComboBoxItem>Мужской</ComboBoxItem>
                             <ComboBoxItem>Женский</ComboBoxItem>
                             <ComboBoxItem>Другое</ComboBoxItem>
@@ -135,9 +132,9 @@
                 </StackPanel>
 
                 <!-- Панель записи на приём -->
-                <StackPanel Grid.Column="1" x:Name="SignUpDoctorPanel" Background="White" Margin="10" Visibility="Collapsed">
-                    <TextBlock Text="Запись на приём к врачу" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"></TextBlock>
-                    <Grid x:Name="Steps" Margin="0 20 0 0">
+                <StackPanel Grid.Column="1" x:Name="SignUpDoctorPanel" Background="White" Margin="10" Visibility="Visible" d:IsHidden="True">
+                    <TextBlock x:Name="TitleSignUpDoctor_TextBlock" Text="Запись на приём к врачу" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"></TextBlock>
+                    <Grid x:Name="Steps" Margin="0 20 0 0" d:IsHidden="True">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
@@ -167,42 +164,45 @@
                         <TextBlock Text="" Grid.Column="4" Grid.Row="2" FontSize="12" Foreground="Gray"  x:Name="TimeTextBlock" TextWrapping="Wrap" HorizontalAlignment="Center"></TextBlock>
                     </Grid>
                     <!-- Шаг 1 -->
-                    <Grid>
-                    <StackPanel x:Name="RegionPanel" Visibility="Collapsed" Panel.ZIndex="1">
-                    <TextBox materialDesign:HintAssist.Hint="Поиск по названию" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="Search_TextBox" TextChanged="SearchRegion"></TextBox>
+                    <Grid x:Name="Steps_Grid">
+                        <StackPanel x:Name="RegionPanel" Visibility="Visible" Panel.ZIndex="1" d:IsHidden="True">
+                            <TextBox materialDesign:HintAssist.Hint="Поиск по названию" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="Search_TextBox" TextChanged="SearchRegion"></TextBox>
                             <ListView x:Name="Region_ListView" SelectionChanged="Region_ListView_SelectionChanged" Margin="0 10 0 0" Height="720" >
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <Label Content="{Binding Reg}"></Label>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                    </StackPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <VirtualizingStackPanel/>
+                                            <Label Content="{Binding Reg}"></Label>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
 
                         <!-- Шаг 2 -->
-                    <StackPanel x:Name="HospPanel" Visibility="Collapsed">
-                        <TextBox materialDesign:HintAssist.Hint="Поиск по названию или адресу" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="SearchHosp_TextBox" TextChanged="SearchHosp"></TextBox>
+                        <StackPanel x:Name="HospPanel" Visibility="Collapsed" d:IsHidden="True">
+                            <TextBox materialDesign:HintAssist.Hint="Поиск по названию или адресу" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="SearchHosp_TextBox" TextChanged="SearchHosp"></TextBox>
                             <ListView x:Name="Hosp_ListView" SelectionChanged="Hosp_ListView_SelectionChanged" Margin="0 10 0 0">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel >
-                                        <Label Content="{Binding Hosp}"></Label>
-                                        <Label Content="{Binding Address}" FontSize="10" Foreground="Gray"></Label>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </StackPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel >
+                                            <VirtualizingStackPanel/>
+                                            <Label Content="{Binding Hosp}"></Label>
+                                            <Label Content="{Binding Address}" FontSize="10" Foreground="Gray"></Label>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
 
                         <!-- Шаг 3 -->
-                        <StackPanel x:Name="SpecPanel" Visibility="Collapsed" Grid.Column="1">
+                        <StackPanel x:Name="SpecPanel" Visibility="Collapsed" Grid.Column="1" d:IsHidden="True">
                             <TextBox materialDesign:HintAssist.Hint="Поиск по специальности" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="SearchSpec_TextBox" TextChanged="SearchSpec"></TextBox>
                             <ListView x:Name="Spec_ListView" SelectionChanged="Spec_ListView_SelectionChanged" Margin="0 10 0 0">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel >
+                                            <VirtualizingStackPanel/>
                                             <Label Content="{Binding Spec}"></Label>
                                         </StackPanel>
                                     </DataTemplate>
@@ -211,7 +211,7 @@
                         </StackPanel>
 
                         <!-- Шаг 4 -->
-                        <StackPanel x:Name="DoctorPanel" Visibility="Collapsed" Grid.Column="1">
+                        <StackPanel x:Name="DoctorPanel" Visibility="Collapsed" Grid.Column="1" d:IsHidden="True">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40*"></ColumnDefinition>
@@ -264,21 +264,21 @@
                                         <TextBlock x:Name="Date6" Grid.Column="6" Grid.Row="1" Text="" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" Foreground="Gray"/>
                                     </Grid>
                                 </StackPanel>
-                                
+
                                 <StackPanel Grid.Row="2" Grid.Column="0">
                                     <ListView x:Name="Doctor_ListView" Margin="0 10 0 0">
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
-                                                    <Grid>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition></RowDefinition>
-                                                            <RowDefinition></RowDefinition>
-                                                            <RowDefinition></RowDefinition>
-                                                        </Grid.RowDefinitions>
-                                                        <Label Content="{Binding Name}" Grid.Column="0" Grid.Row="0"></Label>
-                                                        <Label Content="{Binding Age}" Grid.Column="0" Grid.Row="1"></Label>
-                                                        <Label Content="{Binding Exp}" Grid.Column="0" Grid.Row="2"></Label>
-                                                    </Grid>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                    </Grid.RowDefinitions>
+                                                    <Label Content="{Binding Name}" Grid.Column="0" Grid.Row="0"></Label>
+                                                    <Label Content="{Binding Age}" Grid.Column="0" Grid.Row="1"></Label>
+                                                    <Label Content="{Binding Exp}" Grid.Column="0" Grid.Row="2"></Label>
+                                                </Grid>
                                             </DataTemplate>
                                         </ListView.ItemTemplate>
                                     </ListView>
@@ -307,6 +307,7 @@
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="90"></RowDefinition>
                                                     </Grid.RowDefinitions>
+                                                    <VirtualizingStackPanel/>
                                                     <Button Tag="{Binding}" CommandParameter="0" IsEnabled="True" Content="{Binding Time}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="12" Margin="5" BorderBrush="SkyBlue" Foreground="White" Background="SkyBlue" Click="TimeButton_Click" />
                                                     <Button Tag="{Binding}" CommandParameter="1" IsEnabled="True" Content="{Binding Time}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="12" Margin="5" BorderBrush="SkyBlue" Foreground="White" Background="SkyBlue" Click="TimeButton_Click" />
                                                     <Button Tag="{Binding}" CommandParameter="2" IsEnabled="True" Content="{Binding Time}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="12" Margin="5" BorderBrush="SkyBlue" Foreground="White" Background="SkyBlue" Click="TimeButton_Click" />
@@ -324,7 +325,7 @@
                         </StackPanel>
 
                         <!-- Шаг 5 -->
-                        <StackPanel x:Name="CheckPanel" Visibility="Collapsed" Grid.Column="1" Margin="0 10 0 0" Cursor="">
+                        <StackPanel x:Name="CheckPanel" Visibility="Visible" Grid.Column="1" Margin="0 10 0 0" Cursor="">
                             <Grid VerticalAlignment="Center">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="30*"></ColumnDefinition>
@@ -354,61 +355,63 @@
                                     <ColumnDefinition></ColumnDefinition>
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Button x:Name="PrintButton" Grid.Column="0" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Распечатать талон" Click="PrintButton_Click"></Button>
-                                <Button x:Name="SafeButton" Grid.Column="2" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Сохранить талон" Click="SafeButton_Click"></Button>
+                                <Button x:Name="PrintButton" Grid.Column="0" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Распечатать талон" Click="PrintButton_Click" IsEnabled="False"></Button>
+                                <Button x:Name="SafeTicketButton" Grid.Column="1" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Записаться" Click="SafeTicketButton_Click"></Button>
+                                <Button x:Name="SafeButton" Grid.Column="2" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Сохранить талон" Click="SafeButton_Click" IsEnabled="False"></Button>
                             </Grid>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
-                
+
                 <!-- Панель вызова врача на дом -->
-                <StackPanel Grid.Column="1" x:Name="CallDoctorPanel" Background="White" Margin="10" Visibility="Collapsed">
-                    <TextBlock Text="Вызов врача на дом" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"></TextBlock>
-                    
-                    <Grid Cursor="">
-                    <StackPanel x:Name="PatientChoicePanel" Visibility="Collapsed" Margin="30 160 0 0">
-                    <Grid x:Name="Patient">
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="Кому нужен врач?" Grid.Row="0" FontSize="30" Margin="200 0 0 20" ></TextBlock>
-                        
-                        <Button x:Name="MeCall_Button" Grid.Row="1" HorizontalAlignment="Center" Width="500" Height="50" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Margin="0 10 0 10" Click="MeCall_Button_Click">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Мне" VerticalAlignment="Center" FontSize="17"></TextBlock>
-                                <materialDesign:PackIcon Kind="ChevronRight" VerticalAlignment="Center" Margin="420,0,0,0"/>
-                            </StackPanel>
-                        </Button>
+                <StackPanel Grid.Column="1" x:Name="CallDoctorPanel" Background="White" Margin="10" Visibility="Visible">
+                    <TextBlock x:Name="TitleCallDoctor_TextBlock" Text="Вызов врача на дом" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
 
-                        <Button x:Name="OtherCall_Button" Grid.Row="2" HorizontalAlignment="Center" Width="500" Height="50" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Margin="0 10 0 10" Click="OtherCall_Button_Click">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Другому человеку" VerticalAlignment="Center" FontSize="17"></TextBlock>
-                                <materialDesign:PackIcon Kind="ChevronRight" VerticalAlignment="Center" Margin="307,0,0,0"/>
-                            </StackPanel>
-                        </Button>
-                    </Grid>
-                    </StackPanel>
+                    <Grid x:Name="CallDoctor_Grid">
+                        <StackPanel x:Name="PatientChoicePanel" Visibility="Visible" Margin="30 160 0 0" d:IsHidden="True">
+                            <Grid x:Name="Patient">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Кому нужен врач?" Grid.Row="0" FontSize="30" Margin="200 0 0 20" ></TextBlock>
 
-                        <StackPanel x:Name="MeCallPanel" Margin="30 100 0 0" Visibility="Visible">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                            </Grid.RowDefinitions>
+                                <Button x:Name="MeCall_Button" Grid.Row="1" HorizontalAlignment="Center" Width="500" Height="50" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Margin="0 10 0 10" Click="MeCall_Button_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Мне" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                                        <materialDesign:PackIcon Kind="ChevronRight" VerticalAlignment="Center" Margin="420,0,0,0"/>
+                                    </StackPanel>
+                                </Button>
+
+                                <Button x:Name="OtherCall_Button" Grid.Row="2" HorizontalAlignment="Center" Width="500" Height="50" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Margin="0 10 0 10" Click="OtherCall_Button_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Другому человеку" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                                        <materialDesign:PackIcon Kind="ChevronRight" VerticalAlignment="Center" Margin="307,0,0,0"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel x:Name="MeCallPanel" Margin="30 100 0 0" Visibility="Visible" HorizontalAlignment="Center" d:IsHidden="True">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
                                 <TextBlock Text="Проверьте корректность ваших данных" Grid.Row="0" FontSize="30"></TextBlock>
                                 <TextBox x:Name="FullName_TextBox" Text="ФАМИЛИЯ ИМЯ ОТЧЕСТВО" Grid.Row="1" FontSize="20" Focusable="False" Margin="30 30 0 0" FontWeight="Bold" ></TextBox>
                                 <TextBlock Text="Дата рождения" Grid.Row="2" FontSize="16" Margin="30 30 0 0"></TextBlock>
                                 <TextBox x:Name="BirthDate_TextBox" Text="11.11.1111" Grid.Row="3" FontSize="20" Focusable="False" Margin="30 0 0 0"></TextBox>
                                 <TextBlock Text="Пол" Grid.Row="4" FontSize="16" Margin="30 30 0 0"></TextBlock>
                                 <StackPanel Grid.Row="5" Margin="30 0 0 0">
-                                    <ComboBox x:Name="GenderComboBox" SelectedIndex="0" IsReadOnly="True" IsHitTestVisible="False" FontSize="20">
+                                    <ComboBox x:Name="MeGenderComboBox" SelectedIndex="0" IsReadOnly="True" IsHitTestVisible="False" FontSize="20">
                                         <ComboBoxItem>Мужской</ComboBoxItem>
                                         <ComboBoxItem>Женский</ComboBoxItem>
                                         <ComboBoxItem>Другое</ComboBoxItem>
@@ -420,12 +423,73 @@
                                         <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center" Margin="-30 -20 0 0" HorizontalAlignment="Left" Cursor=""/>
                                     </StackPanel>
                                 </Button>
+                                <Button Grid.Row="7" Content="Верно" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center" Margin="0 20 0 0" Click="ConfirmMeButton_Click"></Button>
                             </Grid>
-                    </StackPanel>
+                        </StackPanel>
 
-                    <StackPanel x:Name="OtherCallPanel">
-                        
-                    </StackPanel>
+                        <StackPanel x:Name="OtherCallPanel" d:IsHidden="True"/>
+
+                        <Button x:Name="MeCallBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="MeCallBack_Button_Click" Visibility="Collapsed" d:IsHidden="True">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                                <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="MePolisBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="MePolisBack_Button_Click" Visibility="Collapsed" d:IsHidden="True">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                                <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="MeSymptomsBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="MeSymptomsBack_Button_Click" Visibility="Collapsed">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                                <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
+                            </StackPanel>
+                        </Button>
+
+
+                        <StackPanel x:Name="MePolisPanel" Margin="30 100 0 0"  Visibility="Visible" HorizontalAlignment="Center" d:IsHidden="True" >
+
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Укажите полис ОМС" Grid.Row="0" FontSize="20" HorizontalAlignment="Left" Margin="10 0 0 0"></TextBlock>
+                                <Button x:Name="PolisWebButton" Grid.Row="1" Content="Как получить полис?" Background="Transparent" BorderBrush="Transparent" Foreground="SkyBlue" FontSize="12" Click="PolisWebButton_Click" HorizontalAlignment="Left"/>
+                                <TextBox x:Name="NumberPolis_TextBox" Grid.Row="3" materialDesign:HintAssist.Hint="Единый номер полиса ОМС" Margin="10 0 0 0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="400" FontSize="16" MaxLength="16" PreviewTextInput="NumberPolis_TextBox_PreviewTextInput" PreviewKeyDown="NumberPolis_TextBox_PreviewKeyDown" HorizontalAlignment="Left"></TextBox>
+                                <TextBlock Text="Укажите ваш контактный номер телефона" Grid.Row="4" FontSize="20" Margin="10 30 0 0"></TextBlock>
+                                <TextBox x:Name="NumberPhone_TextBox" Grid.Row="5" FontSize="16" Margin="10 0 0 0" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}"  PreviewTextInput="PhoneNumberTextBox_PreviewTextInput" PreviewKeyDown="NumberPhone_TextBox_PreviewKeyDown"></TextBox>
+                                <TextBlock Text="Укажите адрес проживание" Grid.Row="6" FontSize="20" Margin="10 30 0 0" ></TextBlock>
+                                <TextBox x:Name="Address_TextBox" Grid.Row="7" FontSize="16" Margin="10 0 0 0" materialDesign:HintAssist.Hint="Адрес" Style="{StaticResource MaterialDesignFloatingHintTextBox}"></TextBox>
+                                <Button x:Name="NumberPolisPhone_Button" Grid.Row="8" HorizontalAlignment="Center" Content="Продолжить" Margin="0 20 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="NumberPolisPhone_Button_Click"></Button>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel x:Name="MeSymptomsPanel"  Visibility="Visible" HorizontalAlignment="Center">
+                            <Grid Margin="140 100 0 0" Width="500">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Укажите ваши симптомы" Grid.Row="0" FontSize="20" HorizontalAlignment="Left"></TextBlock>
+                                <TextBlock Text="Подробная информация поможет медицинскому работнику понять, насколько срочно вам нужна помощь." Grid.Row="1" FontSize="16" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="0 30 0 0"></TextBlock>
+                                <TextBox x:Name="MeSymtopms_TextBox" Grid.Row="2" TextWrapping="Wrap" Margin="0 10 0 0" MaxLength="200" FontSize="20" materialDesign:HintAssist.Hint="Опишите, что вас беспокоит."  materialDesign:HintAssist.HintHorizontalAlignment="Left"  Style="{StaticResource MaterialDesignFilledTextBox}"/>
+                                <Button x:Name="SafeSymptoms_Button" Grid.Row="3" HorizontalAlignment="Center" Content="Вызвать" Margin="0 20 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="SafeSymptoms_Button_Click"></Button>
+                            </Grid>
+                        </StackPanel>
 
                     </Grid>
                 </StackPanel>
