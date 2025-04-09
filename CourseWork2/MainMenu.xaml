@@ -393,7 +393,7 @@
                             </Grid>
                         </StackPanel>
 
-                        <StackPanel x:Name="MeCallPanel" Margin="30 100 0 0" Visibility="Visible" HorizontalAlignment="Center" d:IsHidden="True">
+                        <StackPanel x:Name="MeCallPanel" Margin="30 100 0 0" Visibility="Visible" HorizontalAlignment="Center">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>
@@ -443,7 +443,7 @@
                             </StackPanel>
                         </Button>
 
-                        <Button x:Name="MeSymptomsBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="MeSymptomsBack_Button_Click" Visibility="Collapsed">
+                        <Button x:Name="MeSymptomsBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="MeSymptomsBack_Button_Click" Visibility="Collapsed" d:IsHidden="True">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"></TextBlock>
                                 <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
@@ -476,7 +476,7 @@
                                 <Button x:Name="NumberPolisPhone_Button" Grid.Row="8" HorizontalAlignment="Center" Content="Продолжить" Margin="0 20 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="NumberPolisPhone_Button_Click"></Button>
                             </Grid>
                         </StackPanel>
-                        <StackPanel x:Name="MeSymptomsPanel"  Visibility="Visible" HorizontalAlignment="Center">
+                        <StackPanel x:Name="MeSymptomsPanel"  Visibility="Visible" HorizontalAlignment="Center" d:IsHidden="True">
                             <Grid Margin="140 100 0 0" Width="500">
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>
