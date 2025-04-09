@@ -914,10 +914,13 @@ namespace CourseWork2
             PatientChoicePanel.Visibility = Visibility.Visible;
             MeCall_Button.Visibility = Visibility.Visible;
             OtherCall_Button.Visibility = Visibility.Visible;
+            
 
             MeCallPanel.Visibility = Visibility.Collapsed;
             MeCallBack_Button.Visibility = Visibility.Collapsed;
             OtherCallPanel.Visibility = Visibility.Collapsed;
+            OtherSymptomsPanel.Visibility = Visibility.Collapsed;
+            OtherSymptomsBack_Button.Visibility = Visibility.Collapsed;
             // добавить элементы в OtherCallPanel
 
             MePolisPanel.Visibility = Visibility.Collapsed;
@@ -954,6 +957,8 @@ namespace CourseWork2
         {
             PatientChoicePanel.Visibility = Visibility.Collapsed;
             OtherCallPanel.Visibility = Visibility.Visible;
+            OtherCall_Button.Visibility = Visibility.Visible;
+            OtherCallBack_Button.Visibility = Visibility.Visible;
         }
 
         // Кнопка редактирования личной информации на панели MeCall
@@ -1182,15 +1187,43 @@ namespace CourseWork2
             MePolisBack_Button.Visibility = Visibility.Collapsed;
             MeSymptomsPanel.Visibility = Visibility.Collapsed;
             MeSymptomsBack_Button.Visibility = Visibility.Collapsed;
+            OtherSymptomsPanel.Visibility = Visibility.Collapsed;
+            OtherCall_Button.Visibility = Visibility.Collapsed;
+            OtherCallBack_Button.Visibility = Visibility.Collapsed;
+            OtherSymptomsBack_Button.Visibility = Visibility.Collapsed;
+
+            MeSymtopms_TextBox.Text = null;
+            FullName_TextBox.Text = null;
+            BirthDate_TextBox.Text = null;
+            MeGenderComboBox.SelectedIndex = -1;
+            NumberPhone_TextBox.Text = null;
+            NumberPolis_TextBox.Text = null;
+            Address_TextBox.Text = null;
+            OtherFullName_TextBox.Text = null;
+            OtherBirthDate_TextBox.Text = null;
+            OtherGenderComboBox.SelectedIndex = -1;
+            OtherNumberPolis_TextBox.Text = null;
+            OtherNumberPhone_TextBox.Text = null;
+            OtherAddress_TextBox.Text = null;
+            OtherSymtopms_TextBox.Text = null;
         }
 
         private void ConfirmOtcherButton_Click(object sender, RoutedEventArgs e)
         {
+            OtherCallBack_Button.Visibility = Visibility.Collapsed;
+            OtherCallPanel.Visibility = Visibility.Collapsed;
+            OtherSymptomsPanel.Visibility = Visibility.Visible;
+            OtherSymptomsBack_Button.Visibility = Visibility.Visible;
+        }
+        private void OtherSafeSymptoms_Button_Click(object sender, RoutedEventArgs e)
+        {
+
             string birthdate = OtherBirthDate_TextBox.Text.Trim();
             string gender = OtherGenderComboBox.Text.Trim();
             string number = OtherNumberPolis_TextBox.Text.Trim();
             string phone = OtherNumberPhone_TextBox.Text.Trim();
             string address = OtherAddress_TextBox.Text.Trim();
+            string symptoms = OtherSymtopms_TextBox.Text;
 
             string name = OtherFullName_TextBox.Text.Trim();
             string[] nameparts = name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -1212,16 +1245,44 @@ namespace CourseWork2
                     MiddleName = middlename,
                     Address = address,
                     Phone = phone,
-                    //Symptoms = symptoms,
+                    Birthdate = birthdate,
+                    Gender = gender,
+                    Symptoms = symptoms,
                 }
             ;
 
                 // Добавляем запись в таблицу Calls
                 db.Calls.Add(newCall);
                 db.SaveChanges();
-
                 System.Windows.MessageBox.Show("Данные о вызове врача успешно сохранены!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+
             }
         }
+
+        private void OtherCallBack_Button_Click(object sender, RoutedEventArgs e)
+        {
+            OtherCallPanel.Visibility = Visibility.Collapsed;
+            OtherCallBack_Button.Visibility = Visibility.Collapsed;
+            PatientChoicePanel.Visibility = Visibility.Visible;
+        }
+
+        private void OtherSymptomsBack_Button_Click(object sender, RoutedEventArgs e)
+        {
+            OtherSymptomsPanel.Visibility = Visibility.Collapsed;
+            OtherSymptomsBack_Button.Visibility = Visibility.Collapsed;
+            OtherCallPanel.Visibility = Visibility.Visible;
+            OtherCallBack_Button.Visibility = Visibility.Visible;
+        }
+
+        private void TicketsAndCallButton_Click(object sender, RoutedEventArgs e)
+        {
+            HideMainMenuPanel();
+            HidePersonAccountPanel();
+            HideSignUpDoctorPanel();
+            HideCallDoctorPanel();
+
+        }
+
+        
     }
 }

@@ -23,10 +23,12 @@ namespace CourseWork2
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Symptoms { get; set; }
+        public string Birthdate { get; set; }
+        public string Gender { get; set; }
 
         public Call() { }
 
-        public Call(int userid, string firstname, string lastname, string middlename, string address, string phone, string symptoms)
+        public Call(int userid, string firstname, string lastname, string middlename, string address, string phone, string symptoms, string birthdate, string gender)
         {
             UserId = userid;
             FirstName = firstname;
@@ -35,6 +37,8 @@ namespace CourseWork2
             Address = address;
             Phone = phone;
             Symptoms = symptoms;
+            Birthdate = birthdate;
+            Gender = gender;
         }
     }
 }

@@ -368,7 +368,7 @@
                     <TextBlock x:Name="TitleCallDoctor_TextBlock" Text="Вызов врача на дом" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
 
                     <Grid x:Name="CallDoctor_Grid">
-                        <StackPanel x:Name="PatientChoicePanel" Visibility="Visible" Margin="30 160 0 0" d:IsHidden="True">
+                        <StackPanel x:Name="PatientChoicePanel" Visibility="Visible" Margin="30 160 0 0">
                             <Grid x:Name="Patient">
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>
@@ -393,7 +393,7 @@
                             </Grid>
                         </StackPanel>
 
-                        <StackPanel x:Name="MeCallPanel" Margin="30 100 0 0" Visibility="Visible" HorizontalAlignment="Center">
+                        <StackPanel x:Name="MeCallPanel" Margin="30 100 0 0" Visibility="Visible" HorizontalAlignment="Center" d:IsHidden="True">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>
@@ -427,7 +427,7 @@
                             </Grid>
                         </StackPanel>
 
-                        <StackPanel x:Name="OtherCallPanel" Margin="30 30 0 0" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <StackPanel x:Name="OtherCallPanel" Margin="30 30 0 0" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" d:IsHidden="True">
 
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -472,6 +472,21 @@
                             </Grid>
                         </StackPanel>
 
+                        <StackPanel x:Name="OtherSymptomsPanel"  Visibility="Visible" HorizontalAlignment="Center" d:IsHidden="True">
+                            <Grid Margin="140 100 0 0" Width="500">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Укажите ваши симптомы" Grid.Row="0" FontSize="20" HorizontalAlignment="Left"></TextBlock>
+                                <TextBlock Text="Подробная информация поможет медицинскому работнику понять, насколько срочно вам нужна помощь." Grid.Row="1" FontSize="16" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="0 30 0 0"></TextBlock>
+                                <TextBox x:Name="OtherSymtopms_TextBox" Grid.Row="2" TextWrapping="Wrap" Margin="0 10 0 0" MaxLength="200" FontSize="20" materialDesign:HintAssist.Hint="Опишите, что вас беспокоит."  materialDesign:HintAssist.HintHorizontalAlignment="Left"  Style="{StaticResource MaterialDesignFilledTextBox}"/>
+                                <Button x:Name="OtherSafeSymptoms_Button" Grid.Row="3" HorizontalAlignment="Center" Content="Вызвать" Margin="0 20 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="OtherSafeSymptoms_Button_Click"></Button>
+                            </Grid>
+                        </StackPanel>
+
                         <Button x:Name="MeCallBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="MeCallBack_Button_Click" Visibility="Collapsed" d:IsHidden="True">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"></TextBlock>
@@ -487,6 +502,20 @@
                         </Button>
 
                         <Button x:Name="MeSymptomsBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="MeSymptomsBack_Button_Click" Visibility="Collapsed" d:IsHidden="True">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                                <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="OtherCallBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="OtherCallBack_Button_Click" Visibility="Collapsed" d:IsHidden="True">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                                <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="OtherSymptomsBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="OtherSymptomsBack_Button_Click" Visibility="Collapsed" d:IsHidden="True">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"></TextBlock>
                                 <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
@@ -519,6 +548,7 @@
                                 <Button x:Name="NumberPolisPhone_Button" Grid.Row="8" HorizontalAlignment="Center" Content="Продолжить" Margin="0 20 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="NumberPolisPhone_Button_Click"></Button>
                             </Grid>
                         </StackPanel>
+                        
                         <StackPanel x:Name="MeSymptomsPanel"  Visibility="Visible" HorizontalAlignment="Center" d:IsHidden="True">
                             <Grid Margin="140 100 0 0" Width="500">
                                 <Grid.RowDefinitions>
