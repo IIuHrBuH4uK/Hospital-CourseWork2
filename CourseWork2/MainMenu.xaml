@@ -60,7 +60,7 @@
                     </Button>
 
                     <!-- Кнопка "Записи и обращения" -->
-                    <Button Grid.Row="4" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,10,0,10">
+                    <Button Grid.Row="4" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,10,0,10" x:Name="RecordsAndAppeals_Button" Click="RecordsAndAppeals_Button_Click">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <materialDesign:PackIcon Kind="RefreshCircle" Foreground="White" Height="30" Width="30" Margin="0,-2,10,-5"/>
                             <TextBlock Text="Записи и обращения" FontSize="14" Foreground="White" VerticalAlignment="Center"/>
@@ -364,11 +364,11 @@
                 </StackPanel>
 
                 <!-- Панель вызова врача на дом -->
-                <StackPanel Grid.Column="1" x:Name="CallDoctorPanel" Background="White" Margin="10" Visibility="Visible">
+                <StackPanel Grid.Column="1" x:Name="CallDoctorPanel" Background="White" Margin="10" Visibility="Visible" d:IsHidden="True">
                     <TextBlock x:Name="TitleCallDoctor_TextBlock" Text="Вызов врача на дом" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
 
                     <Grid x:Name="CallDoctor_Grid">
-                        <StackPanel x:Name="PatientChoicePanel" Visibility="Visible" Margin="30 160 0 0">
+                        <StackPanel x:Name="PatientChoicePanel" Visibility="Visible" Margin="30 160 0 0" d:IsHidden="True">
                             <Grid x:Name="Patient">
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>
@@ -563,9 +563,51 @@
                                 <Button x:Name="SafeSymptoms_Button" Grid.Row="3" HorizontalAlignment="Center" Content="Вызвать" Margin="0 20 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="SafeSymptoms_Button_Click"></Button>
                             </Grid>
                         </StackPanel>
-
                     </Grid>
                 </StackPanel>
+
+                    <StackPanel Grid.Column="1" x:Name="RecordsAndAppealsPanel" Background="White" Margin="10" Visibility="Visible">
+                        <TextBlock x:Name="RecordsAndAppeals_TextBlock" Text="Записи и обращения" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <Grid x:Name="RecordsAndAppeals_Grid" Margin="0 20 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button x:Name="TicketButton" HorizontalAlignment="Left" Content="Талоны" Background="SkyBlue" Foreground="White" BorderBrush="SkyBlue" Margin="60 0 0 0" Click="TicketButton_Click"></Button>
+                        <Button x:Name="CallButton" HorizontalAlignment="Right" Content="Вызовы" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Margin="0 0 60 0 " Click="CallButton_Click"></Button>
+                            
+                        <ListView x:Name="Tickets_ListView" Margin="0 10 0 0" Height="720" Grid.Row="1">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Label Content="{Binding RegionDisplay}"></Label>
+                                        <Label Content="{Binding HospitalDisplay}"></Label>
+                                        <Label Content="{Binding SpecializationDisplay}"></Label>
+                                        <Label Content="{Binding DoctorDisplay}"></Label>
+                                        <Label Content="{Binding DateDisplay}"></Label>
+                                        <Label Content="{Binding NumbertalonDisplay}"></Label>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                        <ListView x:Name="Calls_ListView" Margin="0 10 0 0" Height="720" Grid.Row="1">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel >
+                                        <Label Content="{Binding FullNameDisplay}"></Label>
+                                        <Label Content="{Binding BirtchdateDisplay}"></Label>
+                                        <Label Content="{Binding GenderDisplay}"></Label>
+                                        <Label Content="{Binding PhoneDisplay}"></Label>
+                                        <Label Content="{Binding AddressDisplay}"></Label>
+                                        <Label Content="{Binding SymptomsDisplay}"></Label>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                    </Grid>
+                    </StackPanel>
             </Grid>
         </Border>
     </Grid>

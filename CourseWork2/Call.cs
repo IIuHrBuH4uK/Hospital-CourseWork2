@@ -26,6 +26,13 @@ namespace CourseWork2
         public string Birthdate { get; set; }
         public string Gender { get; set; }
 
+        public string FullNameDisplay => $"ФИО: {FirstName + " " +  MiddleName + " " + LastName}";
+        public string AddressDisplay => $"Адрес: {Address}";
+        public string PhoneDisplay => $"Телефон: {Phone}";
+        public string SymptomsDisplay => $"Симптомы: {Symptoms}";
+        public string BirtchdateDisplay => $"День рождения: {Birthdate}";
+        public string GenderDisplay => $"Пол: {Gender}";
+
         public Call() { }
 
         public Call(int userid, string firstname, string lastname, string middlename, string address, string phone, string symptoms, string birthdate, string gender)

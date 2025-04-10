@@ -93,10 +93,47 @@ namespace CourseWork2
                     passBox2.Background = Brushes.Transparent;
                     passBox2.ToolTip = null;
                 }
+
+                // Проверка существующего логина
+                if (db.Users.Any(u => u.Login == login))
+                {
+                    textBoxLogin.Background = Brushes.LightSkyBlue;
+                    textBoxLogin.ToolTip = "Этот логин уже занят";
+                    return;
+                }
+
+                // Проверка существующего email
+                if (db.Users.Any(u => u.Email == email))
+                {
+                    textBoxEmail.Background = Brushes.LightSkyBlue;
+                    textBoxEmail.ToolTip = "Этот email уже зарегистрирован";
+                    return;
+                }
+
                 User user = new User(login, email, pass_2);
 
                 db.Users.Add(user);
                 db.SaveChanges();
+
+                Auth auth = new Auth();
+                auth.Show();
+                this.Close();
+
+                  // Проверка существующего логина
+    if (db.Users.Any(u => u.Login == login))
+    {
+        textBoxLogin.Background = Brushes.LightSkyBlue;
+        textBoxLogin.ToolTip = "Этот логин уже занят";
+        return;
+    }
+
+    // Проверка существующего email
+    if (db.Users.Any(u => u.Email == email))
+    {
+        textBoxEmail.Background = Brushes.LightSkyBlue;
+        textBoxEmail.ToolTip = "Этот email уже зарегистрирован";
+        return;
+    }
             }
 
         }

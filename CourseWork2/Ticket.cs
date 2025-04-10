@@ -35,6 +35,13 @@ namespace CourseWork2
         [Column("numbertalon")]
         public string Numbertalon { get; set; }
 
+        public string RegionDisplay => $"Область: {Region}";
+        public string HospitalDisplay => $"Больница: {Hospital}";
+        public string SpecializationDisplay => $"Специальность: {Specialization}";
+        public string DoctorDisplay => $"Врач: {Doctor}";
+        public string DateDisplay => $"Дата: {Date}";
+        public string NumbertalonDisplay => $"Номер талона: {Numbertalon}";
+
         public Ticket() { }
 
         public Ticket(int userid, string region, string hospital, string specialization, string doctor, string date, string numbertalon)

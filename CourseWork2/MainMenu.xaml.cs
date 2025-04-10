@@ -25,6 +25,7 @@
     using static System.Net.Mime.MediaTypeNames;
     using System.Xml.Linq;
     using System.Diagnostics;
+using System.Data.Entity.Core.Mapping;
 
 
 namespace CourseWork2
@@ -39,6 +40,8 @@ namespace CourseWork2
         private ObservableCollection<Specialization> _filteredSpecialization;
         private ObservableCollection<Doctor> _allDoctor;
         private ObservableCollection<Doctor> _filteredDoctor;
+        private ObservableCollection<Ticket> _allTicket;
+        private ObservableCollection<Call> _allCall;
 
         private DateTime _currentWeekStart = DateTime.Today;
 
@@ -57,6 +60,7 @@ namespace CourseWork2
             HidePersonAccountPanel();
             HideSignUpDoctorPanel();
             HideCallDoctorPanel();
+            HideRecordsAndAppealsPanel();
 
 
 
@@ -112,6 +116,49 @@ namespace CourseWork2
             }
         }
 
+        private void LoadTicketData()
+        {
+            var userTickets = db.Tickets.Where(t => t.UserId == _userId).ToList();
+
+            if (userTickets.Count == 0)
+            {
+                // Если у пользователя нет билетов, можно загрузить все (если нужно)
+                if (_allTicket == null)
+                {
+                    _allTicket = new ObservableCollection<Ticket>(db.Tickets.ToList());
+                    Tickets_ListView.ItemsSource = null;
+                }
+            }
+            else
+            {
+                // Если билеты есть, обновляем коллекцию
+                _allTicket = new ObservableCollection<Ticket>(userTickets);
+                Tickets_ListView.ItemsSource = _allTicket;
+            }
+
+        }
+
+        private void LoadCallData()
+        {
+            var userTickets = db.Calls.Where(t => t.UserId == _userId).ToList();
+
+            if (userTickets.Count == 0)
+            {
+                // Если у пользователя нет билетов, можно загрузить все (если нужно)
+                if (_allCall == null)
+                {
+                    _allCall = new ObservableCollection<Call>(db.Calls.ToList());
+                    Calls_ListView.ItemsSource = null;
+                }
+            }
+            else
+            {
+                // Если билеты есть, обновляем коллекцию
+                _allCall = new ObservableCollection<Call>(userTickets);
+                Calls_ListView.ItemsSource = _allCall;
+            }
+        }
+
         //Метод загрузки данных из базы данных для конкретного пользователя
         private void LoadUserData()
         {
@@ -126,6 +173,16 @@ namespace CourseWork2
                 PersonBirthDay_DatePicker.Text = user.Birthday;
                 GenderCombobox.SelectedItem = GenderCombobox.Items.Cast<ComboBoxItem>().FirstOrDefault(item => item.Content.ToString() == user.Gender);
             }
+        }
+
+        private bool NotNullUser()
+        {
+            if (textBoxSurname.Text == null || textBoxName.Text == null || textBoxPatronymic.Text == null || textBoxSnils.Text == null || textBoxLocation.Text == null || PersonBirthDay_DatePicker.Text == null || GenderCombobox.SelectedItem == null)
+            {
+                MessageBox.Show("Проверьте заполненность личного кабинета", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            return true;
         }
 
         // Кнопка выхода
@@ -145,6 +202,7 @@ namespace CourseWork2
             HideMainMenuPanel();
             HideSignUpDoctorPanel();
             HideCallDoctorPanel();
+            HideRecordsAndAppealsPanel();
             DeletTicket();
 
         }
@@ -182,6 +240,8 @@ namespace CourseWork2
         // Кнопка "Записаться на приём к врачу"
         private void SignUpDoctorButton_Click(object sender, RoutedEventArgs e)
         {
+            if(!NotNullUser())
+            return;
 
             LoadRegionData();
             Region_ListView.ItemsSource = db.Regions.ToList();
@@ -189,6 +249,7 @@ namespace CourseWork2
             HideMainMenuPanel();
             HidePersonAccountPanel();
             HideCallDoctorPanel();
+            HideRecordsAndAppealsPanel();
 
             ResetSignUpDoctor();
 
@@ -197,6 +258,8 @@ namespace CourseWork2
             TitleSignUpDoctor_TextBlock.Visibility = Visibility.Visible;
             Steps.Visibility = Visibility.Visible;
             Steps_Grid.Visibility = Visibility.Visible;
+            PrintButton.IsEnabled = false;
+            SafeButton.IsEnabled = false;
 
         }
 
@@ -248,6 +311,9 @@ namespace CourseWork2
             Spec_ListView.SelectedItem = null;
             Doctor_ListView.SelectedItem = null;
             DoctorTime_ListView.SelectedItem = null;
+
+            PrintButton.IsEnabled = false;
+            SafeButton.IsEnabled = false;
 
             DeletTicket();
         }
@@ -905,7 +971,7 @@ namespace CourseWork2
                            MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        // Кнопка нажатия в левом меню на вызов врача
+        // Кнопка в левом меню на вызов врача
         private void CallDoctor_Button_Click(object sender, RoutedEventArgs e)
         {
             CallDoctorPanel.Visibility = Visibility.Visible;
@@ -932,6 +998,7 @@ namespace CourseWork2
             HideMainMenuPanel();
             HidePersonAccountPanel();
             HideSignUpDoctorPanel();
+            HideRecordsAndAppealsPanel();
 
 
         }
@@ -939,6 +1006,9 @@ namespace CourseWork2
         // Кнопка нажатия "Мне" на панели выбора кому вызывать врача
         private void MeCall_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (!NotNullUser())
+                return;
+
             PatientChoicePanel.Visibility = Visibility.Collapsed;
             MeCallPanel.Visibility = Visibility.Visible;
             MeCallBack_Button.Visibility = Visibility.Visible;
@@ -972,6 +1042,7 @@ namespace CourseWork2
             HideMainMenuPanel();
             HideSignUpDoctorPanel();
             HideCallDoctorPanel();
+            HideRecordsAndAppealsPanel();
 
         }
 
@@ -1097,6 +1168,7 @@ namespace CourseWork2
         // Кнопка сохранения симптомов и добавления их в базу данных
         private void SafeSymptoms_Button_Click(object sender, RoutedEventArgs e)
         {
+            
             string symptoms = MeSymtopms_TextBox.Text.Trim();
             var user = db.Users.FirstOrDefault(u => u.Id == _userId);
 
@@ -1111,6 +1183,8 @@ namespace CourseWork2
                     MiddleName = user.MiddleName,
                     Address = user.Address,
                     Phone = user.Phone,
+                    Birthdate = user.Birthday,
+                    Gender = (MeGenderComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString(),
                     Symptoms = symptoms,
                 };
 
@@ -1208,6 +1282,16 @@ namespace CourseWork2
             OtherSymtopms_TextBox.Text = null;
         }
 
+        private void HideRecordsAndAppealsPanel()
+        {
+            RecordsAndAppealsPanel.Visibility = Visibility.Collapsed;
+            RecordsAndAppeals_Grid.Visibility = Visibility.Collapsed;
+            Tickets_ListView.Visibility = Visibility.Collapsed;
+            Calls_ListView.Visibility = Visibility.Collapsed;
+            TicketButton.Visibility = Visibility.Collapsed;
+            CallButton.Visibility = Visibility.Collapsed;
+        }
+
         private void ConfirmOtcherButton_Click(object sender, RoutedEventArgs e)
         {
             OtherCallBack_Button.Visibility = Visibility.Collapsed;
@@ -1219,7 +1303,7 @@ namespace CourseWork2
         {
 
             string birthdate = OtherBirthDate_TextBox.Text.Trim();
-            string gender = OtherGenderComboBox.Text.Trim();
+            string gender = (OtherGenderComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString();
             string number = OtherNumberPolis_TextBox.Text.Trim();
             string phone = OtherNumberPhone_TextBox.Text.Trim();
             string address = OtherAddress_TextBox.Text.Trim();
@@ -1274,15 +1358,48 @@ namespace CourseWork2
             OtherCallBack_Button.Visibility = Visibility.Visible;
         }
 
-        private void TicketsAndCallButton_Click(object sender, RoutedEventArgs e)
+
+        // Кнопка запись и обращения
+        private void RecordsAndAppeals_Button_Click(object sender, RoutedEventArgs e)
         {
+
+            LoadTicketData();
             HideMainMenuPanel();
             HidePersonAccountPanel();
             HideSignUpDoctorPanel();
             HideCallDoctorPanel();
 
+            RecordsAndAppealsPanel.Visibility = Visibility.Visible;
+            RecordsAndAppeals_Grid.Visibility = Visibility.Visible;
+            Tickets_ListView.Visibility = Visibility.Visible;
+            CallButton.Visibility = Visibility.Visible;
+            TicketButton.Visibility = Visibility.Visible;
+            Calls_ListView.Visibility = Visibility.Collapsed;
+
         }
 
-        
+        private void TicketButton_Click(object sender, RoutedEventArgs e)
+        {
+            TicketButton.Background = Brushes.SkyBlue;
+            TicketButton.Foreground = Brushes.White;
+            CallButton.Background = Brushes.White;
+            CallButton.Foreground = Brushes.SkyBlue;
+            
+            Calls_ListView.Visibility = Visibility.Collapsed;
+            Tickets_ListView.Visibility = Visibility.Visible;
+            LoadTicketData();
+        }
+
+        private void CallButton_Click(object sender, RoutedEventArgs e)
+        {
+            Tickets_ListView.Visibility = Visibility.Collapsed;
+            Calls_ListView.Visibility = Visibility.Visible;
+
+            TicketButton.Background = Brushes.White;
+            TicketButton.Foreground= Brushes.SkyBlue;
+            CallButton.Background = Brushes.SkyBlue;
+            CallButton.Foreground= Brushes.White;
+            LoadCallData();
+        }
     }
 }
