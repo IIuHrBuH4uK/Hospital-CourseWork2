@@ -78,5 +78,28 @@ namespace CourseWork2
             reg.Show();
             this.Close();
         }
+
+        private void textBoxLogin_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !e.Text.All(c => (char.IsLetterOrDigit(c) && c <= 127) && !char.IsWhiteSpace(c));
+
+        }
+
+        private void passBox1_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !e.Text.All(c => (char.IsLetterOrDigit(c) && c <= 127) && !char.IsWhiteSpace(c));
+        }
+
+        private void textBoxLogin_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void passBox1_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
     }
 }

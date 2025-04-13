@@ -18,8 +18,8 @@
                     <Button x:Name="regButton1" HorizontalAlignment ="Left" Content="Регистрация" Background="Transparent" Foreground="SkyBlue" Padding="7" BorderBrush="Transparent" Click="Button_Reg_Click"></Button>
                     <Button x:Name="entryButton" HorizontalAlignment="Right" Content="Войти" Background="SkyBlue" Foreground="White" Padding="7" BorderBrush="Transparent"></Button>
                 </Grid >
-                <TextBox x:Name="textBoxLogin" materialDesign:HintAssist.Hint="Введите логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" MaxWidth="300"></TextBox>
-                <PasswordBox x:Name="passBox1" materialDesign:HintAssist.Hint="Введите пароль" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" MaxWidth="300"></PasswordBox>
+                <TextBox x:Name="textBoxLogin" materialDesign:HintAssist.Hint="Введите логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" MaxWidth="300" PreviewTextInput="textBoxLogin_PreviewTextInput" PreviewKeyDown="textBoxLogin_PreviewKeyDown"></TextBox>
+                <PasswordBox x:Name="passBox1" materialDesign:HintAssist.Hint="Введите пароль" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" MaxWidth="300" PreviewTextInput="passBox1_PreviewTextInput" PreviewKeyDown="passBox1_PreviewKeyDown"></PasswordBox>
                 <Button x:Name="authButton2" Content="Войти в личный кабинет" Margin="15" Background="SkyBlue" Foreground="White" BorderBrush="Transparent" Cursor="Hand" Click="Button_Auth_Click"/>
             </StackPanel>
         </Border>

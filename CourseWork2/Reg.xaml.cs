@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.Entity.Migrations;
+using MaterialDesignColors;
 
 
 namespace CourseWork2
@@ -30,6 +31,7 @@ namespace CourseWork2
             InitializeComponent();
             db = new AppContext();
         }
+
 
         private bool IsValidEmail(string email)
         {
@@ -143,6 +145,45 @@ namespace CourseWork2
             Auth auth = new Auth();
             auth.Show();
             this.Close();
+        }
+
+        private void textBoxLogin_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !e.Text.All(c => (char.IsLetterOrDigit(c) && c <= 127) && !char.IsWhiteSpace(c));
+        }
+
+        private void passBox1_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !e.Text.All(c => char.IsLetterOrDigit(c) && (c <= 127) && !char.IsWhiteSpace(c));
+        }
+
+        private void passBox2_TextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !e.Text.All(c => char.IsLetterOrDigit(c) && (c <= 127) && !char.IsWhiteSpace(c));
+        }
+
+        private void textBoxLogin_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void passBox1_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void passBox2_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void textBoxEmail_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
         }
     }
 }

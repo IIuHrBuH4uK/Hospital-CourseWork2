@@ -315,6 +315,12 @@ namespace CourseWork2
             PrintButton.IsEnabled = false;
             SafeButton.IsEnabled = false;
 
+            BackStep2_Button.Visibility = Visibility.Collapsed;
+            BackStep3_Button.Visibility = Visibility.Collapsed;
+            BackStep4_Button.Visibility = Visibility.Collapsed;
+            BackStep5_Button.Visibility = Visibility.Collapsed;
+
+
             DeletTicket();
         }
 
@@ -358,6 +364,11 @@ namespace CourseWork2
             Doctor_ListView.SelectedItem = null;
             DoctorTime_ListView.SelectedItem = null;
 
+            BackStep2_Button.Visibility = Visibility.Visible;
+            BackStep3_Button.Visibility = Visibility.Collapsed;
+            BackStep4_Button.Visibility = Visibility.Collapsed;
+            BackStep5_Button.Visibility = Visibility.Collapsed;
+
             DeletTicket();
         }
 
@@ -398,6 +409,11 @@ namespace CourseWork2
             Doctor_ListView.SelectedItem = null;
             DoctorTime_ListView.SelectedItem = null;
 
+            BackStep2_Button.Visibility = Visibility.Collapsed;
+            BackStep3_Button.Visibility = Visibility.Visible;
+            BackStep4_Button.Visibility = Visibility.Collapsed;
+            BackStep5_Button.Visibility = Visibility.Collapsed;
+
             DeletTicket();
         }
 
@@ -434,6 +450,11 @@ namespace CourseWork2
             SearchDoctor_TextBox.Text = null;
             Doctor_ListView.SelectedItem = null;
             DoctorTime_ListView.SelectedItem = null;
+
+            BackStep2_Button.Visibility = Visibility.Collapsed;
+            BackStep3_Button.Visibility = Visibility.Collapsed;
+            BackStep4_Button.Visibility = Visibility.Visible;
+            BackStep5_Button.Visibility = Visibility.Collapsed;
 
             DeletTicket();
         }
@@ -501,6 +522,7 @@ namespace CourseWork2
                 }
                 Step1Button.IsEnabled = true;
                 Step2Button.IsEnabled = true;
+                BackStep2_Button.Visibility = Visibility.Visible;
 
                 Hosp_ListView.ItemsSource = null; // Принудительное обновление ListView
                 Hosp_ListView.ItemsSource = _filteredHospitals;
@@ -567,6 +589,10 @@ namespace CourseWork2
                 Step1Button.IsEnabled = true;
                 Step2Button.IsEnabled = true;
                 Step3Button.IsEnabled = true;
+
+                BackStep2_Button.Visibility = Visibility.Collapsed;
+                BackStep3_Button.Visibility = Visibility.Visible;
+
 
                 Spec_ListView.ItemsSource = null; // Принудительное обновление ListView
                 Spec_ListView.ItemsSource = _filteredSpecialization;
@@ -639,6 +665,10 @@ namespace CourseWork2
 
                 Doctor_ListView.ItemsSource = null; // Принудительное обновление ListView
                 Doctor_ListView.ItemsSource = _filteredDoctor;
+
+                BackStep3_Button.Visibility = Visibility.Collapsed;
+                BackStep4_Button.Visibility = Visibility.Visible;
+
             }
         }
 
@@ -713,6 +743,10 @@ namespace CourseWork2
                     SelectedSpecialization.Text = selectedSpecialization;
                     SelectedDoctor.Text = selectedDoctor.Name;
                     SelectedDate.Text = selectedDate + " " + selectedTime + " ч.";
+
+                    BackStep4_Button.Visibility = Visibility.Collapsed;
+                    BackStep5_Button.Visibility = Visibility.Visible;
+
 
                     SafeInfo();
                 }
@@ -1149,11 +1183,62 @@ namespace CourseWork2
             }
         }
 
-        // Разрешаем только цифры, '+', '-', '(', ')', пробел в текст бокс с номером телефона
         private void PhoneNumberTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            var allowedChars = new[] { '+', '-', '(', ')', ' ' };
-            if (!char.IsDigit(e.Text, 0) && !allowedChars.Contains(e.Text[0])) e.Handled = true;
+
+            TextBox textBox = sender as TextBox;
+            string currentText = textBox.Text;
+
+            // Проверяем, что вводимый символ — цифра
+            if (!char.IsDigit(e.Text, 0))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Если поле пустое и ввод начинается с 8, заменяем на +7
+            if (currentText.Length == 0 && e.Text == "8")
+            {
+                textBox.Text = "+7 (";
+                textBox.CaretIndex = textBox.Text.Length;
+                e.Handled = true;
+                return;
+            }
+
+            // Если поле пустое, добавляем +7 (
+            if (currentText.Length == 0)
+            {
+                textBox.Text = "+7 (";
+                textBox.CaretIndex = textBox.Text.Length;
+                e.Handled = true;
+                return;
+            }
+
+            // Получаем только цифры из текущего текста
+            string digitsOnly = new string(currentText.Where(char.IsDigit).ToArray());
+
+            // Если первая цифра 8, заменяем на 7
+            if (digitsOnly.Length > 0 && digitsOnly[0] == '8')
+            {
+                digitsOnly = "7" + digitsOnly.Substring(1);
+            }
+
+            // Ограничиваем длину 11 цифрами (код страны + 10 цифр номера)
+            if (digitsOnly.Length >= 11)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Добавляем новую цифру
+            digitsOnly += e.Text;
+
+            // Форматируем номер телефона
+            string formattedText = FormatPhone(digitsOnly);
+            textBox.Text = formattedText;
+            textBox.CaretIndex = formattedText.Length;
+
+            e.Handled = true;
         }
 
         // Запрещаем ввод пробела в текст бокс с номером телефона
@@ -1280,6 +1365,11 @@ namespace CourseWork2
             OtherNumberPhone_TextBox.Text = null;
             OtherAddress_TextBox.Text = null;
             OtherSymtopms_TextBox.Text = null;
+
+            BackStep2_Button.Visibility = Visibility.Collapsed;
+            BackStep3_Button.Visibility = Visibility.Collapsed;
+            BackStep4_Button.Visibility = Visibility.Collapsed;
+            BackStep5_Button.Visibility = Visibility.Collapsed;
         }
 
         private void HideRecordsAndAppealsPanel()
@@ -1457,6 +1547,252 @@ namespace CourseWork2
                     }
                 }
             }
+        }
+
+        private void BackStep2_Button_Click(object sender, RoutedEventArgs e)
+        {
+            BackStep2_Button.Visibility = Visibility.Collapsed;
+            ResetSignUpDoctor();
+        }
+
+        private void BackStep3_Button_Click(object sender, RoutedEventArgs e)
+        {
+            BackStep3_Button.Visibility = Visibility.Collapsed;
+            BackStep2_Button.Visibility = Visibility.Visible;
+
+            RegionPanel.Visibility = Visibility.Collapsed;
+            HospPanel.Visibility = Visibility.Visible;
+            SpecPanel.Visibility = Visibility.Collapsed;
+            DoctorPanel.Visibility = Visibility.Collapsed;
+            CheckPanel.Visibility = Visibility.Collapsed;
+
+            HospitalTextBlock.Text = "";
+            SpecTextBlock.Text = "";
+            DoctorTextBlock.Text = "";
+            TimeTextBlock.Text = "";
+
+            Step1Button.Background = Brushes.Transparent;
+            Step1Button.Foreground = Brushes.SkyBlue;
+            Step2Button.Background = Brushes.SkyBlue;
+            Step2Button.Foreground = Brushes.White;
+            Step3Button.Background = Brushes.Transparent;
+            Step3Button.Foreground = Brushes.SkyBlue;
+            Step4Button.Background = Brushes.Transparent;
+            Step4Button.Foreground = Brushes.SkyBlue;
+            Step5Button.Background = Brushes.Transparent;
+            Step5Button.Foreground = Brushes.SkyBlue;
+
+            Step1Button.IsEnabled = true;
+            Step2Button.IsEnabled = true;
+            Step3Button.IsEnabled = false;
+            Step4Button.IsEnabled = false;
+            Step5Button.IsEnabled = false;
+
+            SearchHosp_TextBox.Text = null;
+            SearchSpec_TextBox.Text = null;
+            SearchDoctor_TextBox.Text = null;
+
+            Hosp_ListView.SelectedItem = null;
+            Spec_ListView.SelectedItem = null;
+            Doctor_ListView.SelectedItem = null;
+            DoctorTime_ListView.SelectedItem = null;
+
+            DeletTicket();
+
+        }
+
+        private void BackStep4_Button_Click(object sender, RoutedEventArgs e)
+        {
+            BackStep4_Button.Visibility = Visibility.Collapsed;
+            BackStep3_Button.Visibility = Visibility.Visible;
+
+            RegionPanel.Visibility = Visibility.Collapsed;
+            HospPanel.Visibility = Visibility.Collapsed;
+            SpecPanel.Visibility = Visibility.Visible;
+            DoctorPanel.Visibility = Visibility.Collapsed;
+            CheckPanel.Visibility = Visibility.Collapsed;
+
+            SpecTextBlock.Text = "";
+            DoctorTextBlock.Text = "";
+            TimeTextBlock.Text = "";
+
+            Step1Button.Background = Brushes.Transparent;
+            Step1Button.Foreground = Brushes.SkyBlue;
+            Step2Button.Background = Brushes.Transparent;
+            Step2Button.Foreground = Brushes.SkyBlue;
+            Step3Button.Background = Brushes.SkyBlue;
+            Step3Button.Foreground = Brushes.White;
+            Step4Button.Background = Brushes.Transparent;
+            Step4Button.Foreground = Brushes.SkyBlue;
+            Step5Button.Background = Brushes.Transparent;
+            Step5Button.Foreground = Brushes.SkyBlue;
+
+            Step1Button.IsEnabled = true;
+            Step2Button.IsEnabled = true;
+            Step3Button.IsEnabled = true;
+            Step4Button.IsEnabled = false;
+            Step5Button.IsEnabled = false;
+
+            SearchSpec_TextBox.Text = null;
+            SearchDoctor_TextBox.Text = null;
+
+            Spec_ListView.SelectedItem = null;
+            Doctor_ListView.SelectedItem = null;
+            DoctorTime_ListView.SelectedItem = null;
+
+            DeletTicket();
+
+        }
+
+        private void BackStep5_Button_Click(object sender, RoutedEventArgs e)
+        {
+            BackStep5_Button.Visibility = Visibility.Collapsed;
+            BackStep4_Button.Visibility = Visibility.Visible;
+
+            RegionPanel.Visibility = Visibility.Collapsed;
+            HospPanel.Visibility = Visibility.Collapsed;
+            SpecPanel.Visibility = Visibility.Collapsed;
+            DoctorPanel.Visibility = Visibility.Visible;
+            CheckPanel.Visibility = Visibility.Collapsed;
+
+            DoctorTextBlock.Text = "";
+            TimeTextBlock.Text = "";
+
+
+            Step1Button.Background = Brushes.Transparent;
+            Step1Button.Foreground = Brushes.SkyBlue;
+            Step2Button.Background = Brushes.Transparent;
+            Step2Button.Foreground = Brushes.SkyBlue;
+            Step3Button.Background = Brushes.Transparent;
+            Step3Button.Foreground = Brushes.SkyBlue;
+            Step4Button.Background = Brushes.SkyBlue;
+            Step4Button.Foreground = Brushes.White;
+            Step5Button.Background = Brushes.Transparent;
+            Step5Button.Foreground = Brushes.SkyBlue;
+
+            Step1Button.IsEnabled = true;
+            Step2Button.IsEnabled = true;
+            Step3Button.IsEnabled = true;
+            Step4Button.IsEnabled = true;
+            Step5Button.IsEnabled = false;
+
+            SearchDoctor_TextBox.Text = null;
+            Doctor_ListView.SelectedItem = null;
+            DoctorTime_ListView.SelectedItem = null;
+
+            PrintButton.IsEnabled = false;
+            SafeButton.IsEnabled = false;
+
+            DeletTicket();
+        }
+
+        private void textBoxSnils_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Проверяем, что вводимый символ — цифра
+            if (!char.IsDigit(e.Text, 0))
+            {
+                e.Handled = true; // Блокируем ввод, если это не цифра
+                return;
+            }
+
+            // Получаем текущий текст из TextBox
+            TextBox textBox = sender as TextBox;
+            string currentText = textBox.Text;
+
+            // Удаляем все нецифровые символы (если они есть)
+            string digitsOnly = new string(currentText.Where(char.IsDigit).ToArray());
+
+            // Ограничиваем длину СНИЛС 11 цифрами
+            if (digitsOnly.Length >= 11)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Добавляем новую цифру
+            digitsOnly += e.Text;
+
+            // Форматируем строку в формат XXX-XXX-XXX XX
+            string formattedText = FormatSnils(digitsOnly);
+
+            // Устанавливаем отформатированный текст
+            textBox.Text = formattedText;
+
+            // Устанавливаем курсор в конец текста
+            textBox.CaretIndex = formattedText.Length;
+
+            // Отменяем стандартное поведение ввода
+            e.Handled =  true;
+        }
+
+        private string FormatSnils(string digits)
+        {
+            if (string.IsNullOrEmpty(digits))
+                return string.Empty;
+
+            // Оставляем только цифры
+            digits = new string(digits.Where(char.IsDigit).ToArray());
+
+            // Форматируем в XXX-XXX-XXX XX
+            StringBuilder formatted = new StringBuilder();
+
+            for (int i = 0; i < digits.Length; i++)
+            {
+                if (i == 3 || i == 6)
+                    formatted.Append('-');
+                else if (i == 9)
+                    formatted.Append(' ');
+
+                formatted.Append(digits[i]);
+            }
+
+            return formatted.ToString();
+        }
+        private string FormatPhone(string digits)
+        {
+            if (string.IsNullOrEmpty(digits) || digits.Length < 1)
+                return string.Empty;
+
+            // Убеждаемся, что код страны 7
+            if (digits[0] != '7')
+                digits = "7" + digits;
+
+            // Ограничиваем длину 11 символами
+            if (digits.Length > 11)
+                digits = digits.Substring(0, 11);
+
+            StringBuilder formatted = new StringBuilder("+7 ");
+
+            if (digits.Length > 1)
+            {
+                string mainDigits = digits.Substring(1);
+                formatted.Append("(");
+
+                if (mainDigits.Length > 0)
+                {
+                    formatted.Append(mainDigits.Substring(0, Math.Min(3, mainDigits.Length)));
+
+                    if (mainDigits.Length > 3)
+                    {
+                        formatted.Append(") ");
+                        formatted.Append(mainDigits.Substring(3, Math.Min(3, mainDigits.Length - 3)));
+
+                        if (mainDigits.Length > 6)
+                        {
+                            formatted.Append("-");
+                            formatted.Append(mainDigits.Substring(6, Math.Min(2, mainDigits.Length - 6)));
+
+                            if (mainDigits.Length > 8)
+                            {
+                                formatted.Append("-");
+                                formatted.Append(mainDigits.Substring(8, Math.Min(2, mainDigits.Length - 8)));
+                            }
+                        }
+                    }
+                }
+            }
+
+            return formatted.ToString();
         }
     }
 }

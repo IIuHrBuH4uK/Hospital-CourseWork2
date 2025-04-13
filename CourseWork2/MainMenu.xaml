@@ -125,7 +125,7 @@
                             <ComboBoxItem>Другое</ComboBoxItem>
                         </ComboBox>
                         <DatePicker Grid.Row="4" Grid.Column="1" x:Name="PersonBirthDay_DatePicker" materialDesign:HintAssist.Hint="Дата рождения" Style="{StaticResource MaterialDesignFilledDatePicker}" FontSize="16" Cursor=""></DatePicker>
-                        <TextBox Grid.Row="5" Grid.Column="1" x:Name="textBoxSnils" materialDesign:HintAssist.Hint="СНИЛС" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
+                        <TextBox Grid.Row="5" Grid.Column="1" x:Name="textBoxSnils" materialDesign:HintAssist.Hint="СНИЛС" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16" PreviewTextInput="textBoxSnils_PreviewTextInput"></TextBox>
                         <TextBox Grid.Row="6" Grid.Column="1" x:Name="textBoxLocation" materialDesign:HintAssist.Hint="Адрес прописки" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
                     </Grid>
                     <Button Content="Сохранить" Margin="0 30 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center" x:Name="SafePersonButton" Click="SafePersonButton_Click"></Button>
@@ -133,46 +133,77 @@
 
                 <!-- Панель записи на приём -->
                 <StackPanel Grid.Column="1" x:Name="SignUpDoctorPanel" Background="White" Margin="10" Visibility="Visible" d:IsHidden="True">
-                    <TextBlock x:Name="TitleSignUpDoctor_TextBlock" Text="Запись на приём к врачу" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"></TextBlock>
-                    <Grid x:Name="Steps" Margin="0 20 0 0" d:IsHidden="True">
+
+                    <TextBlock x:Name="TitleSignUpDoctor_TextBlock" Text="Запись на приём к врачу" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <Grid x:Name="BackButtonSteps_Grid">
+                        <Button x:Name="BackStep2_Button" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Click="BackStep2_Button_Click" Visibility="Visible">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"/>
+                                <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BackStep3_Button" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Click="BackStep3_Button_Click" Visibility="Visible">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"/>
+                                <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BackStep4_Button" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Click="BackStep4_Button_Click" Visibility="Visible">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"/>
+                                <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BackStep5_Button" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Click="BackStep5_Button_Click" Visibility="Visible">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"/>
+                                <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+
+                    <Grid x:Name="Steps" Margin="0 20 0 0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="40*"></RowDefinition>
-                            <RowDefinition Height="20*"></RowDefinition>
-                            <RowDefinition Height="30*"></RowDefinition>
+                            <RowDefinition Height="40*"/>
+                            <RowDefinition Height="20*"/>
+                            <RowDefinition Height="30*"/>
                         </Grid.RowDefinitions>
-                        <Button x:Name="Step1Button" Content="Шаг 1" materialDesign:ButtonAssist.CornerRadius="3" Height="30" Width="80" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="Step1Button_Click" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"></Button>
+                        <Button x:Name="Step1Button" Content="Шаг 1" materialDesign:ButtonAssist.CornerRadius="3" Height="30" Width="80" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="Step1Button_Click" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"/>
                         <Button x:Name="Step2Button" Content="Шаг 2" materialDesign:ButtonAssist.CornerRadius="3" Height="30" Width="80" Background="Transparent" BorderBrush="SkyBlue" Foreground="SkyBlue" Click="Step2Button_Click" Grid.Column="1" Grid.Row="0" IsEnabled="False" HorizontalAlignment="Center"/>
-                        <Button x:Name="Step3Button" Content="Шаг 3" materialDesign:ButtonAssist.CornerRadius="3" Height="30" Width="80" Background="Transparent" BorderBrush="SkyBlue" Foreground="SkyBlue" Click="Step3Button_Click" Grid.Column="2" Grid.Row="0" IsEnabled="False" HorizontalAlignment="Center"></Button>
-                        <Button x:Name="Step4Button" Content="Шаг 4" materialDesign:ButtonAssist.CornerRadius="3" Height="30" Width="80" Background="Transparent" BorderBrush="SkyBlue" Foreground="SkyBlue" Click="Step4Button_Click" Grid.Column="3" Grid.Row="0" IsEnabled="False" HorizontalAlignment="Center"></Button>
-                        <Button x:Name="Step5Button" Content="Шаг 5" materialDesign:ButtonAssist.CornerRadius="3" Height="30" Width="80" Background="Transparent" BorderBrush="SkyBlue" Foreground="SkyBlue" Click="Step5Button_Click" Grid.Column="4 " Grid.Row="0" IsEnabled="False" HorizontalAlignment="Center" Cursor="Hand"></Button>
-                        <TextBlock Text="Выбор населенного пункта" Grid.Column="0" Grid.Row="1" FontSize="10" Foreground="Gray"  HorizontalAlignment="Center"></TextBlock>
-                        <TextBlock Text="" Grid.Column="0" Grid.Row="2" FontSize="12" Foreground="Gray"  x:Name="CityTextBlock" TextWrapping="Wrap" HorizontalAlignment="Center"></TextBlock>
-                        <TextBlock Text="Выбор учреждения" Grid.Column="1" Grid.Row="1" FontSize="10" Foreground="Gray" HorizontalAlignment="Center"></TextBlock>
-                        <TextBlock Text="" Grid.Column="1" Grid.Row="2" FontSize="12" Foreground="Gray"  x:Name="HospitalTextBlock" TextWrapping="Wrap" HorizontalAlignment="Center"></TextBlock>
-                        <TextBlock Text="Выбор специализации" Grid.Column="2" Grid.Row="1" FontSize="10" Foreground="Gray"  HorizontalAlignment="Center"></TextBlock>
-                        <TextBlock Text="" Grid.Column="2" Grid.Row="2" FontSize="12" Foreground="Gray"  x:Name="SpecTextBlock" TextWrapping="Wrap" HorizontalAlignment="Center"></TextBlock>
-                        <TextBlock Text="Выбор врача" Grid.Column="3" Grid.Row="1" FontSize="10" Foreground="Gray" HorizontalAlignment="Center"></TextBlock>
-                        <TextBlock Text="" Grid.Column="3" Grid.Row="2" FontSize="12" Foreground="Gray"  x:Name="DoctorTextBlock" TextWrapping="Wrap" HorizontalAlignment="Center"></TextBlock>
-                        <TextBlock Text="Проверка" Grid.Column="4" Grid.Row="1" FontSize="10" Foreground="Gray"  HorizontalAlignment="Center"></TextBlock>
-                        <TextBlock Text="" Grid.Column="4" Grid.Row="2" FontSize="12" Foreground="Gray"  x:Name="TimeTextBlock" TextWrapping="Wrap" HorizontalAlignment="Center"></TextBlock>
+                        <Button x:Name="Step3Button" Content="Шаг 3" materialDesign:ButtonAssist.CornerRadius="3" Height="30" Width="80" Background="Transparent" BorderBrush="SkyBlue" Foreground="SkyBlue" Click="Step3Button_Click" Grid.Column="2" Grid.Row="0" IsEnabled="False" HorizontalAlignment="Center"/>
+                        <Button x:Name="Step4Button" Content="Шаг 4" materialDesign:ButtonAssist.CornerRadius="3" Height="30" Width="80" Background="Transparent" BorderBrush="SkyBlue" Foreground="SkyBlue" Click="Step4Button_Click" Grid.Column="3" Grid.Row="0" IsEnabled="False" HorizontalAlignment="Center"/>
+                        <Button x:Name="Step5Button" Content="Шаг 5" materialDesign:ButtonAssist.CornerRadius="3" Height="30" Width="80" Background="Transparent" BorderBrush="SkyBlue" Foreground="SkyBlue" Click="Step5Button_Click" Grid.Column="4 " Grid.Row="0" IsEnabled="False" HorizontalAlignment="Center" Cursor="Hand"/>
+                        <TextBlock Text="Выбор населенного пункта" Grid.Column="0" Grid.Row="1" FontSize="10" Foreground="Gray"  HorizontalAlignment="Center"/>
+                        <TextBlock Text="" Grid.Column="0" Grid.Row="2" FontSize="12" Foreground="Gray"  x:Name="CityTextBlock" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Выбор учреждения" Grid.Column="1" Grid.Row="1" FontSize="10" Foreground="Gray" HorizontalAlignment="Center"/>
+                        <TextBlock Text="" Grid.Column="1" Grid.Row="2" FontSize="12" Foreground="Gray"  x:Name="HospitalTextBlock" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Выбор специализации" Grid.Column="2" Grid.Row="1" FontSize="10" Foreground="Gray"  HorizontalAlignment="Center"/>
+                        <TextBlock Text="" Grid.Column="2" Grid.Row="2" FontSize="12" Foreground="Gray"  x:Name="SpecTextBlock" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Выбор врача" Grid.Column="3" Grid.Row="1" FontSize="10" Foreground="Gray" HorizontalAlignment="Center"/>
+                        <TextBlock Text="" Grid.Column="3" Grid.Row="2" FontSize="12" Foreground="Gray"  x:Name="DoctorTextBlock" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Проверка" Grid.Column="4" Grid.Row="1" FontSize="10" Foreground="Gray"  HorizontalAlignment="Center"/>
+                        <TextBlock Text="" Grid.Column="4" Grid.Row="2" FontSize="12" Foreground="Gray"  x:Name="TimeTextBlock" TextWrapping="Wrap" HorizontalAlignment="Center"/>
                     </Grid>
                     <!-- Шаг 1 -->
                     <Grid x:Name="Steps_Grid">
                         <StackPanel x:Name="RegionPanel" Visibility="Visible" Panel.ZIndex="1" d:IsHidden="True">
-                            <TextBox materialDesign:HintAssist.Hint="Поиск по названию" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="Search_TextBox" TextChanged="SearchRegion"></TextBox>
+                            <TextBox materialDesign:HintAssist.Hint="Поиск по названию" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="Search_TextBox" TextChanged="SearchRegion"/>
                             <ListView x:Name="Region_ListView" SelectionChanged="Region_ListView_SelectionChanged" Margin="0 10 0 0" Height="720" >
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
                                             <VirtualizingStackPanel/>
-                                            <Label Content="{Binding Reg}"></Label>
+                                            <Label Content="{Binding Reg}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -181,14 +212,14 @@
 
                         <!-- Шаг 2 -->
                         <StackPanel x:Name="HospPanel" Visibility="Collapsed" d:IsHidden="True">
-                            <TextBox materialDesign:HintAssist.Hint="Поиск по названию или адресу" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="SearchHosp_TextBox" TextChanged="SearchHosp"></TextBox>
+                            <TextBox materialDesign:HintAssist.Hint="Поиск по названию или адресу" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="SearchHosp_TextBox" TextChanged="SearchHosp"/>
                             <ListView x:Name="Hosp_ListView" SelectionChanged="Hosp_ListView_SelectionChanged" Margin="0 10 0 0">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel >
                                             <VirtualizingStackPanel/>
-                                            <Label Content="{Binding Hosp}"></Label>
-                                            <Label Content="{Binding Address}" FontSize="10" Foreground="Gray"></Label>
+                                            <Label Content="{Binding Hosp}"/>
+                                            <Label Content="{Binding Address}" FontSize="10" Foreground="Gray"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -197,13 +228,13 @@
 
                         <!-- Шаг 3 -->
                         <StackPanel x:Name="SpecPanel" Visibility="Collapsed" Grid.Column="1" d:IsHidden="True">
-                            <TextBox materialDesign:HintAssist.Hint="Поиск по специальности" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="SearchSpec_TextBox" TextChanged="SearchSpec"></TextBox>
+                            <TextBox materialDesign:HintAssist.Hint="Поиск по специальности" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="50 10 50 0" x:Name="SearchSpec_TextBox" TextChanged="SearchSpec"/>
                             <ListView x:Name="Spec_ListView" SelectionChanged="Spec_ListView_SelectionChanged" Margin="0 10 0 0">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel >
                                             <VirtualizingStackPanel/>
-                                            <Label Content="{Binding Spec}"></Label>
+                                            <Label Content="{Binding Spec}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -211,22 +242,22 @@
                         </StackPanel>
 
                         <!-- Шаг 4 -->
-                        <StackPanel x:Name="DoctorPanel" Visibility="Collapsed" Grid.Column="1" d:IsHidden="True">
+                        <StackPanel x:Name="DoctorPanel" Visibility="Collapsed" Grid.Column="1">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40*"></ColumnDefinition>
-                                    <ColumnDefinition Width="60*"></ColumnDefinition>
+                                    <ColumnDefinition Width="40*"/>
+                                    <ColumnDefinition Width="60*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <TextBox materialDesign:HintAssist.Hint="Поиск по ФИО" Grid.Column="0" Grid.Row="0" Style="{StaticResource MaterialDesignFilledTextBox}" Margin="0 10 10 0" x:Name="SearchDoctor_TextBox" TextChanged="SearchDoctor" Cursor=""/>
-                                <Button x:Name="PrevWeek_Button" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Content="Предыдущая неделя" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Click="PrevWeek_Button_Click"></Button>
-                                <TextBlock x:Name="interval_time" Grid.Column="1" Grid.Row="0" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray"></TextBlock>
-                                <Button x:Name="NextWeek_Button" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Content="Следующая неделя" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Click ="NextWeek_Button_Click"></Button>
-                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Врач" Foreground="Gray" FontSize="14" Margin="20 0 0 0" VerticalAlignment="Bottom"></TextBlock>
+                                <Button x:Name="PrevWeek_Button" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Content="Предыдущая неделя" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Click="PrevWeek_Button_Click"/>
+                                <TextBlock x:Name="interval_time" Grid.Column="1" Grid.Row="0" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray"/>
+                                <Button x:Name="NextWeek_Button" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Content="Следующая неделя" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Click ="NextWeek_Button_Click"/>
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Врач" Foreground="Gray" FontSize="14" Margin="20 0 0 0" VerticalAlignment="Bottom"/>
 
                                 <StackPanel x:Name="DatesPanel" Grid.Column="1" Grid.Row="1" Cursor="" >
                                     <Grid Grid.Row="1" Grid.Column="1" Margin="0 10 0 0">
@@ -267,9 +298,9 @@
 
                                 <StackPanel Grid.Row="2" Grid.Column="0">
                                     <ListView x:Name="Doctor_ListView" Margin="0 10 0 0">
-                                        
+
                                         <ListView.ItemContainerStyle>
-                                            <Style TargetType="ListViewItem">
+                                            <Style TargetType="{x:Type ListViewItem}">
                                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                                 <Setter Property="Padding" Value="0"/>
                                                 <Setter Property="Margin" Value="0 10 0 0"/>
@@ -277,25 +308,25 @@
                                                 <Setter Property="BorderBrush" Value="Transparent"/>
                                                 <Setter Property="Template">
                                                     <Setter.Value>
-                                                        <ControlTemplate TargetType="ListViewItem">
+                                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
                                                             <ContentPresenter/>
                                                         </ControlTemplate>
                                                     </Setter.Value>
                                                 </Setter>
                                             </Style>
                                         </ListView.ItemContainerStyle>
-                                        
+
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid>
                                                     <Grid.RowDefinitions>
-                                                        <RowDefinition></RowDefinition>
-                                                        <RowDefinition></RowDefinition>
-                                                        <RowDefinition></RowDefinition>
+                                                        <RowDefinition/>
+                                                        <RowDefinition/>
+                                                        <RowDefinition/>
                                                     </Grid.RowDefinitions>
-                                                    <Label Content="{Binding Name}" Grid.Column="0" Grid.Row="0"></Label>
-                                                    <Label Content="{Binding Age}" Grid.Column="0" Grid.Row="1"></Label>
-                                                    <Label Content="{Binding Exp}" Grid.Column="0" Grid.Row="2"></Label>
+                                                    <Label Content="{Binding Name}" Grid.Column="0" Grid.Row="0"/>
+                                                    <Label Content="{Binding Age}" Grid.Column="0" Grid.Row="1"/>
+                                                    <Label Content="{Binding Exp}" Grid.Column="0" Grid.Row="2"/>
                                                 </Grid>
                                             </DataTemplate>
                                         </ListView.ItemTemplate>
@@ -305,14 +336,14 @@
                                 <StackPanel Grid.Row="2" Grid.Column="1">
                                     <ListView x:Name="DoctorTime_ListView" Margin="0 10 0 0" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                         <ListView.ItemContainerStyle>
-                                            <Style TargetType="ListViewItem">
+                                            <Style TargetType="{x:Type ListViewItem}">
                                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                                 <Setter Property="Padding" Value="0"/>
                                                 <Setter Property="Background" Value="Transparent"/>
                                                 <Setter Property="BorderBrush" Value="Transparent"/>
                                                 <Setter Property="Template">
                                                     <Setter.Value>
-                                                        <ControlTemplate TargetType="ListViewItem">
+                                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
                                                             <ContentPresenter/>
                                                         </ControlTemplate>
                                                     </Setter.Value>
@@ -332,7 +363,7 @@
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
                                                     <Grid.RowDefinitions>
-                                                        <RowDefinition Height="90"></RowDefinition>
+                                                        <RowDefinition Height="90"/>
                                                     </Grid.RowDefinitions>
                                                     <VirtualizingStackPanel/>
                                                     <Button Tag="{Binding}" CommandParameter="0" IsEnabled="True" Content="{Binding Time}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="12" Margin="5" BorderBrush="SkyBlue" Foreground="White" Background="SkyBlue" Click="TimeButton_Click" />
@@ -355,43 +386,45 @@
                         <StackPanel x:Name="CheckPanel" Visibility="Visible" Grid.Column="1" Margin="0 10 0 0" Cursor="">
                             <Grid VerticalAlignment="Center">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="30*"></ColumnDefinition>
-                                    <ColumnDefinition Width="70*"></ColumnDefinition>
+                                    <ColumnDefinition Width="30*"/>
+                                    <ColumnDefinition Width="70*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Выбранная область:" Grid.Column="0" Grid.Row="0" FontSize="20" Margin="10"></TextBlock>
-                                <TextBlock Text="Выбранная больница:" Grid.Column="0" Grid.Row="1" FontSize="20" Margin="10"></TextBlock>
-                                <TextBlock Text="Выбранная специальность:" Grid.Column="0" Grid.Row="2" FontSize="20" Margin="10"></TextBlock>
-                                <TextBlock Text="Выбранный врач:" Grid.Column="0" Grid.Row="3" FontSize="20" Margin="10"></TextBlock>
-                                <TextBlock Text="Выбранное дата и время:" Grid.Column="0" Grid.Row="4" FontSize="20" Margin="10"></TextBlock>
-                                <TextBox x:Name="SelectedRegion" Text="" Grid.Column="1" Grid.Row="0" FontSize="20" Focusable="False"></TextBox>
-                                <TextBox x:Name="SelectedHospital" Text="" Grid.Column="1" Grid.Row="1" FontSize="20" Focusable="False"></TextBox>
-                                <TextBox x:Name="SelectedSpecialization" Text="" Grid.Column="1" Grid.Row="2" FontSize="20" Focusable="False"></TextBox>
-                                <TextBox x:Name="SelectedDoctor" Text="" Grid.Column="1" Grid.Row="3" FontSize="20" Focusable="False"></TextBox>
-                                <TextBox x:Name="SelectedDate" Text="" Grid.Column="1" Grid.Row="4" FontSize="20" Focusable="False"></TextBox>
+                                <TextBlock Text="Выбранная область:" Grid.Column="0" Grid.Row="0" FontSize="20" Margin="10"/>
+                                <TextBlock Text="Выбранная больница:" Grid.Column="0" Grid.Row="1" FontSize="20" Margin="10"/>
+                                <TextBlock Text="Выбранная специальность:" Grid.Column="0" Grid.Row="2" FontSize="20" Margin="10"/>
+                                <TextBlock Text="Выбранный врач:" Grid.Column="0" Grid.Row="3" FontSize="20" Margin="10"/>
+                                <TextBlock Text="Выбранное дата и время:" Grid.Column="0" Grid.Row="4" FontSize="20" Margin="10"/>
+                                <TextBox x:Name="SelectedRegion" Text="" Grid.Column="1" Grid.Row="0" FontSize="20" Focusable="False"/>
+                                <TextBox x:Name="SelectedHospital" Text="" Grid.Column="1" Grid.Row="1" FontSize="20" Focusable="False"/>
+                                <TextBox x:Name="SelectedSpecialization" Text="" Grid.Column="1" Grid.Row="2" FontSize="20" Focusable="False"/>
+                                <TextBox x:Name="SelectedDoctor" Text="" Grid.Column="1" Grid.Row="3" FontSize="20" Focusable="False"/>
+                                <TextBox x:Name="SelectedDate" Text="" Grid.Column="1" Grid.Row="4" FontSize="20" Focusable="False"/>
                             </Grid>
                             <Grid Margin="0 40 0 0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <Button x:Name="PrintButton" Grid.Column="0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Распечатать талон" Click="PrintButton_Click" IsEnabled="False"></Button>
-                                <Button x:Name="SafeTicketButton" Grid.Column="1" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Записаться" Click="SafeTicketButton_Click"></Button>
-                                <Button x:Name="SafeButton" Grid.Column="2" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Сохранить талон" Click="SafeButton_Click" IsEnabled="False"></Button>
+                                <Button x:Name="PrintButton" Grid.Column="0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Распечатать талон" Click="PrintButton_Click" IsEnabled="False"/>
+                                <Button x:Name="SafeTicketButton" Grid.Column="1" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Записаться" Click="SafeTicketButton_Click"/>
+                                <Button x:Name="SafeButton" Grid.Column="2" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Сохранить талон" Click="SafeButton_Click" IsEnabled="False"/>
                             </Grid>
                         </StackPanel>
+
                     </Grid>
+
                 </StackPanel>
 
                 <!-- Панель вызова врача на дом -->
-                <StackPanel Grid.Column="1" x:Name="CallDoctorPanel" Background="White" Margin="10" Visibility="Visible" d:IsHidden="True">
+                <StackPanel Grid.Column="1" x:Name="CallDoctorPanel" Background="White" Margin="10" Visibility="Visible">
                     <TextBlock x:Name="TitleCallDoctor_TextBlock" Text="Вызов врача на дом" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
 
                     <Grid x:Name="CallDoctor_Grid">
@@ -514,7 +547,7 @@
                             </Grid>
                         </StackPanel>
 
-                        <Button x:Name="MeCallBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="MeCallBack_Button_Click" Visibility="Collapsed" d:IsHidden="True">
+                        <Button x:Name="MeCallBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="MeCallBack_Button_Click" Visibility="Visible" d:IsHidden="True">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"></TextBlock>
                                 <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
@@ -550,7 +583,7 @@
                         </Button>
 
 
-                        <StackPanel x:Name="MePolisPanel" Margin="30 100 0 0"  Visibility="Visible" HorizontalAlignment="Center" d:IsHidden="True" >
+                        <StackPanel x:Name="MePolisPanel" Margin="30 100 0 0"  Visibility="Visible" HorizontalAlignment="Center" >
 
 
                             <Grid>
@@ -575,7 +608,7 @@
                                 <Button x:Name="NumberPolisPhone_Button" Grid.Row="8" HorizontalAlignment="Center" Content="Продолжить" Margin="0 20 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="NumberPolisPhone_Button_Click"></Button>
                             </Grid>
                         </StackPanel>
-                        
+
                         <StackPanel x:Name="MeSymptomsPanel"  Visibility="Visible" HorizontalAlignment="Center" d:IsHidden="True">
                             <Grid Margin="140 100 0 0" Width="500">
                                 <Grid.RowDefinitions>
@@ -593,9 +626,9 @@
                     </Grid>
                 </StackPanel>
 
-                    <StackPanel Grid.Column="1" x:Name="RecordsAndAppealsPanel" Background="White" Margin="10" Visibility="Visible">
-                        <TextBlock x:Name="RecordsAndAppeals_TextBlock" Text="Записи и обращения" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <Grid x:Name="RecordsAndAppeals_Grid" Margin="0 20 0 0">
+                <StackPanel Grid.Column="1" x:Name="RecordsAndAppealsPanel" Background="White" Margin="10" Visibility="Visible" d:IsHidden="True">
+                    <TextBlock x:Name="RecordsAndAppeals_TextBlock" Text="Записи и обращения" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <Grid x:Name="RecordsAndAppeals_Grid" Margin="0 20 0 0">
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
@@ -604,7 +637,7 @@
                         <Button x:Name="CallButton" HorizontalAlignment="Right" Content="Вызовы" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Margin="0 0 60 0 " Click="CallButton_Click" d:IsLocked="True"></Button>
 
                         <ListView x:Name="Tickets_ListView" Margin="0 20 0 0" Height="720" Grid.Row="1">
-                            
+
                             <!-- Стиль для элементов списка: отключает клики и фокус, но оставляет скролл -->
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
@@ -620,7 +653,7 @@
                                     </Setter>
                                 </Style>
                             </ListView.ItemContainerStyle>
-                            
+
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Border BorderBrush="Black" BorderThickness="1" Margin="0 0 0 5" Padding="5" >
@@ -675,25 +708,25 @@
                                     </Setter>
                                 </Style>
                             </ListView.ItemContainerStyle>
-                            
+
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Border BorderBrush="Black" BorderThickness="1" Margin="0 0 0 5" Padding="5" >
                                         <StackPanel >
-                                        <Label Content="{Binding FullNameDisplay}"></Label>
-                                        <Label Content="{Binding BirtchdateDisplay}"></Label>
-                                        <Label Content="{Binding GenderDisplay}"></Label>
-                                        <Label Content="{Binding PhoneDisplay}"></Label>
-                                        <Label Content="{Binding AddressDisplay}"></Label>
-                                        <Label Content="{Binding SymptomsDisplay}"></Label>
-                                    </StackPanel>
+                                            <Label Content="{Binding FullNameDisplay}"></Label>
+                                            <Label Content="{Binding BirtchdateDisplay}"></Label>
+                                            <Label Content="{Binding GenderDisplay}"></Label>
+                                            <Label Content="{Binding PhoneDisplay}"></Label>
+                                            <Label Content="{Binding AddressDisplay}"></Label>
+                                            <Label Content="{Binding SymptomsDisplay}"></Label>
+                                        </StackPanel>
                                     </Border>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
 
                     </Grid>
-                    </StackPanel>
+                </StackPanel>
             </Grid>
         </Border>
     </Grid>
