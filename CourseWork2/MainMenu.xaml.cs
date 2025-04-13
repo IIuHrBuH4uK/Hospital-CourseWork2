@@ -1369,6 +1369,11 @@ namespace CourseWork2
             HideSignUpDoctorPanel();
             HideCallDoctorPanel();
 
+            TicketButton.Background = Brushes.SkyBlue;
+            TicketButton.Foreground = Brushes.White;
+            CallButton.Background = Brushes.White;
+            CallButton.Foreground = Brushes.SkyBlue;
+
             RecordsAndAppealsPanel.Visibility = Visibility.Visible;
             RecordsAndAppeals_Grid.Visibility = Visibility.Visible;
             Tickets_ListView.Visibility = Visibility.Visible;
@@ -1400,6 +1405,58 @@ namespace CourseWork2
             CallButton.Background = Brushes.SkyBlue;
             CallButton.Foreground= Brushes.White;
             LoadCallData();
+        }
+
+        private void PrintTicket_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.CommandParameter is Ticket selectedTicket)
+            {
+                GenerateAndPrintTicket(
+                    selectedTicket.Region,
+                    selectedTicket.Hospital,
+                    selectedTicket.Specialization,
+                    selectedTicket.Doctor,
+                    selectedTicket.Date,
+                    selectedTicket.Numbertalon
+                );
+            }
+        }
+
+        private void SafeTicket_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (sender is Button button && button.CommandParameter is Ticket selectedTicket)
+            {
+                SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "Текстовый файл (*.txt)|*.txt|Все файлы (*.*)|*.*";
+                saveDialog.FileName = $"Талон_{DateTime.Now:yyyyMMddHHmmss}.txt";
+
+                if (saveDialog.ShowDialog() == true)
+                {
+                    try
+                    {
+                        string fileContent = $"Талон на прием к врачу\n\n" +
+                                           $"Регион: {selectedTicket.Region}\n" +
+                                           $"Больница: {selectedTicket.Hospital}\n" +
+                                           $"Специализация: {selectedTicket.Specialization}\n" +
+                                           $"Врач: {selectedTicket.Doctor}\n" +
+                                           $"Дата: {selectedTicket.Date}\n" +
+                                           $"\nID пользователя: {selectedTicket.UserId}\n" +
+                                           $"Номер талона: {selectedTicket.Numbertalon}" +
+                                           $"\n\nСпасибо за использование нашей системы!";
+
+                        File.WriteAllText(saveDialog.FileName, fileContent, Encoding.UTF8);
+
+                        System.Windows.MessageBox.Show($"Данные успешно сохранены в файл:\n{saveDialog.FileName}",
+                                      "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Windows.MessageBox.Show($"Ошибка при сохранении файла: {ex.Message}",
+                                      "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
         }
     }
 }

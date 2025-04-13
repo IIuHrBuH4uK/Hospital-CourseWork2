@@ -128,7 +128,7 @@
                         <TextBox Grid.Row="5" Grid.Column="1" x:Name="textBoxSnils" materialDesign:HintAssist.Hint="СНИЛС" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
                         <TextBox Grid.Row="6" Grid.Column="1" x:Name="textBoxLocation" materialDesign:HintAssist.Hint="Адрес прописки" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
                     </Grid>
-                    <Button Content="Сохранить" Margin="0 30 0 0" HorizontalAlignment="Center" Background="SkyBlue" x:Name="SafePersonButton" Click="SafePersonButton_Click"></Button>
+                    <Button Content="Сохранить" Margin="0 30 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center" x:Name="SafePersonButton" Click="SafePersonButton_Click"></Button>
                 </StackPanel>
 
                 <!-- Панель записи на приём -->
@@ -267,6 +267,24 @@
 
                                 <StackPanel Grid.Row="2" Grid.Column="0">
                                     <ListView x:Name="Doctor_ListView" Margin="0 10 0 0">
+                                        
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                <Setter Property="Padding" Value="0"/>
+                                                <Setter Property="Margin" Value="0 10 0 0"/>
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ListViewItem">
+                                                            <ContentPresenter/>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid>
@@ -290,6 +308,15 @@
                                             <Style TargetType="ListViewItem">
                                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                                 <Setter Property="Padding" Value="0"/>
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ListViewItem">
+                                                            <ContentPresenter/>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
                                             </Style>
                                         </ListView.ItemContainerStyle>
                                         <ListView.ItemTemplate>
@@ -355,9 +382,9 @@
                                     <ColumnDefinition></ColumnDefinition>
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Button x:Name="PrintButton" Grid.Column="0" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Распечатать талон" Click="PrintButton_Click" IsEnabled="False"></Button>
-                                <Button x:Name="SafeTicketButton" Grid.Column="1" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Записаться" Click="SafeTicketButton_Click"></Button>
-                                <Button x:Name="SafeButton" Grid.Column="2" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Сохранить талон" Click="SafeButton_Click" IsEnabled="False"></Button>
+                                <Button x:Name="PrintButton" Grid.Column="0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Распечатать талон" Click="PrintButton_Click" IsEnabled="False"></Button>
+                                <Button x:Name="SafeTicketButton" Grid.Column="1" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Записаться" Click="SafeTicketButton_Click"></Button>
+                                <Button x:Name="SafeButton" Grid.Column="2" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center"  MinWidth="200" MinHeight="50" Content="Сохранить талон" Click="SafeButton_Click" IsEnabled="False"></Button>
                             </Grid>
                         </StackPanel>
                     </Grid>
@@ -573,28 +600,86 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Button x:Name="TicketButton" HorizontalAlignment="Left" Content="Талоны" Background="SkyBlue" Foreground="White" BorderBrush="SkyBlue" Margin="60 0 0 0" Click="TicketButton_Click"></Button>
-                        <Button x:Name="CallButton" HorizontalAlignment="Right" Content="Вызовы" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Margin="0 0 60 0 " Click="CallButton_Click"></Button>
+                        <Button x:Name="TicketButton" HorizontalAlignment="Left" Content="Талоны" Background="SkyBlue" Foreground="White" BorderBrush="SkyBlue" Margin="60 0 0 0" Click="TicketButton_Click" d:IsLocked="True"></Button>
+                        <Button x:Name="CallButton" HorizontalAlignment="Right" Content="Вызовы" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Margin="0 0 60 0 " Click="CallButton_Click" d:IsLocked="True"></Button>
+
+                        <ListView x:Name="Tickets_ListView" Margin="0 20 0 0" Height="720" Grid.Row="1">
                             
-                        <ListView x:Name="Tickets_ListView" Margin="0 10 0 0" Height="720" Grid.Row="1">
+                            <!-- Стиль для элементов списка: отключает клики и фокус, но оставляет скролл -->
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <!-- Убирает выделение -->
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListViewItem">
+                                                <ContentPresenter />
+                                                <!-- Просто отображает контент -->
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel>
-                                        <Label Content="{Binding RegionDisplay}"></Label>
-                                        <Label Content="{Binding HospitalDisplay}"></Label>
-                                        <Label Content="{Binding SpecializationDisplay}"></Label>
-                                        <Label Content="{Binding DoctorDisplay}"></Label>
-                                        <Label Content="{Binding DateDisplay}"></Label>
-                                        <Label Content="{Binding NumbertalonDisplay}"></Label>
-                                    </StackPanel>
+                                    <Border BorderBrush="Black" BorderThickness="1" Margin="0 0 0 5" Padding="5" >
+                                        <StackPanel>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="60*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="40*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <Button x:Name="PrintTicket_Button" Content="Напечатать" CommandParameter="{Binding}" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Grid.Column="1" Grid.RowSpan="6" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0" Click="PrintTicket_Button_Click"></Button>
+                                                <Button x:Name="SafeTicket_Button" Content="Сохранить" CommandParameter="{Binding}" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Grid.Column="1" Grid.RowSpan="6" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 20 0" Click="SafeTicket_Button_Click"></Button>
+                                                <Label Content="{Binding RegionDisplay}" Grid.Column="0" Grid.Row="0"/>
+                                                <Label Content="{Binding HospitalDisplay}" Grid.Column="0" Grid.Row="1"/>
+                                                <Label Content="{Binding SpecializationDisplay}" Grid.Column="0" Grid.Row="2"/>
+                                                <Label Content="{Binding DoctorDisplay}" Grid.Column="0" Grid.Row="3"/>
+                                                <Label Content="{Binding DateDisplay}" Grid.Column="0" Grid.Row="4"/>
+                                                <Label Content="{Binding NumbertalonDisplay}" Grid.Column="0" Grid.Row="5"/>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Border>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
 
                         <ListView x:Name="Calls_ListView" Margin="0 10 0 0" Height="720" Grid.Row="1">
+
+
+                            <!-- Стиль для элементов списка: отключает клики и фокус, но оставляет скролл -->
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Focusable" Value="False"/>
+                                    <!-- Элемент не получает фокус -->
+                                    <Setter Property="IsHitTestVisible" Value="False"/>
+                                    <!-- Игнорирует клики -->
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <!-- Убирает выделение -->
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListViewItem">
+                                                <ContentPresenter />
+                                                <!-- Просто отображает контент -->
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel >
+                                    <Border BorderBrush="Black" BorderThickness="1" Margin="0 0 0 5" Padding="5" >
+                                        <StackPanel >
                                         <Label Content="{Binding FullNameDisplay}"></Label>
                                         <Label Content="{Binding BirtchdateDisplay}"></Label>
                                         <Label Content="{Binding GenderDisplay}"></Label>
@@ -602,6 +687,7 @@
                                         <Label Content="{Binding AddressDisplay}"></Label>
                                         <Label Content="{Binding SymptomsDisplay}"></Label>
                                     </StackPanel>
+                                    </Border>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

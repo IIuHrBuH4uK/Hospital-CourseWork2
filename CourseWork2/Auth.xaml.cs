@@ -27,7 +27,7 @@ namespace CourseWork2
             InitializeComponent();
             textBoxLogin.Text = "admin";
             passBox1.Password = "admin";
-         }
+        }
 
         private void Button_Auth_Click(object sender, RoutedEventArgs e)
         {
