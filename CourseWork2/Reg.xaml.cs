@@ -40,7 +40,11 @@ namespace CourseWork2
 
         private void Button_Reg_Click(object sender, RoutedEventArgs e)
         {
+            RegUser();
+        }
 
+        private void RegUser()
+        {
             string login = textBoxLogin.Text.Trim(); //Метод удаляет лишние пробелы
             string email = textBoxEmail.Text.ToLower().Trim(); //Приводим всё к нижнему регистру и удаляем лишние пробелы
             string pass_1 = passBox1.Password.Trim();
@@ -121,23 +125,22 @@ namespace CourseWork2
                 auth.Show();
                 this.Close();
 
-                  // Проверка существующего логина
-    if (db.Users.Any(u => u.Login == login))
-    {
-        textBoxLogin.Background = Brushes.LightSkyBlue;
-        textBoxLogin.ToolTip = "Этот логин уже занят";
-        return;
-    }
+                // Проверка существующего логина
+                if (db.Users.Any(u => u.Login == login))
+                {
+                    textBoxLogin.Background = Brushes.LightSkyBlue;
+                    textBoxLogin.ToolTip = "Этот логин уже занят";
+                    return;
+                }
 
-    // Проверка существующего email
-    if (db.Users.Any(u => u.Email == email))
-    {
-        textBoxEmail.Background = Brushes.LightSkyBlue;
-        textBoxEmail.ToolTip = "Этот email уже зарегистрирован";
-        return;
-    }
+                // Проверка существующего email
+                if (db.Users.Any(u => u.Email == email))
+                {
+                    textBoxEmail.Background = Brushes.LightSkyBlue;
+                    textBoxEmail.ToolTip = "Этот email уже зарегистрирован";
+                    return;
+                }
             }
-
         }
 
         private void EntryButton_Click(object sender, RoutedEventArgs e)
@@ -166,24 +169,39 @@ namespace CourseWork2
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
+
+            if (e.Key == Key.Enter)
+                RegUser();
         }
 
         private void passBox1_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
+            if (e.Key == Key.Enter)
+                RegUser();
         }
 
         private void passBox2_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
+            if (e.Key == Key.Enter)
+                RegUser();
         }
 
         private void textBoxEmail_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
+            if (e.Key == Key.Enter)
+                RegUser();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                RegUser();
         }
     }
 }

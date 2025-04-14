@@ -31,6 +31,46 @@ namespace CourseWork2
 
         private void Button_Auth_Click(object sender, RoutedEventArgs e)
         {
+            AuthUser();
+        }
+        private void Button_Reg_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow reg = new MainWindow();
+            reg.Show();
+            this.Close();
+        }
+
+        private void textBoxLogin_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !e.Text.All(c => (char.IsLetterOrDigit(c) && c <= 127) && !char.IsWhiteSpace(c));
+
+        }
+
+        private void passBox1_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !e.Text.All(c => (char.IsLetterOrDigit(c) && c <= 127) && !char.IsWhiteSpace(c));
+        }
+
+        private void textBoxLogin_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+
+            if (e.Key == Key.Enter)
+                AuthUser();
+        }
+
+        private void passBox1_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+
+            if (e.Key == Key.Enter)
+                AuthUser();
+        }
+
+        private void AuthUser()
+        {
             string login = textBoxLogin.Text.Trim();
             string pass_1 = passBox1.Password.Trim();
 
@@ -61,7 +101,7 @@ namespace CourseWork2
                 authUser = db.Users.Where(a => a.Login == login && a.Password == pass_1).FirstOrDefault();
             }
 
-            if (authUser == null) 
+            if (authUser == null)
             {
                 MessageBox.Show("Логин или пароль введены неверно");
             }
@@ -72,34 +112,12 @@ namespace CourseWork2
                 this.Close();
             }
         }
-        private void Button_Reg_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow reg = new MainWindow();
-            reg.Show();
-            this.Close();
-        }
 
-        private void textBoxLogin_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            e.Handled = !e.Text.All(c => (char.IsLetterOrDigit(c) && c <= 127) && !char.IsWhiteSpace(c));
+            if (e.Key == Key.Enter) 
+                AuthUser();
 
-        }
-
-        private void passBox1_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = !e.Text.All(c => (char.IsLetterOrDigit(c) && c <= 127) && !char.IsWhiteSpace(c));
-        }
-
-        private void textBoxLogin_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Space)
-                e.Handled = true;
-        }
-
-        private void passBox1_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Space)
-                e.Handled = true;
         }
     }
 }
