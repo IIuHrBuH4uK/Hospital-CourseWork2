@@ -57,7 +57,9 @@ namespace CourseWork2
                 e.Handled = true;
 
             if (e.Key == Key.Enter)
+            {
                 AuthUser();
+            }
         }
 
         private void passBox1_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -66,7 +68,9 @@ namespace CourseWork2
                 e.Handled = true;
 
             if (e.Key == Key.Enter)
+            {
                 AuthUser();
+            }
         }
 
         private void AuthUser()
@@ -115,9 +119,11 @@ namespace CourseWork2
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter) 
+            if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
                 AuthUser();
-
+            }
         }
     }
 }

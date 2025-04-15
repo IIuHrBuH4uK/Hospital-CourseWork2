@@ -43,106 +43,115 @@ namespace CourseWork2
             RegUser();
         }
 
-        private void RegUser()
+        private async void RegUser()
         {
-            string login = textBoxLogin.Text.Trim(); //Метод удаляет лишние пробелы
-            string email = textBoxEmail.Text.ToLower().Trim(); //Приводим всё к нижнему регистру и удаляем лишние пробелы
+            string login = textBoxLogin.Text.Trim();
+            string email = textBoxEmail.Text.ToLower().Trim();
             string pass_1 = passBox1.Password.Trim();
             string pass_2 = passBox2.Password.Trim();
 
+            // Сброс всех подсказок перед проверками
+            ResetValidation();
+
+            // Проверка на пустые поля
+            if (string.IsNullOrWhiteSpace(login))
+            {
+                textBoxLogin.Background = Brushes.LightSkyBlue;
+                textBoxLogin.ToolTip = "Введите логин";
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                textBoxEmail.Background = Brushes.LightSkyBlue;
+                textBoxEmail.ToolTip = "Введите email";
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(pass_1) || string.IsNullOrWhiteSpace(pass_2))
+            {
+                passBox1.Background = Brushes.LightSkyBlue;
+                passBox1.ToolTip = "Введите пароль";
+                passBox2.Background = Brushes.LightSkyBlue;
+                passBox2.ToolTip = "Введите пароль";
+                return;
+            }
+
+            // Проверка длины логина
             if (login.Length < 5)
             {
                 textBoxLogin.Background = Brushes.LightSkyBlue;
                 textBoxLogin.ToolTip = "Введите логин больше 5 символов";
-            }
-            else
-            {
-                textBoxLogin.Background = Brushes.Transparent;
-                textBoxLogin.ToolTip = null;
+                return;
             }
 
+            // Проверка email (должна быть ДО проверки длины пароля)
             if (!IsValidEmail(email))
             {
                 textBoxEmail.Background = Brushes.LightSkyBlue;
                 textBoxEmail.ToolTip = "Введите корректный email";
-            }
-            else
-            {
-                textBoxEmail.Background = Brushes.Transparent;
-                textBoxEmail.ToolTip = null;
+                return;
             }
 
+            // Проверка длины пароля
             if (pass_1.Length < 5)
             {
                 passBox1.Background = Brushes.LightSkyBlue;
                 passBox1.ToolTip = "Введите пароль больше 5 символов";
-
-                passBox2.Background = Brushes.Transparent;
-                passBox2.ToolTip = null;
+                return;
             }
-            else
+
+            // Проверка совпадения паролей
+            if (pass_1 != pass_2)
             {
-                passBox1.Background = Brushes.Transparent;
-                passBox1.ToolTip = null;
-
-                if (passBox1.Password != passBox2.Password)
-                {
-                    passBox2.Background = Brushes.LightSkyBlue;
-                    passBox1.Background = Brushes.LightSkyBlue;
-                    passBox2.ToolTip = "Пароли отличаются";
-                    passBox1.ToolTip = "Пароли отличаются";
-                }
-                else
-                {
-                    passBox1.Background = Brushes.Transparent;
-                    passBox1.ToolTip = null;
-                    passBox2.Background = Brushes.Transparent;
-                    passBox2.ToolTip = null;
-                }
-
-                // Проверка существующего логина
-                if (db.Users.Any(u => u.Login == login))
-                {
-                    textBoxLogin.Background = Brushes.LightSkyBlue;
-                    textBoxLogin.ToolTip = "Этот логин уже занят";
-                    return;
-                }
-
-                // Проверка существующего email
-                if (db.Users.Any(u => u.Email == email))
-                {
-                    textBoxEmail.Background = Brushes.LightSkyBlue;
-                    textBoxEmail.ToolTip = "Этот email уже зарегистрирован";
-                    return;
-                }
-
-                User user = new User(login, email, pass_2);
-
-                db.Users.Add(user);
-                db.SaveChanges();
-
-                Auth auth = new Auth();
-                auth.Show();
-                this.Close();
-
-                // Проверка существующего логина
-                if (db.Users.Any(u => u.Login == login))
-                {
-                    textBoxLogin.Background = Brushes.LightSkyBlue;
-                    textBoxLogin.ToolTip = "Этот логин уже занят";
-                    return;
-                }
-
-                // Проверка существующего email
-                if (db.Users.Any(u => u.Email == email))
-                {
-                    textBoxEmail.Background = Brushes.LightSkyBlue;
-                    textBoxEmail.ToolTip = "Этот email уже зарегистрирован";
-                    return;
-                }
+                passBox2.Background = Brushes.LightSkyBlue;
+                passBox1.Background = Brushes.LightSkyBlue;
+                passBox2.ToolTip = "Пароли отличаются";
+                passBox1.ToolTip = "Пароли отличаются";
+                return;
             }
+
+            // Проверка существующего логина
+            if (db.Users.Any(u => u.Login == login))
+            {
+                textBoxLogin.Background = Brushes.LightSkyBlue;
+                textBoxLogin.ToolTip = "Этот логин уже занят";
+                return;
+            }
+
+            // Проверка существующего email
+            if (db.Users.Any(u => u.Email == email))
+            {
+                textBoxEmail.Background = Brushes.LightSkyBlue;
+                textBoxEmail.ToolTip = "Этот email уже зарегистрирован";
+                return;
+            }
+
+            // Если все проверки пройдены
+            User user = new User(login, email, pass_2);
+            db.Users.Add(user);
+            db.SaveChanges();
+
+            this.IsEnabled = false; // Блокируем окно
+            await Task.Delay(300);  // Задержка 300 мс
+
+            Auth auth = new Auth();
+            auth.Show();
+            this.Close();
         }
 
+        // Метод для сброса валидации
+        private void ResetValidation()
+        {
+            textBoxLogin.Background = Brushes.Transparent;
+            textBoxLogin.ToolTip = null;
+            textBoxEmail.Background = Brushes.Transparent;
+            textBoxEmail.ToolTip = null;
+            passBox1.Background = Brushes.Transparent;
+            passBox1.ToolTip = null;
+            passBox2.Background = Brushes.Transparent;
+            passBox2.ToolTip = null;
+        }
         private void EntryButton_Click(object sender, RoutedEventArgs e)
         {
             Auth auth = new Auth();
@@ -222,9 +231,9 @@ namespace CourseWork2
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (passBox1.Visibility == Visibility.Visible)
+            if (passBox2.Visibility == Visibility.Visible)
             {
-                passBox1.Visibility = Visibility.Collapsed;
+                passBox2.Visibility = Visibility.Collapsed;
                 VisiblePassBox2_TextBox.Visibility = Visibility.Visible;
                 VisiblePassBox2_TextBox.Text = passBox2.Password;
             }

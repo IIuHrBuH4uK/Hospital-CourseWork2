@@ -24,13 +24,13 @@
                 <!-- Меню слева -->
                 <Grid x:Name="GridMenu" Background="SkyBlue" VerticalAlignment="Stretch" HorizontalAlignment="Left">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30*"></RowDefinition>
-                        <RowDefinition Height="10*"></RowDefinition>
-                        <RowDefinition Height="10*"></RowDefinition>
-                        <RowDefinition Height="10*"></RowDefinition>
-                        <RowDefinition Height="10*"></RowDefinition>
-                        <RowDefinition Height="10*"></RowDefinition>
-                        <RowDefinition Height="20*"></RowDefinition>
+                        <RowDefinition Height="30*"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="20*"/>
                     </Grid.RowDefinitions>
                     <Image Source="/Assets/MainMenuBackground.jpg" Stretch="Fill" Grid.ColumnSpan="2"/>
 
@@ -68,7 +68,7 @@
                     </Button>
 
                     <!-- Кнопка "О приложении" -->
-                    <Button Grid.Row="5" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,10,0,10">
+                    <Button Grid.Row="5" x:Name="AboutApp_Button" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,10,0,10" Click="AboutApp_Button_Click">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <materialDesign:PackIcon Kind="QuestionMarkCircle" Foreground="White" Height="30" Width="30" Margin="0,-2,10,-5"/>
                             <TextBlock Text="О приложении" FontSize="14" Foreground="White" VerticalAlignment="Center"/>
@@ -85,7 +85,7 @@
                 </Grid>
 
                 <!-- Панель главного экрана -->
-                <StackPanel Grid.Column="1" x:Name="MainMenuPanel" Margin="10" d:IsHidden="True">
+                <StackPanel Grid.Column="1" x:Name="MainMenuPanel" Margin="10">
                     <TextBlock x:Name="TitleMainMenu_TextBlock" Text="Регистратура онлайн" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
                     <TextBlock x:Name="DescriptionMainMenu_TextBlock" Text="Регистратура онлайн — это удобное место, где собрана вся информация о ваших медицинских записях. Здесь вы можете легко записаться на прием к врачу, выбрать удобное время визита, а при необходимости — оформить вызов врача на дом. Кроме того, у вас всегда под рукой история всех записей и обращений, чтобы вы могли следить за своим здоровьем. Мы стремимся сделать процесс медицинского обслуживания удобным и доступным. Используйте все возможности сервиса и будьте здоровы!" TextWrapping="Wrap" FontSize="20" Padding="20" Margin="10" HorizontalAlignment="Center" TextAlignment="Center"/>
                 </StackPanel>
@@ -109,26 +109,26 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Фамилия" Grid.Row="0" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
-                        <TextBlock Text="Имя" Grid.Row="1" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
-                        <TextBlock Text="Отчество" Grid.Row="2" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
-                        <TextBlock Text="Пол" Grid.Row="3" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
-                        <TextBlock Text="Дата рождения" Grid.Row="4" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
-                        <TextBlock Text="СНИЛС" Grid.Row="5" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
-                        <TextBlock Text="Адрес прописки" Grid.Row="6" Grid.Column="0" Padding="10" FontSize="20"></TextBlock>
-                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="textBoxSurname" materialDesign:HintAssist.Hint="Фамилия" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
-                        <TextBox Grid.Row="1" Grid.Column="1" x:Name="textBoxName" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
-                        <TextBox Grid.Row="2" Grid.Column="1" x:Name="textBoxPatronymic" materialDesign:HintAssist.Hint="Отчество" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
+                        <TextBlock Text="Фамилия" Grid.Row="0" Grid.Column="0" Padding="10" FontSize="20"/>
+                        <TextBlock Text="Имя" Grid.Row="1" Grid.Column="0" Padding="10" FontSize="20"/>
+                        <TextBlock Text="Отчество" Grid.Row="2" Grid.Column="0" Padding="10" FontSize="20"/>
+                        <TextBlock Text="Пол" Grid.Row="3" Grid.Column="0" Padding="10" FontSize="20"/>
+                        <TextBlock Text="Дата рождения" Grid.Row="4" Grid.Column="0" Padding="10" FontSize="20"/>
+                        <TextBlock Text="СНИЛС" Grid.Row="5" Grid.Column="0" Padding="10" FontSize="20"/>
+                        <TextBlock Text="Адрес прописки" Grid.Row="6" Grid.Column="0" Padding="10" FontSize="20"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="textBoxSurname" materialDesign:HintAssist.Hint="Фамилия" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" x:Name="textBoxName" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" x:Name="textBoxPatronymic" materialDesign:HintAssist.Hint="Отчество" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"/>
                         <ComboBox Grid.Row="3" Grid.Column="1" x:Name="GenderCombobox" VerticalAlignment="Stretch" materialDesign:HintAssist.Hint="Пол" Style="{StaticResource MaterialDesignFilledComboBox}" FontSize="16" SelectedIndex="-1">
-                            <ComboBoxItem>Мужской</ComboBoxItem>
-                            <ComboBoxItem>Женский</ComboBoxItem>
-                            <ComboBoxItem>Другое</ComboBoxItem>
+                            <ComboBoxItem Content="Мужской"/>
+                            <ComboBoxItem Content="Женский"/>
+                            <ComboBoxItem Content="Другое"/>
                         </ComboBox>
-                        <DatePicker Grid.Row="4" Grid.Column="1" x:Name="PersonBirthDay_DatePicker" materialDesign:HintAssist.Hint="Дата рождения" Style="{StaticResource MaterialDesignFilledDatePicker}" FontSize="16" Cursor=""></DatePicker>
-                        <TextBox Grid.Row="5" Grid.Column="1" x:Name="textBoxSnils" materialDesign:HintAssist.Hint="СНИЛС" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16" PreviewTextInput="textBoxSnils_PreviewTextInput"></TextBox>
-                        <TextBox Grid.Row="6" Grid.Column="1" x:Name="textBoxLocation" materialDesign:HintAssist.Hint="Адрес прописки" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"></TextBox>
+                        <DatePicker Grid.Row="4" Grid.Column="1" x:Name="PersonBirthDay_DatePicker" materialDesign:HintAssist.Hint="Дата рождения" Style="{StaticResource MaterialDesignFilledDatePicker}" FontSize="16" Cursor=""/>
+                        <TextBox Grid.Row="5" Grid.Column="1" x:Name="textBoxSnils" materialDesign:HintAssist.Hint="СНИЛС" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16" PreviewTextInput="textBoxSnils_PreviewTextInput"/>
+                        <TextBox Grid.Row="6" Grid.Column="1" x:Name="textBoxLocation" materialDesign:HintAssist.Hint="Адрес прописки" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16"/>
                     </Grid>
-                    <Button Content="Сохранить" Margin="0 30 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center" x:Name="SafePersonButton" Click="SafePersonButton_Click"></Button>
+                    <Button Content="Сохранить" Margin="0 30 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center" x:Name="SafePersonButton" Click="SafePersonButton_Click"/>
                 </StackPanel>
 
                 <!-- Панель записи на приём -->
@@ -424,29 +424,29 @@
                 </StackPanel>
 
                 <!-- Панель вызова врача на дом -->
-                <StackPanel Grid.Column="1" x:Name="CallDoctorPanel" Background="White" Margin="10" Visibility="Visible">
+                <StackPanel Grid.Column="1" x:Name="CallDoctorPanel" Background="White" Margin="10" Visibility="Visible" d:IsHidden="True">
                     <TextBlock x:Name="TitleCallDoctor_TextBlock" Text="Вызов врача на дом" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
 
                     <Grid x:Name="CallDoctor_Grid">
                         <StackPanel x:Name="PatientChoicePanel" Visibility="Visible" Margin="30 160 0 0" d:IsHidden="True">
                             <Grid x:Name="Patient">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Кому нужен врач?" Grid.Row="0" FontSize="30" Margin="200 0 0 20" ></TextBlock>
+                                <TextBlock Text="Кому нужен врач?" Grid.Row="0" FontSize="30" Margin="200 0 0 20" />
 
                                 <Button x:Name="MeCall_Button" Grid.Row="1" HorizontalAlignment="Center" Width="500" Height="50" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Margin="0 10 0 10" Click="MeCall_Button_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Мне" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                                        <TextBlock Text="Мне" VerticalAlignment="Center" FontSize="17"/>
                                         <materialDesign:PackIcon Kind="ChevronRight" VerticalAlignment="Center" Margin="420,0,0,0"/>
                                     </StackPanel>
                                 </Button>
 
                                 <Button x:Name="OtherCall_Button" Grid.Row="2" HorizontalAlignment="Center" Width="500" Height="50" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Margin="0 10 0 10" Click="OtherCall_Button_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Другому человеку" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                                        <TextBlock Text="Другому человеку" VerticalAlignment="Center" FontSize="17"/>
                                         <materialDesign:PackIcon Kind="ChevronRight" VerticalAlignment="Center" Margin="307,0,0,0"/>
                                     </StackPanel>
                                 </Button>
@@ -456,34 +456,34 @@
                         <StackPanel x:Name="MeCallPanel" Margin="30 100 0 0" Visibility="Visible" HorizontalAlignment="Center" d:IsHidden="True">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Проверьте корректность ваших данных" Grid.Row="0" FontSize="30"></TextBlock>
-                                <TextBox x:Name="FullName_TextBox" Text="ФАМИЛИЯ ИМЯ ОТЧЕСТВО" Grid.Row="1" FontSize="20" Focusable="False" Margin="30 30 0 0" FontWeight="Bold" ></TextBox>
-                                <TextBlock Text="Дата рождения" Grid.Row="2" FontSize="16" Margin="30 30 0 0"></TextBlock>
-                                <TextBox x:Name="BirthDate_TextBox" Text="11.11.1111" Grid.Row="3" FontSize="20" Focusable="False" Margin="30 0 0 0"></TextBox>
-                                <TextBlock Text="Пол" Grid.Row="4" FontSize="16" Margin="30 30 0 0"></TextBlock>
+                                <TextBlock Text="Проверьте корректность ваших данных" Grid.Row="0" FontSize="30"/>
+                                <TextBox x:Name="FullName_TextBox" Text="ФАМИЛИЯ ИМЯ ОТЧЕСТВО" Grid.Row="1" FontSize="20" Focusable="False" Margin="30 30 0 0" FontWeight="Bold" />
+                                <TextBlock Text="Дата рождения" Grid.Row="2" FontSize="16" Margin="30 30 0 0"/>
+                                <TextBox x:Name="BirthDate_TextBox" Text="11.11.1111" Grid.Row="3" FontSize="20" Focusable="False" Margin="30 0 0 0"/>
+                                <TextBlock Text="Пол" Grid.Row="4" FontSize="16" Margin="30 30 0 0"/>
                                 <StackPanel Grid.Row="5" Margin="30 0 0 0">
                                     <ComboBox x:Name="MeGenderComboBox" SelectedIndex="0" IsReadOnly="True" IsHitTestVisible="False" FontSize="20">
-                                        <ComboBoxItem>Мужской</ComboBoxItem>
-                                        <ComboBoxItem>Женский</ComboBoxItem>
-                                        <ComboBoxItem>Другое</ComboBoxItem>
+                                        <ComboBoxItem Content="Мужской"/>
+                                        <ComboBoxItem Content="Женский"/>
+                                        <ComboBoxItem Content="Другое"/>
                                     </ComboBox>
                                 </StackPanel>
                                 <Button x:Name="EditInfo_Button" Grid.Row="6" HorizontalAlignment="Left" Width="200" Background="Transparent" BorderBrush="Transparent" Foreground="SkyBlue" Margin="30 20 0 0" Click="EditInfo_Button_Click">
                                     <StackPanel>
-                                        <TextBlock Text="Редактировать" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                                        <TextBlock Text="Редактировать" VerticalAlignment="Center" FontSize="17"/>
                                         <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center" Margin="-30 -20 0 0" HorizontalAlignment="Left" Cursor=""/>
                                     </StackPanel>
                                 </Button>
-                                <Button Grid.Row="7" Content="Верно" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center" Margin="0 20 0 0" Click="ConfirmMeButton_Click"></Button>
+                                <Button Grid.Row="7" Content="Верно" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center" Margin="0 20 0 0" Click="ConfirmMeButton_Click"/>
                             </Grid>
                         </StackPanel>
 
@@ -491,93 +491,93 @@
 
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Заполните данные пациента" Grid.Row="0" FontSize="30"></TextBlock>
-                                <TextBlock Text="Укажите фамилию, имя, отчество" Grid.Row="1" FontSize="20" Margin="0 30 0 0"></TextBlock>
-                                <TextBox x:Name="OtherFullName_TextBox" Text="" Grid.Row="3" FontSize="20" Margin="0 0 0 0" FontWeight="Bold" materialDesign:HintAssist.Hint="ФИО"></TextBox>
-                                <TextBlock Text="Укажите дату рождения" Grid.Row="4" FontSize="20" Margin="0 30 0 0"></TextBlock>
+                                <TextBlock Text="Заполните данные пациента" Grid.Row="0" FontSize="30"/>
+                                <TextBlock Text="Укажите фамилию, имя, отчество" Grid.Row="1" FontSize="20" Margin="0 30 0 0"/>
+                                <TextBox x:Name="OtherFullName_TextBox" Text="" Grid.Row="3" FontSize="20" Margin="0 0 0 0" FontWeight="Bold" materialDesign:HintAssist.Hint="ФИО"/>
+                                <TextBlock Text="Укажите дату рождения" Grid.Row="4" FontSize="20" Margin="0 30 0 0"/>
                                 <DatePicker x:Name="OtherBirthDate_TextBox" Grid.Row="5" FontSize="20" Margin="0 0 0 0" materialDesign:HintAssist.Hint="Дата рождения"/>
-                                <TextBlock Text="Выберите пол" Grid.Row="6" FontSize="20" Margin="0 30 0 0"></TextBlock>
+                                <TextBlock Text="Выберите пол" Grid.Row="6" FontSize="20" Margin="0 30 0 0"/>
                                 <StackPanel Grid.Row="7" Margin="0 0 0 0">
                                     <ComboBox x:Name="OtherGenderComboBox" SelectedIndex="-1" FontSize="20" materialDesign:HintAssist.Hint="Пол">
-                                        <ComboBoxItem>Мужской</ComboBoxItem>
-                                        <ComboBoxItem>Женский</ComboBoxItem>
-                                        <ComboBoxItem>Другое</ComboBoxItem>
+                                        <ComboBoxItem Content="Мужской"/>
+                                        <ComboBoxItem Content="Женский"/>
+                                        <ComboBoxItem Content="Другое"/>
                                     </ComboBox>
                                 </StackPanel>
-                                <TextBlock Text="Укажите полис ОМС" Grid.Row="8" FontSize="20" HorizontalAlignment="Left" Margin="0 30 0 0"></TextBlock>
-                                <Button x:Name="OtherPolisWebButton" Grid.Row="9" Content="Как получить полис?" Background="Transparent" BorderBrush="Transparent" Foreground="SkyBlue" FontSize="12" Click="PolisWebButton_Click" HorizontalAlignment="Left" Cursor="Hand"></Button>
-                                <TextBox x:Name="OtherNumberPolis_TextBox" Grid.Row="10" materialDesign:HintAssist.Hint="Единый номер полиса ОМС" Margin="0 0 0 0" Width="400" FontSize="20" MaxLength="16" PreviewTextInput="NumberPolis_TextBox_PreviewTextInput" PreviewKeyDown="NumberPolis_TextBox_PreviewKeyDown" HorizontalAlignment="Left"></TextBox>
-                                <TextBlock Text="Укажите ваш контактный номер телефона" Grid.Row="11" FontSize="20" Margin="0 30 0 0"></TextBlock>
-                                <TextBox x:Name="OtherNumberPhone_TextBox" Grid.Row="12" FontSize="20" Margin="0 0 0 0" materialDesign:HintAssist.Hint="Номер телефона"   PreviewTextInput="PhoneNumberTextBox_PreviewTextInput" PreviewKeyDown="NumberPhone_TextBox_PreviewKeyDown"></TextBox>
-                                <TextBlock Text="Укажите адрес проживание" Grid.Row="13" FontSize="20" Margin="0 30 0 0" ></TextBlock>
-                                <TextBox x:Name="OtherAddress_TextBox" Grid.Row="14" FontSize="20" Margin="0 0 0 0" materialDesign:HintAssist.Hint="Адрес"></TextBox>
-                                <Button Grid.Row="15" Content="Продолжить" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center" Margin="0 20 0 0" Click="ConfirmOtcherButton_Click"></Button>
+                                <TextBlock Text="Укажите полис ОМС" Grid.Row="8" FontSize="20" HorizontalAlignment="Left" Margin="0 30 0 0"/>
+                                <Button x:Name="OtherPolisWebButton" Grid.Row="9" Content="Как получить полис?" Background="Transparent" BorderBrush="Transparent" Foreground="SkyBlue" FontSize="12" Click="PolisWebButton_Click" HorizontalAlignment="Left" Cursor="Hand"/>
+                                <TextBox x:Name="OtherNumberPolis_TextBox" Grid.Row="10" materialDesign:HintAssist.Hint="Единый номер полиса ОМС" Margin="0 0 0 0" Width="400" FontSize="20" MaxLength="16" PreviewTextInput="NumberPolis_TextBox_PreviewTextInput" PreviewKeyDown="NumberPolis_TextBox_PreviewKeyDown" HorizontalAlignment="Left"/>
+                                <TextBlock Text="Укажите ваш контактный номер телефона" Grid.Row="11" FontSize="20" Margin="0 30 0 0"/>
+                                <TextBox x:Name="OtherNumberPhone_TextBox" Grid.Row="12" FontSize="20" Margin="0 0 0 0" materialDesign:HintAssist.Hint="Номер телефона"   PreviewTextInput="PhoneNumberTextBox_PreviewTextInput" PreviewKeyDown="NumberPhone_TextBox_PreviewKeyDown"/>
+                                <TextBlock Text="Укажите адрес проживание" Grid.Row="13" FontSize="20" Margin="0 30 0 0" />
+                                <TextBox x:Name="OtherAddress_TextBox" Grid.Row="14" FontSize="20" Margin="0 0 0 0" materialDesign:HintAssist.Hint="Адрес"/>
+                                <Button Grid.Row="15" Content="Продолжить" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" HorizontalAlignment="Center" Margin="0 20 0 0" Click="ConfirmOtcherButton_Click"/>
                             </Grid>
                         </StackPanel>
 
                         <StackPanel x:Name="OtherSymptomsPanel"  Visibility="Visible" HorizontalAlignment="Center" d:IsHidden="True">
                             <Grid Margin="140 100 0 0" Width="500">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Укажите ваши симптомы" Grid.Row="0" FontSize="20" HorizontalAlignment="Left"></TextBlock>
-                                <TextBlock Text="Подробная информация поможет медицинскому работнику понять, насколько срочно вам нужна помощь." Grid.Row="1" FontSize="16" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="0 30 0 0"></TextBlock>
+                                <TextBlock Text="Укажите ваши симптомы" Grid.Row="0" FontSize="20" HorizontalAlignment="Left"/>
+                                <TextBlock Text="Подробная информация поможет медицинскому работнику понять, насколько срочно вам нужна помощь." Grid.Row="1" FontSize="16" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="0 30 0 0"/>
                                 <TextBox x:Name="OtherSymtopms_TextBox" Grid.Row="2" TextWrapping="Wrap" Margin="0 10 0 0" MaxLength="200" FontSize="20" materialDesign:HintAssist.Hint="Опишите, что вас беспокоит."  materialDesign:HintAssist.HintHorizontalAlignment="Left"  Style="{StaticResource MaterialDesignFilledTextBox}"/>
-                                <Button x:Name="OtherSafeSymptoms_Button" Grid.Row="3" HorizontalAlignment="Center" Content="Вызвать" Margin="0 20 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="OtherSafeSymptoms_Button_Click"></Button>
+                                <Button x:Name="OtherSafeSymptoms_Button" Grid.Row="3" HorizontalAlignment="Center" Content="Вызвать" Margin="0 20 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="OtherSafeSymptoms_Button_Click"/>
                             </Grid>
                         </StackPanel>
 
                         <Button x:Name="MeCallBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="MeCallBack_Button_Click" Visibility="Visible" d:IsHidden="True">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"/>
                                 <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
                             </StackPanel>
                         </Button>
 
                         <Button x:Name="MePolisBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="MePolisBack_Button_Click" Visibility="Collapsed" d:IsHidden="True">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"/>
                                 <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
                             </StackPanel>
                         </Button>
 
                         <Button x:Name="MeSymptomsBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="MeSymptomsBack_Button_Click" Visibility="Collapsed" d:IsHidden="True">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"/>
                                 <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
                             </StackPanel>
                         </Button>
 
                         <Button x:Name="OtherCallBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="OtherCallBack_Button_Click" Visibility="Collapsed" d:IsHidden="True">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"/>
                                 <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
                             </StackPanel>
                         </Button>
 
                         <Button x:Name="OtherSymptomsBack_Button" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Margin="0 10 0 10" Click="OtherSymptomsBack_Button_Click" Visibility="Collapsed" d:IsHidden="True">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                                <TextBlock Text="Назад" VerticalAlignment="Center" FontSize="17"/>
                                 <materialDesign:PackIcon Kind="ArrowLeftThin" VerticalAlignment="Center" Margin="-70 0 0 0"/>
                             </StackPanel>
                         </Button>
@@ -588,39 +588,39 @@
 
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Укажите полис ОМС" Grid.Row="0" FontSize="20" HorizontalAlignment="Left" Margin="10 0 0 0"></TextBlock>
+                                <TextBlock Text="Укажите полис ОМС" Grid.Row="0" FontSize="20" HorizontalAlignment="Left" Margin="10 0 0 0"/>
                                 <Button x:Name="PolisWebButton" Grid.Row="1" Content="Как получить полис?" Background="Transparent" BorderBrush="Transparent" Foreground="SkyBlue" FontSize="12" Click="PolisWebButton_Click" HorizontalAlignment="Left"/>
-                                <TextBox x:Name="NumberPolis_TextBox" Grid.Row="3" materialDesign:HintAssist.Hint="Единый номер полиса ОМС" Margin="10 0 0 0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="400" FontSize="16" MaxLength="16" PreviewTextInput="NumberPolis_TextBox_PreviewTextInput" PreviewKeyDown="NumberPolis_TextBox_PreviewKeyDown" HorizontalAlignment="Left"></TextBox>
-                                <TextBlock Text="Укажите ваш контактный номер телефона" Grid.Row="4" FontSize="20" Margin="10 30 0 0"></TextBlock>
-                                <TextBox x:Name="NumberPhone_TextBox" Grid.Row="5" FontSize="16" Margin="10 0 0 0" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}"  PreviewTextInput="PhoneNumberTextBox_PreviewTextInput" PreviewKeyDown="NumberPhone_TextBox_PreviewKeyDown"></TextBox>
-                                <TextBlock Text="Укажите адрес проживание" Grid.Row="6" FontSize="20" Margin="10 30 0 0" ></TextBlock>
-                                <TextBox x:Name="Address_TextBox" Grid.Row="7" FontSize="16" Margin="10 0 0 0" materialDesign:HintAssist.Hint="Адрес" Style="{StaticResource MaterialDesignFloatingHintTextBox}"></TextBox>
-                                <Button x:Name="NumberPolisPhone_Button" Grid.Row="8" HorizontalAlignment="Center" Content="Продолжить" Margin="0 20 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="NumberPolisPhone_Button_Click"></Button>
+                                <TextBox x:Name="NumberPolis_TextBox" Grid.Row="3" materialDesign:HintAssist.Hint="Единый номер полиса ОМС" Margin="10 0 0 0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="400" FontSize="16" MaxLength="16" PreviewTextInput="NumberPolis_TextBox_PreviewTextInput" PreviewKeyDown="NumberPolis_TextBox_PreviewKeyDown" HorizontalAlignment="Left"/>
+                                <TextBlock Text="Укажите ваш контактный номер телефона" Grid.Row="4" FontSize="20" Margin="10 30 0 0"/>
+                                <TextBox x:Name="NumberPhone_TextBox" Grid.Row="5" FontSize="16" Margin="10 0 0 0" materialDesign:HintAssist.Hint="Номер телефона" Style="{StaticResource MaterialDesignFloatingHintTextBox}"  PreviewTextInput="PhoneNumberTextBox_PreviewTextInput" PreviewKeyDown="NumberPhone_TextBox_PreviewKeyDown"/>
+                                <TextBlock Text="Укажите адрес проживание" Grid.Row="6" FontSize="20" Margin="10 30 0 0" />
+                                <TextBox x:Name="Address_TextBox" Grid.Row="7" FontSize="16" Margin="10 0 0 0" materialDesign:HintAssist.Hint="Адрес" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                                <Button x:Name="NumberPolisPhone_Button" Grid.Row="8" HorizontalAlignment="Center" Content="Продолжить" Margin="0 20 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="NumberPolisPhone_Button_Click"/>
                             </Grid>
                         </StackPanel>
 
                         <StackPanel x:Name="MeSymptomsPanel"  Visibility="Visible" HorizontalAlignment="Center" d:IsHidden="True">
                             <Grid Margin="140 100 0 0" Width="500">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Укажите ваши симптомы" Grid.Row="0" FontSize="20" HorizontalAlignment="Left"></TextBlock>
-                                <TextBlock Text="Подробная информация поможет медицинскому работнику понять, насколько срочно вам нужна помощь." Grid.Row="1" FontSize="16" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="0 30 0 0"></TextBlock>
+                                <TextBlock Text="Укажите ваши симптомы" Grid.Row="0" FontSize="20" HorizontalAlignment="Left"/>
+                                <TextBlock Text="Подробная информация поможет медицинскому работнику понять, насколько срочно вам нужна помощь." Grid.Row="1" FontSize="16" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="0 30 0 0"/>
                                 <TextBox x:Name="MeSymtopms_TextBox" Grid.Row="2" TextWrapping="Wrap" Margin="0 10 0 0" MaxLength="200" FontSize="20" materialDesign:HintAssist.Hint="Опишите, что вас беспокоит."  materialDesign:HintAssist.HintHorizontalAlignment="Left"  Style="{StaticResource MaterialDesignFilledTextBox}"/>
-                                <Button x:Name="SafeSymptoms_Button" Grid.Row="3" HorizontalAlignment="Center" Content="Вызвать" Margin="0 20 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="SafeSymptoms_Button_Click"></Button>
+                                <Button x:Name="SafeSymptoms_Button" Grid.Row="3" HorizontalAlignment="Center" Content="Вызвать" Margin="0 20 0 0" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Click="SafeSymptoms_Button_Click"/>
                             </Grid>
                         </StackPanel>
                     </Grid>
@@ -630,22 +630,22 @@
                     <TextBlock x:Name="RecordsAndAppeals_TextBlock" Text="Записи и обращения" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
                     <Grid x:Name="RecordsAndAppeals_Grid" Margin="0 20 0 0">
                         <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
+                            <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Button x:Name="TicketButton" HorizontalAlignment="Left" Content="Талоны" Background="SkyBlue" Foreground="White" BorderBrush="SkyBlue" Margin="60 0 0 0" Click="TicketButton_Click" d:IsLocked="True"></Button>
-                        <Button x:Name="CallButton" HorizontalAlignment="Right" Content="Вызовы" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Margin="0 0 60 0 " Click="CallButton_Click" d:IsLocked="True"></Button>
+                        <Button x:Name="TicketButton" HorizontalAlignment="Left" Content="Талоны" Background="SkyBlue" Foreground="White" BorderBrush="SkyBlue" Margin="60 0 0 0" Click="TicketButton_Click" d:IsLocked="True"/>
+                        <Button x:Name="CallButton" HorizontalAlignment="Right" Content="Вызовы" Background="Transparent" Foreground="SkyBlue" BorderBrush="SkyBlue" Margin="0 0 60 0 " Click="CallButton_Click" d:IsLocked="True"/>
 
                         <ListView x:Name="Tickets_ListView" Margin="0 20 0 0" Height="720" Grid.Row="1">
 
                             <!-- Стиль для элементов списка: отключает клики и фокус, но оставляет скролл -->
                             <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
+                                <Style TargetType="{x:Type ListViewItem}">
                                     <Setter Property="Background" Value="Transparent"/>
                                     <!-- Убирает выделение -->
                                     <Setter Property="Template">
                                         <Setter.Value>
-                                            <ControlTemplate TargetType="ListViewItem">
+                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
                                                 <ContentPresenter />
                                                 <!-- Просто отображает контент -->
                                             </ControlTemplate>
@@ -660,19 +660,19 @@
                                         <StackPanel>
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="60*"></ColumnDefinition>
-                                                    <ColumnDefinition Width="40*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="60*"/>
+                                                    <ColumnDefinition Width="40*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition></RowDefinition>
-                                                    <RowDefinition></RowDefinition>
-                                                    <RowDefinition></RowDefinition>
-                                                    <RowDefinition></RowDefinition>
-                                                    <RowDefinition></RowDefinition>
-                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
                                                 </Grid.RowDefinitions>
-                                                <Button x:Name="PrintTicket_Button" Content="Напечатать" CommandParameter="{Binding}" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Grid.Column="1" Grid.RowSpan="6" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0" Click="PrintTicket_Button_Click"></Button>
-                                                <Button x:Name="SafeTicket_Button" Content="Сохранить" CommandParameter="{Binding}" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Grid.Column="1" Grid.RowSpan="6" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 20 0" Click="SafeTicket_Button_Click"></Button>
+                                                <Button x:Name="PrintTicket_Button" Content="Напечатать" CommandParameter="{Binding}" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Grid.Column="1" Grid.RowSpan="6" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0" Click="PrintTicket_Button_Click"/>
+                                                <Button x:Name="SafeTicket_Button" Content="Сохранить" CommandParameter="{Binding}" Background="SkyBlue" BorderBrush="SkyBlue" Foreground="White" Grid.Column="1" Grid.RowSpan="6" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 20 0" Click="SafeTicket_Button_Click"/>
                                                 <Label Content="{Binding RegionDisplay}" Grid.Column="0" Grid.Row="0"/>
                                                 <Label Content="{Binding HospitalDisplay}" Grid.Column="0" Grid.Row="1"/>
                                                 <Label Content="{Binding SpecializationDisplay}" Grid.Column="0" Grid.Row="2"/>
@@ -691,7 +691,7 @@
 
                             <!-- Стиль для элементов списка: отключает клики и фокус, но оставляет скролл -->
                             <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
+                                <Style TargetType="{x:Type ListViewItem}">
                                     <Setter Property="Focusable" Value="False"/>
                                     <!-- Элемент не получает фокус -->
                                     <Setter Property="IsHitTestVisible" Value="False"/>
@@ -700,7 +700,7 @@
                                     <!-- Убирает выделение -->
                                     <Setter Property="Template">
                                         <Setter.Value>
-                                            <ControlTemplate TargetType="ListViewItem">
+                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
                                                 <ContentPresenter />
                                                 <!-- Просто отображает контент -->
                                             </ControlTemplate>
@@ -713,12 +713,12 @@
                                 <DataTemplate>
                                     <Border BorderBrush="Black" BorderThickness="1" Margin="0 0 0 5" Padding="5" >
                                         <StackPanel >
-                                            <Label Content="{Binding FullNameDisplay}"></Label>
-                                            <Label Content="{Binding BirtchdateDisplay}"></Label>
-                                            <Label Content="{Binding GenderDisplay}"></Label>
-                                            <Label Content="{Binding PhoneDisplay}"></Label>
-                                            <Label Content="{Binding AddressDisplay}"></Label>
-                                            <Label Content="{Binding SymptomsDisplay}"></Label>
+                                            <Label Content="{Binding FullNameDisplay}"/>
+                                            <Label Content="{Binding BirtchdateDisplay}"/>
+                                            <Label Content="{Binding GenderDisplay}"/>
+                                            <Label Content="{Binding PhoneDisplay}"/>
+                                            <Label Content="{Binding AddressDisplay}"/>
+                                            <Label Content="{Binding SymptomsDisplay}"/>
                                         </StackPanel>
                                     </Border>
                                 </DataTemplate>
@@ -726,6 +726,39 @@
                         </ListView>
 
                     </Grid>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" x:Name="AboutAppPanel" Background="White" Margin="10" Visibility="Collapsed">
+                    <TextBlock x:Name="AboutApp_TextBlock" Text="О приложении" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10">
+                        <StackPanel Cursor="">
+                            <TextBlock Text="   Регистратура онлайн — это программа для удобного управления медицинскими записями, разработанная в рамках курсовой работы студентом ЮЗГУ Номировским Александром Юрьевичем (группа ПО-33з)."  TextWrapping="Wrap" FontSize="16" Margin="0 10"/>
+                            <TextBlock Text="Основные возможности:" FontWeight="Bold" Margin="0 10" FontSize="16"/>
+                            <TextBlock Text="✅ Личный кабинет" Margin="10 0" FontSize="16"/>
+                            <TextBlock Text="• Хранение персональных данных (ФИО, СНИЛС, адрес и др.)." Margin="30 0" FontSize="14"/>
+                            <TextBlock Text="• Быстрое заполнение форм при записи или вызове врача." Margin="30 0" FontSize="14"/>
+                            <TextBlock Text="✅ Запись на приём к врачу" Margin="10 0" FontSize="16"/>
+                            <TextBlock Text="• Выбор населённого пункта, медицинского учреждения, специализации и врача." Margin="30 0" FontSize="14"/>
+                            <TextBlock Text="• Просмотр доступного времени и оформление талона." Margin="30 0" FontSize="14"/>
+                            <TextBlock Text="✅ Вызов врача на дом" Margin="10 0" FontSize="16"/>
+                            <TextBlock Text="• Указание данных пациента (себя или другого человека)." Margin="30 0" FontSize="14"/>
+                            <TextBlock Text="• Описание симптомов для оценки срочности вызова." Margin="30 0" FontSize="14"/>
+                            <TextBlock Text="✅ История обращений" Margin="10 0" FontSize="16"/>
+                            <TextBlock Text="• Просмотр всех записей на приёмы и вызовов врачей." Margin="30 0" FontSize="14"/>
+                            <TextBlock Text="• Печать и сохранение талонов." Margin="30 0" FontSize="14"/>
+                            <TextBlock Text="Техническая информация:" FontWeight="Bold" Margin="0 10" FontSize="16"/>
+                            <TextBlock Text="• Язык программирования: C#" Margin="30 0" FontSize="16"/>
+                            <TextBlock Text="• Интерфейс: WPF (Windows Presentation Foundation) с использованием библиотеки MaterialDesign для современного дизайна." Margin="30 0" FontSize="16" TextWrapping="Wrap"/>
+                            <TextBlock Text="• База данных: SQLite (хранение данных пользователей, талонов, вызовов)." Margin="30 0" FontSize="16"/>
+                            <TextBlock Text="• Функционал: Валидация ввода, многостраничная навигация, динамическое обновление данных." Margin="30 0" FontSize="16"/>
+                            <TextBlock Text="Для кого это приложение?" FontWeight="Bold" Margin="0 10" FontSize="16"/>
+                            <TextBlock Text="Программа предназначена для пациентов, которые хотят:" Margin="30 0" FontSize="16"/>
+                            <TextBlock Text="• Упростить процесс записи к врачу." Margin="30 0" FontSize="16"/>
+                            <TextBlock Text="•  Отслеживать историю обращений." Margin="30 0" FontSize="16"/>
+                            <TextBlock Text="•  Минимизировать время на оформление вызова на дом." Margin="30 0" FontSize="16"/>
+
+                        </StackPanel>
+                    </ScrollViewer>
                 </StackPanel>
             </Grid>
         </Border>

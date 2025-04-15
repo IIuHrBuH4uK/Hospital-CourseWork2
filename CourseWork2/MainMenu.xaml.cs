@@ -61,14 +61,11 @@ namespace CourseWork2
             HideSignUpDoctorPanel();
             HideCallDoctorPanel();
             HideRecordsAndAppealsPanel();
-
-
-
+            AboutAppPanel.Visibility = Visibility.Collapsed;
 
             db = new AppContext();
             LoadUserData();
             UpdateDatesDisplay();
-
         }
 
         // Метод загрузки областей
@@ -199,10 +196,13 @@ namespace CourseWork2
             TitlePersonAccount_TextBlock.Visibility = Visibility.Visible;
             PersonAccount_Grid.Visibility = Visibility.Visible;
             SafePersonButton.Visibility = Visibility.Visible;
+
             HideMainMenuPanel();
             HideSignUpDoctorPanel();
             HideCallDoctorPanel();
             HideRecordsAndAppealsPanel();
+            AboutAppPanel.Visibility = Visibility.Collapsed;
+
             DeletTicket();
 
         }
@@ -250,6 +250,7 @@ namespace CourseWork2
             HidePersonAccountPanel();
             HideCallDoctorPanel();
             HideRecordsAndAppealsPanel();
+            AboutAppPanel.Visibility = Visibility.Collapsed;
 
             ResetSignUpDoctor();
 
@@ -1033,6 +1034,7 @@ namespace CourseWork2
             HidePersonAccountPanel();
             HideSignUpDoctorPanel();
             HideRecordsAndAppealsPanel();
+            AboutAppPanel.Visibility = Visibility.Collapsed;
 
 
         }
@@ -1458,6 +1460,7 @@ namespace CourseWork2
             HidePersonAccountPanel();
             HideSignUpDoctorPanel();
             HideCallDoctorPanel();
+            AboutAppPanel.Visibility = Visibility.Collapsed;
 
             TicketButton.Background = Brushes.SkyBlue;
             TicketButton.Foreground = Brushes.White;
@@ -1793,6 +1796,17 @@ namespace CourseWork2
             }
 
             return formatted.ToString();
+        }
+
+        private void AboutApp_Button_Click(object sender, RoutedEventArgs e)
+        {
+            HideMainMenuPanel();
+            HideSignUpDoctorPanel();
+            HideCallDoctorPanel();
+            HideRecordsAndAppealsPanel();
+            HidePersonAccountPanel();
+
+            AboutAppPanel.Visibility = Visibility.Visible;
         }
     }
 }
