@@ -20,9 +20,21 @@
                 </Grid >
                 <TextBox x:Name="textBoxLogin" materialDesign:HintAssist.Hint="Введите логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" MaxWidth="300" PreviewTextInput="textBoxLogin_PreviewTextInput" PreviewKeyDown="textBoxLogin_PreviewKeyDown"></TextBox>
                 <TextBox x:Name="textBoxEmail" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" MaxWidth="300" PreviewKeyDown="textBoxEmail_PreviewKeyDown"></TextBox>
-                <PasswordBox x:Name="passBox1" materialDesign:HintAssist.Hint="Введите пароль" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" MaxWidth="300" PreviewTextInput="passBox1_PreviewTextInput" PreviewKeyDown="passBox1_PreviewKeyDown"></PasswordBox>
+                <StackPanel>
+                    <PasswordBox x:Name="passBox1" materialDesign:HintAssist.Hint="Введите пароль" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" MaxWidth="300" PreviewTextInput="passBox1_PreviewTextInput" PreviewKeyDown="passBox1_PreviewKeyDown"></PasswordBox>
+                    <TextBox x:Name="VisiblePassBox1_TextBox" materialDesign:HintAssist.Hint="Введите пароль" Style="{StaticResource MaterialDesignFloatingHintTextBox}" MaxWidth="300" Margin="0 0 0 0" Visibility="Collapsed" Cursor=""></TextBox>
+                    <Button Width="20" Height="20" Background="Transparent" BorderBrush="Transparent" Margin="280 -20 0 0" Click="Button_Click">
+                        <materialDesign:PackIcon Kind="EyeOutline" Margin="-13 -2 -70 0" Cursor="" ></materialDesign:PackIcon>
+                    </Button>
+                </StackPanel>
+                <StackPanel>
                 <PasswordBox x:Name="passBox2" materialDesign:HintAssist.Hint="Повторите пароль" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" MaxWidth="300" TextInput="passBox2_TextInput" PreviewKeyDown="passBox2_PreviewKeyDown"></PasswordBox>
-                <Button x:Name="regButton2" Content="Зарегистрироваться" Margin="15" Background="SkyBlue" Foreground="White" BorderBrush="Transparent" Cursor="Hand" Click="Button_Reg_Click"/>
+                    <TextBox x:Name="VisiblePassBox2_TextBox" materialDesign:HintAssist.Hint="Введите пароль" Style="{StaticResource MaterialDesignFloatingHintTextBox}" MaxWidth="300" Margin="0 0 0 0" Visibility="Collapsed" Cursor=""></TextBox>
+                    <Button Width="20" Height="20" Background="Transparent" BorderBrush="Transparent" Margin="280 -20 0 0" Click="Button_Click_1">
+                        <materialDesign:PackIcon Kind="EyeOutline" Margin="-13 -2 -70 0" Cursor="" ></materialDesign:PackIcon>
+                    </Button>
+                </StackPanel>
+                    <Button x:Name="regButton2" Content="Зарегистрироваться" Margin="15" Background="SkyBlue" Foreground="White" BorderBrush="Transparent" Cursor="Hand" Click="Button_Reg_Click"/>
             </StackPanel>
         </Border>
     </Grid>

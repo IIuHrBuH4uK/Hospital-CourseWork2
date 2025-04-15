@@ -203,5 +203,37 @@ namespace CourseWork2
             if (e.Key == Key.Enter)
                 RegUser();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (passBox1.Visibility == Visibility.Visible)
+            {
+                passBox1.Visibility = Visibility.Collapsed;
+                VisiblePassBox1_TextBox.Visibility = Visibility.Visible;
+                VisiblePassBox1_TextBox.Text = passBox1.Password;
+            }
+            else
+            {
+                VisiblePassBox1_TextBox.Visibility = Visibility.Collapsed;
+                passBox1.Visibility = Visibility.Visible;
+                passBox1.Password = VisiblePassBox1_TextBox.Text;
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (passBox1.Visibility == Visibility.Visible)
+            {
+                passBox1.Visibility = Visibility.Collapsed;
+                VisiblePassBox2_TextBox.Visibility = Visibility.Visible;
+                VisiblePassBox2_TextBox.Text = passBox2.Password;
+            }
+            else
+            {
+                VisiblePassBox2_TextBox.Visibility = Visibility.Collapsed;
+                passBox2.Visibility = Visibility.Visible;
+                passBox2.Password = VisiblePassBox2_TextBox.Text;
+            }
+        }
     }
 }
