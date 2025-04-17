@@ -125,5 +125,21 @@ namespace CourseWork2
                 AuthUser();
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (passBox1.Visibility == Visibility.Visible)
+            {
+                passBox1.Visibility = Visibility.Collapsed;
+                VisiblePassBox1_TextBox.Visibility = Visibility.Visible;
+                VisiblePassBox1_TextBox.Text = passBox1.Password;
+            }
+            else
+            {
+                VisiblePassBox1_TextBox.Visibility = Visibility.Collapsed;
+                passBox1.Visibility = Visibility.Visible;
+                passBox1.Password = VisiblePassBox1_TextBox.Text;
+            }
+        }
     }
 }

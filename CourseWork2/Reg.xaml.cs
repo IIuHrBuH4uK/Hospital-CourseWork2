@@ -70,10 +70,10 @@ namespace CourseWork2
 
             if (string.IsNullOrWhiteSpace(pass_1) || string.IsNullOrWhiteSpace(pass_2))
             {
-                passBox1.Background = Brushes.LightSkyBlue;
-                passBox1.ToolTip = "Введите пароль";
-                passBox2.Background = Brushes.LightSkyBlue;
-                passBox2.ToolTip = "Введите пароль";
+                ErrorPassBox1_TextBlock.Visibility = Visibility.Visible;
+                ErrorPassBox2_TextBlock.Visibility = Visibility.Visible;
+                ErrorPassBox1_TextBlock.Text = "Введите пароль";
+                ErrorPassBox2_TextBlock.Text = "Введите пароль";
                 return;
             }
 
@@ -96,18 +96,19 @@ namespace CourseWork2
             // Проверка длины пароля
             if (pass_1.Length < 5)
             {
-                passBox1.Background = Brushes.LightSkyBlue;
-                passBox1.ToolTip = "Введите пароль больше 5 символов";
+                ErrorPassBox1_TextBlock.Visibility = Visibility.Visible;
+                ErrorPassBox1_TextBlock.Text = "Введите пароль больше 5 символов";
                 return;
             }
 
             // Проверка совпадения паролей
             if (pass_1 != pass_2)
             {
-                passBox2.Background = Brushes.LightSkyBlue;
-                passBox1.Background = Brushes.LightSkyBlue;
-                passBox2.ToolTip = "Пароли отличаются";
-                passBox1.ToolTip = "Пароли отличаются";
+                ErrorPassBox1_TextBlock.Visibility = Visibility.Visible;
+                ErrorPassBox2_TextBlock.Visibility = Visibility.Visible;
+                ErrorPassBox1_TextBlock.Text = "Пароли отличаются";
+                ErrorPassBox2_TextBlock.Text = "Пароли отличаются";
+                
                 return;
             }
 
@@ -188,7 +189,13 @@ namespace CourseWork2
             if (e.Key == Key.Space)
                 e.Handled = true;
             if (e.Key == Key.Enter)
-                RegUser();
+            { 
+                RegUser(); 
+            }
+
+            ErrorPassBox1_TextBlock.Visibility = Visibility.Collapsed;
+            ErrorPassBox2_TextBlock.Visibility = Visibility.Collapsed;
+
         }
 
         private void passBox2_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -196,7 +203,13 @@ namespace CourseWork2
             if (e.Key == Key.Space)
                 e.Handled = true;
             if (e.Key == Key.Enter)
-                RegUser();
+            { 
+                RegUser(); 
+            }
+
+            ErrorPassBox1_TextBlock.Visibility = Visibility.Collapsed;
+            ErrorPassBox2_TextBlock.Visibility = Visibility.Collapsed;
+
         }
 
         private void textBoxEmail_PreviewKeyDown(object sender, KeyEventArgs e)
