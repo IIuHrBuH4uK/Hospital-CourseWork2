@@ -25,7 +25,7 @@
     using static System.Net.Mime.MediaTypeNames;
     using System.Xml.Linq;
     using System.Diagnostics;
-using System.Data.Entity.Core.Mapping;
+    using System.Data.Entity.Core.Mapping;
 
 
 namespace CourseWork2
@@ -119,7 +119,6 @@ namespace CourseWork2
 
             if (userTickets.Count == 0)
             {
-                // Если у пользователя нет билетов, можно загрузить все (если нужно)
                 if (_allTicket == null)
                 {
                     _allTicket = new ObservableCollection<Ticket>(db.Tickets.ToList());
@@ -141,7 +140,7 @@ namespace CourseWork2
 
             if (userTickets.Count == 0)
             {
-                // Если у пользователя нет билетов, можно загрузить все (если нужно)
+                
                 if (_allCall == null)
                 {
                     _allCall = new ObservableCollection<Call>(db.Calls.ToList());
@@ -483,7 +482,7 @@ namespace CourseWork2
                 }
 
 
-                Region_ListView.ItemsSource = null;  // Принудительное обновление ListView
+                Region_ListView.ItemsSource = null; 
                 Region_ListView.ItemsSource = _filteredRegions;
             }
             catch (Exception ex)
@@ -525,7 +524,7 @@ namespace CourseWork2
                 Step2Button.IsEnabled = true;
                 BackStep2_Button.Visibility = Visibility.Visible;
 
-                Hosp_ListView.ItemsSource = null; // Принудительное обновление ListView
+                Hosp_ListView.ItemsSource = null;
                 Hosp_ListView.ItemsSource = _filteredHospitals;
             }
         }
@@ -595,7 +594,7 @@ namespace CourseWork2
                 BackStep3_Button.Visibility = Visibility.Visible;
 
 
-                Spec_ListView.ItemsSource = null; // Принудительное обновление ListView
+                Spec_ListView.ItemsSource = null; 
                 Spec_ListView.ItemsSource = _filteredSpecialization;
             }
         }
@@ -664,7 +663,7 @@ namespace CourseWork2
                     }
                 }
 
-                Doctor_ListView.ItemsSource = null; // Принудительное обновление ListView
+                Doctor_ListView.ItemsSource = null; 
                 Doctor_ListView.ItemsSource = _filteredDoctor;
 
                 BackStep3_Button.Visibility = Visibility.Collapsed;
@@ -880,7 +879,6 @@ namespace CourseWork2
         // Кнопка печати талончика
         private void PrintButton_Click(object sender, RoutedEventArgs e)
         {
-            // Проверяем, есть ли данные для сохранения
             if (_currentTicket == null)
             {
                 System.Windows.MessageBox.Show("Нет данных для сохранения", "Ошибка",
@@ -893,7 +891,6 @@ namespace CourseWork2
         // Кнопка сохранения талончика на компьютер
         private void SafeButton_Click(object sender, RoutedEventArgs e)
         {
-            // Проверяем, есть ли данные для сохранения
             if (_currentTicket == null)
             {
                 System.Windows.MessageBox.Show("Нет данных для сохранения", "Ошибка",
@@ -901,7 +898,6 @@ namespace CourseWork2
                 return;
             }
 
-            // Настраиваем диалог сохранения файла
             SaveFileDialog saveDialog = new SaveFileDialog();
             saveDialog.Filter = "Текстовый файл (*.txt)|*.txt|Все файлы (*.*)|*.*";
             saveDialog.FileName = $"Талон_{DateTime.Now:yyyyMMddHHmmss}.txt";
@@ -981,13 +977,12 @@ namespace CourseWork2
 
             try
             {
-                // Находим запись в базе данных по ID
                 var ticketToDelete = db.Tickets.FirstOrDefault(t => t.Id == _currentTicket.Id);
                 if (ticketToDelete != null)
                 {
                     db.Tickets.Remove(ticketToDelete);
                     db.SaveChanges();
-                    _currentTicket = null; // Сбрасываем текущий талон
+                    _currentTicket = null; 
                 }
             }
             catch (Exception ex)
@@ -1022,7 +1017,6 @@ namespace CourseWork2
             OtherCallPanel.Visibility = Visibility.Collapsed;
             OtherSymptomsPanel.Visibility = Visibility.Collapsed;
             OtherSymptomsBack_Button.Visibility = Visibility.Collapsed;
-            // добавить элементы в OtherCallPanel
 
             MePolisPanel.Visibility = Visibility.Collapsed;
             MePolisBack_Button.Visibility = Visibility.Collapsed;
@@ -1185,6 +1179,7 @@ namespace CourseWork2
             }
         }
 
+
         private void PhoneNumberTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
 
@@ -1342,7 +1337,6 @@ namespace CourseWork2
             MeCallBack_Button.Visibility = Visibility.Collapsed;
             MeCall_Button.Visibility = Visibility.Collapsed;
             OtherCallPanel.Visibility = Visibility.Collapsed;
-            // добавить элементы в OtherCallPanel
 
             MePolisPanel.Visibility = Visibility.Collapsed;
             MePolisBack_Button.Visibility = Visibility.Collapsed;
@@ -1688,7 +1682,7 @@ namespace CourseWork2
 
             DeletTicket();
         }
-
+        // Приведение снился в нужную форму. Помогла нейросеть.
         private void textBoxSnils_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             // Проверяем, что вводимый символ — цифра
