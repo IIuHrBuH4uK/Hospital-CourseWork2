@@ -19,12 +19,14 @@
                     <Button x:Name="entryButton" FontSize="16" HorizontalAlignment="Right" Content="Войти" Background="SkyBlue" Foreground="White" BorderBrush="Transparent"></Button>
                 </Grid >
                 <TextBox x:Name="textBoxLogin" materialDesign:HintAssist.Hint="Введите логин" Style="{StaticResource MaterialDesignFilledTextBox}" MaxWidth="300" FontSize="16" PreviewTextInput="textBoxLogin_PreviewTextInput" PreviewKeyDown="textBoxLogin_PreviewKeyDown"></TextBox>
+                <TextBlock x:Name="ErrorLogin_TextBlock" Text="" Margin="187 0 0 0" TextWrapping="Wrap" Foreground="Red" FontSize="12" Visibility="Collapsed"></TextBlock>
                 <StackPanel Margin="0 10 0 0" Cursor="">
                     <PasswordBox x:Name="passBox1" materialDesign:HintAssist.Hint="Введите пароль" Style="{StaticResource MaterialDesignFilledPasswordBox}" MaxWidth="300" FontSize="16" Margin="0 10 0 0" PreviewTextInput="passBox1_PreviewTextInput" PreviewKeyDown="passBox1_PreviewKeyDown"></PasswordBox>
                     <TextBox x:Name="VisiblePassBox1_TextBox" materialDesign:HintAssist.Hint="Введите пароль"  Style="{StaticResource MaterialDesignFilledTextBox}" MaxWidth="300" FontSize="16" Margin="0 10 0 0" Visibility="Collapsed" Cursor=""></TextBox>
                     <Button Width="20" Height="20" Background="Transparent" BorderBrush="Transparent" Margin="280 -40 0 0" Click="Button_Click">
                         <materialDesign:PackIcon Kind="EyeOutline" Margin="-13 -2 -70 0" Cursor="" ></materialDesign:PackIcon>
                     </Button>
+                    <TextBlock x:Name="ErrorPassBox1_TextBlock" Text="" Margin="187 0 0 0" TextWrapping="Wrap" Foreground="Red" FontSize="12" Visibility="Collapsed"></TextBlock>
                 </StackPanel>
                 <Button x:Name="authButton2" Content="Войти в личный кабинет" Margin="15" Background="SkyBlue" Foreground="White" BorderBrush="Transparent" FontSize="16" Cursor="Hand" Click="Button_Auth_Click"/>
             </StackPanel>

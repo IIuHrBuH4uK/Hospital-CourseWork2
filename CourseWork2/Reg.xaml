@@ -19,7 +19,9 @@
                     <Button x:Name="entryButton" FontSize="16" HorizontalAlignment="Right" Content="Войти" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Click="EntryButton_Click" Cursor="Hand"></Button>
                 </Grid >
                 <TextBox x:Name="textBoxLogin" materialDesign:HintAssist.Hint="Введите логин" Style="{StaticResource MaterialDesignFilledTextBox}" MaxWidth="300" FontSize="16" PreviewTextInput="textBoxLogin_PreviewTextInput" PreviewKeyDown="textBoxLogin_PreviewKeyDown"></TextBox>
+                <TextBlock x:Name="ErrorLogin_TextBlock" Text="" Margin="187 0 0 0" TextWrapping="Wrap" Foreground="Red" FontSize="12" Visibility="Collapsed"></TextBlock>
                 <TextBox x:Name="textBoxEmail" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFilledTextBox}" MaxWidth="300" FontSize="16" Margin="0 10 0 0" PreviewKeyDown="textBoxEmail_PreviewKeyDown"></TextBox>
+                <TextBlock x:Name="ErrorEmail_TextBlock" Text="" Margin="187 0 0 0" TextWrapping="Wrap" Foreground="Red" FontSize="12" Visibility="Collapsed"></TextBlock>
                 <StackPanel Margin="0 10 0 0">
                     <PasswordBox x:Name="passBox1" materialDesign:HintAssist.Hint="Введите пароль"  MaxWidth="300" FontSize="16" Style="{StaticResource MaterialDesignFilledPasswordBox}" PreviewTextInput="passBox1_PreviewTextInput" PreviewKeyDown="passBox1_PreviewKeyDown"></PasswordBox>
                     <TextBox x:Name="VisiblePassBox1_TextBox" materialDesign:HintAssist.Hint="Введите пароль" Style="{StaticResource MaterialDesignFilledTextBox}" FontSize="16" MaxWidth="300" Margin="0 0 0 0" Visibility="Collapsed" Cursor=""></TextBox>

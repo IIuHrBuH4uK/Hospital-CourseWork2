@@ -56,16 +56,14 @@ namespace CourseWork2
             // Проверка на пустые поля
             if (string.IsNullOrWhiteSpace(login))
             {
-                textBoxLogin.Background = Brushes.LightSkyBlue;
-                textBoxLogin.ToolTip = "Введите логин";
-                return;
+                ErrorLogin_TextBlock.Visibility = Visibility.Visible;
+                ErrorLogin_TextBlock.Text = "Введите логин";
             }
 
             if (string.IsNullOrWhiteSpace(email))
             {
-                textBoxEmail.Background = Brushes.LightSkyBlue;
-                textBoxEmail.ToolTip = "Введите email";
-                return;
+                ErrorEmail_TextBlock.Visibility = Visibility.Visible;
+                ErrorEmail_TextBlock.Text = "Введите email";
             }
 
             if (string.IsNullOrWhiteSpace(pass_1) || string.IsNullOrWhiteSpace(pass_2))
@@ -80,17 +78,15 @@ namespace CourseWork2
             // Проверка длины логина
             if (login.Length < 5)
             {
-                textBoxLogin.Background = Brushes.LightSkyBlue;
-                textBoxLogin.ToolTip = "Введите логин больше 5 символов";
-                return;
+                ErrorLogin_TextBlock.Visibility = Visibility.Visible;
+                ErrorLogin_TextBlock.Text = "Введите логин больше 5 символов";
             }
 
             // Проверка email (должна быть ДО проверки длины пароля)
             if (!IsValidEmail(email))
             {
-                textBoxEmail.Background = Brushes.LightSkyBlue;
-                textBoxEmail.ToolTip = "Введите корректный email";
-                return;
+                ErrorEmail_TextBlock.Visibility = Visibility.Visible;
+                ErrorEmail_TextBlock.Text = "Введите корректный email";
             }
 
             // Проверка длины пароля
@@ -115,16 +111,15 @@ namespace CourseWork2
             // Проверка существующего логина
             if (db.Users.Any(u => u.Login == login))
             {
-                textBoxLogin.Background = Brushes.LightSkyBlue;
-                textBoxLogin.ToolTip = "Этот логин уже занят";
-                return;
+                ErrorLogin_TextBlock.Visibility = Visibility.Visible;
+                ErrorLogin_TextBlock.Text = "Этот логин уже занят";
             }
 
             // Проверка существующего email
             if (db.Users.Any(u => u.Email == email))
             {
-                textBoxEmail.Background = Brushes.LightSkyBlue;
-                textBoxEmail.ToolTip = "Этот email уже зарегистрирован";
+                ErrorEmail_TextBlock.Visibility = Visibility.Visible;
+                ErrorEmail_TextBlock.Text = "Этот email уже зарегистрирован";
                 return;
             }
 
@@ -144,14 +139,10 @@ namespace CourseWork2
         // Метод для сброса валидации
         private void ResetValidation()
         {
-            textBoxLogin.Background = Brushes.Transparent;
-            textBoxLogin.ToolTip = null;
-            textBoxEmail.Background = Brushes.Transparent;
-            textBoxEmail.ToolTip = null;
-            passBox1.Background = Brushes.Transparent;
-            passBox1.ToolTip = null;
-            passBox2.Background = Brushes.Transparent;
-            passBox2.ToolTip = null;
+            ErrorLogin_TextBlock.Visibility= Visibility.Collapsed;
+            ErrorEmail_TextBlock.Visibility= Visibility.Collapsed;
+            ErrorPassBox1_TextBlock.Visibility= Visibility.Collapsed;
+            ErrorPassBox2_TextBlock.Visibility= Visibility.Collapsed;
         }
         private void EntryButton_Click(object sender, RoutedEventArgs e)
         {
@@ -181,7 +172,10 @@ namespace CourseWork2
                 e.Handled = true;
 
             if (e.Key == Key.Enter)
+            {
                 RegUser();
+            }
+            ErrorLogin_TextBlock.Visibility = Visibility.Collapsed;
         }
 
         private void passBox1_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -217,13 +211,19 @@ namespace CourseWork2
             if (e.Key == Key.Space)
                 e.Handled = true;
             if (e.Key == Key.Enter)
+            {
                 RegUser();
+            }
+
+            ErrorEmail_TextBlock.Visibility = Visibility.Collapsed;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
+            {
                 RegUser();
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

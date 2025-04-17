@@ -80,23 +80,16 @@ namespace CourseWork2
 
             if (login.Length < 5)
             {
-                textBoxLogin.Background = Brushes.LightSkyBlue;
-                textBoxLogin.ToolTip = "Введите логин больше 5 символов";
+                ErrorLogin_TextBlock.Visibility = Visibility.Visible;
+                ErrorLogin_TextBlock.Text = "Введите логин больше 5 символов";
+                return;
             }
-            else
-            {
-                textBoxLogin.Background = Brushes.Transparent;
-                textBoxLogin.ToolTip = null;
-            }
+            
             if (pass_1.Length < 5)
             {
-                passBox1.Background = Brushes.LightSkyBlue;
-                passBox1.ToolTip = "Введите пароль больше 5 символов";
-            }
-            else
-            {
-                passBox1.Background = Brushes.Transparent;
-                passBox1.ToolTip = null;
+                ErrorPassBox1_TextBlock.Visibility = Visibility.Visible;
+                ErrorPassBox1_TextBlock.Text = "Введите пароль больше 5 символов";
+                return ;
             }
 
             User authUser = null;
