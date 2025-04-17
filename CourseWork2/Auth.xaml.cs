@@ -55,11 +55,6 @@ namespace CourseWork2
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
-
-            if (e.Key == Key.Enter)
-            {
-                AuthUser();
-            }
         }
 
         private void passBox1_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -67,10 +62,6 @@ namespace CourseWork2
             if (e.Key == Key.Space)
                 e.Handled = true;
 
-            if (e.Key == Key.Enter)
-            {
-                AuthUser();
-            }
         }
 
         private void AuthUser()

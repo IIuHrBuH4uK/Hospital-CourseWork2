@@ -171,10 +171,6 @@ namespace CourseWork2
             if (e.Key == Key.Space)
                 e.Handled = true;
 
-            if (e.Key == Key.Enter)
-            {
-                RegUser();
-            }
             ErrorLogin_TextBlock.Visibility = Visibility.Collapsed;
         }
 
@@ -182,10 +178,6 @@ namespace CourseWork2
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
-            if (e.Key == Key.Enter)
-            { 
-                RegUser(); 
-            }
 
             ErrorPassBox1_TextBlock.Visibility = Visibility.Collapsed;
             ErrorPassBox2_TextBlock.Visibility = Visibility.Collapsed;
@@ -196,10 +188,6 @@ namespace CourseWork2
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
-            if (e.Key == Key.Enter)
-            { 
-                RegUser(); 
-            }
 
             ErrorPassBox1_TextBlock.Visibility = Visibility.Collapsed;
             ErrorPassBox2_TextBlock.Visibility = Visibility.Collapsed;
@@ -210,10 +198,6 @@ namespace CourseWork2
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
-            if (e.Key == Key.Enter)
-            {
-                RegUser();
-            }
 
             ErrorEmail_TextBlock.Visibility = Visibility.Collapsed;
         }
