@@ -85,7 +85,7 @@
                 </Grid>
 
                 <!-- Панель главного экрана -->
-                <StackPanel Grid.Column="1" x:Name="MainMenuPanel" Margin="10">
+                <StackPanel Grid.Column="1" x:Name="MainMenuPanel" Margin="10" d:IsHidden="True">
                     <TextBlock x:Name="TitleMainMenu_TextBlock" Text="Регистратура онлайн" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
                     <TextBlock x:Name="DescriptionMainMenu_TextBlock" Text="Регистратура онлайн — это удобное место, где собрана вся информация о ваших медицинских записях. Здесь вы можете легко записаться на прием к врачу, выбрать удобное время визита, а при необходимости — оформить вызов врача на дом. Кроме того, у вас всегда под рукой история всех записей и обращений, чтобы вы могли следить за своим здоровьем. Мы стремимся сделать процесс медицинского обслуживания удобным и доступным. Используйте все возможности сервиса и будьте здоровы!" TextWrapping="Wrap" FontSize="20" Padding="20" Margin="10" HorizontalAlignment="Center" TextAlignment="Center"/>
                 </StackPanel>
@@ -728,24 +728,24 @@
                     </Grid>
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" x:Name="AboutAppPanel" Background="White" Margin="10" Visibility="Collapsed">
+                <StackPanel Grid.Column="1" x:Name="AboutAppPanel" Background="White" Margin="10" Visibility="Visible" d:IsHidden="True">
                     <TextBlock x:Name="AboutApp_TextBlock" Text="О приложении" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10">
                         <StackPanel Cursor="">
                             <TextBlock Text="   Регистратура онлайн — это программа для удобного управления медицинскими записями, разработанная в рамках курсовой работы студентом ЮЗГУ Номировским Александром Юрьевичем (группа ПО-33з)."  TextWrapping="Wrap" FontSize="16" Margin="0 10"/>
                             <TextBlock Text="Основные возможности:" FontWeight="Bold" Margin="0 10" FontSize="16"/>
                             <TextBlock Text="✅ Личный кабинет" Margin="10 0" FontSize="16"/>
-                            <TextBlock Text="• Хранение персональных данных (ФИО, СНИЛС, адрес и др.)." Margin="30 0" FontSize="14"/>
-                            <TextBlock Text="• Быстрое заполнение форм при записи или вызове врача." Margin="30 0" FontSize="14"/>
-                            <TextBlock Text="✅ Запись на приём к врачу" Margin="10 0" FontSize="16"/>
-                            <TextBlock Text="• Выбор населённого пункта, медицинского учреждения, специализации и врача." Margin="30 0" FontSize="14"/>
-                            <TextBlock Text="• Просмотр доступного времени и оформление талона." Margin="30 0" FontSize="14"/>
-                            <TextBlock Text="✅ Вызов врача на дом" Margin="10 0" FontSize="16"/>
-                            <TextBlock Text="• Указание данных пациента (себя или другого человека)." Margin="30 0" FontSize="14"/>
-                            <TextBlock Text="• Описание симптомов для оценки срочности вызова." Margin="30 0" FontSize="14"/>
-                            <TextBlock Text="✅ История обращений" Margin="10 0" FontSize="16"/>
-                            <TextBlock Text="• Просмотр всех записей на приёмы и вызовов врачей." Margin="30 0" FontSize="14"/>
-                            <TextBlock Text="• Печать и сохранение талонов." Margin="30 0" FontSize="14"/>
+                            <TextBlock Text="• Хранение персональных данных (ФИО, СНИЛС, адрес и др.)." Margin="30 0" FontSize="16"/>
+                            <TextBlock Text="• Быстрое заполнение форм при записи или вызове врача." Margin="30 0" FontSize="16"/>
+                            <TextBlock Text="✅ Запись на приём к врачу" Margin="10 10 0 0" FontSize="16"/>
+                            <TextBlock Text="• Выбор населённого пункта, медицинского учреждения, специализации и врача." Margin="30 0" FontSize="16"/>
+                            <TextBlock Text="• Просмотр доступного времени и оформление талона." Margin="30 0" FontSize="16"/>
+                            <TextBlock Text="✅ Вызов врача на дом" Margin="10 10 0 0" FontSize="16"/>
+                            <TextBlock Text="• Указание данных пациента (себя или другого человека)." Margin="30 0" FontSize="16"/>
+                            <TextBlock Text="• Описание симптомов для оценки срочности вызова." Margin="30 0" FontSize="16"/>
+                            <TextBlock Text="✅ История обращений" Margin="10 10 0 0" FontSize="16"/>
+                            <TextBlock Text="• Просмотр всех записей на приёмы и вызовов врачей." Margin="30 0" FontSize="16"/>
+                            <TextBlock Text="• Печать и сохранение талонов." Margin="30 0" FontSize="16"/>
                             <TextBlock Text="Техническая информация:" FontWeight="Bold" Margin="0 10" FontSize="16"/>
                             <TextBlock Text="• Язык программирования: C#" Margin="30 0" FontSize="16"/>
                             <TextBlock Text="• Интерфейс: WPF (Windows Presentation Foundation) с использованием библиотеки MaterialDesign для современного дизайна." Margin="30 0" FontSize="16" TextWrapping="Wrap"/>

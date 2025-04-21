@@ -25,8 +25,8 @@ namespace CourseWork2
         public Auth()
         {
             InitializeComponent();
-            textBoxLogin.Text = "admin";
-            passBox1.Password = "admin";
+            //textBoxLogin.Text = "admin";
+            //passBox1.Password = "admin";
         }
 
         private void Button_Auth_Click(object sender, RoutedEventArgs e)
