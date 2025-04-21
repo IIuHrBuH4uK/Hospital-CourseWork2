@@ -1,4 +1,4 @@
-﻿<Window x:Class="CourseWork2.Auth" KeyDown="Window_KeyDown"
+﻿<Window x:Class="CourseWork2.Auth" KeyDown="Window_KeyDown" Icon="/Assets/icon.png" 
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,7 +12,7 @@
             <Border.Effect>
                 <DropShadowEffect BlurRadius="30" Color="LightGray" ShadowDepth="0"></DropShadowEffect>
             </Border.Effect>
-            <StackPanel FocusManager.FocusedElement="{Binding ElementName=authButton2}" Cursor="">
+            <StackPanel Cursor="">
                 <TextBlock Text="Вас приветствует регистратура онлайн" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"></TextBlock>
                 <Grid Margin="15 15 15 10">
                     <Button x:Name="regButton1" FontSize="16" HorizontalAlignment ="Left" Content="Регистрация" Background="Transparent" Foreground="SkyBlue" BorderBrush="Transparent" Click="Button_Reg_Click" Cursor="Hand"></Button>
@@ -28,7 +28,7 @@
                     </Button>
                     <TextBlock x:Name="ErrorPassBox1_TextBlock" Text="" Margin="187 0 0 0" TextWrapping="Wrap" Foreground="Red" FontSize="12" Visibility="Collapsed"></TextBlock>
                 </StackPanel>
-                <Button x:Name="authButton2" Content="Войти в личный кабинет" Margin="15" Background="SkyBlue" Foreground="White" BorderBrush="Transparent" FontSize="16" Cursor="Hand" Click="Button_Auth_Click"/>
+                <Button x:Name="authButton2" Content="Войти в личный кабинет" Margin="15 30 15 15" Background="SkyBlue" Foreground="White" BorderBrush="Transparent" FontSize="16" Cursor="Hand" Click="Button_Auth_Click"/>
             </StackPanel>
         </Border>
     </Grid>

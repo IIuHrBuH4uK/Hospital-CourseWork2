@@ -55,12 +55,14 @@ namespace CourseWork2
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
+            ErrorLogin_TextBlock.Visibility = Visibility.Collapsed;
         }
 
         private void passBox1_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
+            ErrorPassBox1_TextBlock.Visibility = Visibility.Collapsed;
 
         }
 
@@ -73,7 +75,6 @@ namespace CourseWork2
             {
                 ErrorLogin_TextBlock.Visibility = Visibility.Visible;
                 ErrorLogin_TextBlock.Text = "Введите логин больше 5 символов";
-                return;
             }
             
             if (pass_1.Length < 5)
